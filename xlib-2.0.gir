@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
-<repository xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" version="1.2">
-  <namespace name="xlib" version="2.0" c:identifier-prefixes="" c:symbol-prefixes="X">
+<repository version="1.2"
+            xmlns="http://www.gtk.org/introspection/core/1.0"
+            xmlns:c="http://www.gtk.org/introspection/c/1.0">
+  <namespace name="xlib" version="2.0"
+	     c:identifier-prefixes=""
+	     c:symbol-prefixes="X">
     <alias name="Atom" c:type="Atom">
       <type name="gulong" c:type="gulong"/>
     </alias>
@@ -50,6 +54,7 @@
     <record name="XTrapezoid" c:type="XTrapezoid"/>
     <record name="XVisualInfo" c:type="XVisualInfo"/>
     <record name="XWindowAttributes" c:type="XWindowAttributes"/>
+
     <function name="open_display" c:identifier="XOpenDisplay">
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
@@ -57,5 +62,6 @@
       <parameters>
       </parameters>
     </function>
+
   </namespace>
 </repository>

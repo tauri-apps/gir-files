@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
-<repository xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" version="1.2">
-  <namespace name="GL" version="1.0" c:identifier-prefixes="GL" c:symbol-prefixes="gl">
+<repository version="1.2"
+            xmlns="http://www.gtk.org/introspection/core/1.0"
+            xmlns:c="http://www.gtk.org/introspection/c/1.0">
+  <namespace name="GL" version="1.0"
+	     c:identifier-prefixes="GL"
+	     c:symbol-prefixes="gl">
     <record name="bitfield" c:type="GLbitfield"/>
     <record name="charARB" c:type="GLcharARB"/>
     <record name="clampf" c:type="GLclampf"/>
@@ -14,6 +18,7 @@
     <record name="sizeiptr" c:type="GLsizeiptr"/>
     <record name="uint" c:type="GLuint"/>
     <record name="void" c:type="GLvoid"/>
+
     <function name="InitNames" c:identifier="glInitNames">
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
@@ -21,5 +26,6 @@
       <parameters>
       </parameters>
     </function>
+
   </namespace>
 </repository>

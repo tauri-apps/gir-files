@@ -402,7 +402,7 @@ with jsc_value_new_object() that receives the copy as the instance parameter.</d
           </parameter>
         </parameters>
       </method>
-      <method name="get_name" c:identifier="jsc_class_get_name" glib:get-property="name">
+      <method name="get_name" c:identifier="jsc_class_get_name">
         <doc xml:space="preserve">Get the class name of @jsc_class</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the name of @jsc_class</doc>
@@ -415,7 +415,7 @@ with jsc_value_new_object() that receives the copy as the instance parameter.</d
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_parent" c:identifier="jsc_class_get_parent" glib:get-property="parent">
+      <method name="get_parent" c:identifier="jsc_class_get_parent">
         <doc xml:space="preserve">Get the parent class of @jsc_class</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the parent class of @jsc_class</doc>
@@ -432,11 +432,11 @@ with jsc_value_new_object() that receives the copy as the instance parameter.</d
         <doc xml:space="preserve">The #JSCContext in which the class was registered.</doc>
         <type name="Context"/>
       </property>
-      <property name="name" writable="1" construct-only="1" transfer-ownership="none" getter="get_name">
+      <property name="name" writable="1" construct-only="1" transfer-ownership="none">
         <doc xml:space="preserve">The name of the class.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="parent" writable="1" construct-only="1" transfer-ownership="none" getter="get_parent">
+      <property name="parent" writable="1" construct-only="1" transfer-ownership="none">
         <doc xml:space="preserve">The parent class or %NULL in case of final classes.</doc>
         <type name="Class"/>
       </property>
@@ -854,7 +854,7 @@ they don't affect the behavior of the script.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="get_virtual_machine" c:identifier="jsc_context_get_virtual_machine" glib:get-property="virtual-machine">
+      <method name="get_virtual_machine" c:identifier="jsc_context_get_virtual_machine">
         <doc xml:space="preserve">Get the #JSCVirtualMachine where @context was created.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #JSCVirtualMachine where the #JSCContext was created.</doc>
@@ -1065,7 +1065,7 @@ The created #JSCException can be retrieved with jsc_context_get_exception().</do
           </parameter>
         </parameters>
       </method>
-      <property name="virtual-machine" writable="1" construct-only="1" transfer-ownership="none" getter="get_virtual_machine">
+      <property name="virtual-machine" writable="1" construct-only="1" transfer-ownership="none">
         <doc xml:space="preserve">The #JSCVirtualMachine in which the context was created.</doc>
         <type name="VirtualMachine"/>
       </property>
@@ -1567,13 +1567,13 @@ application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="0" c:type="JSC_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="3" c:type="JSC_MICRO_VERSION">
       <doc xml:space="preserve">Like jsc_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="34" c:type="JSC_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="32" c:type="JSC_MINOR_VERSION">
       <doc xml:space="preserve">Like jsc_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -2128,7 +2128,7 @@ This function always returns a #JSCValue, in case of void functions a #JSCValue 
           </parameter>
         </parameters>
       </method>
-      <method name="get_context" c:identifier="jsc_value_get_context" glib:get-property="context">
+      <method name="get_context" c:identifier="jsc_value_get_context">
         <doc xml:space="preserve">Get the #JSCContext in which @value was created.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">the #JSCValue context.</doc>
@@ -2626,7 +2626,7 @@ to handle strings with null characters.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <property name="context" writable="1" construct-only="1" transfer-ownership="none" getter="get_context">
+      <property name="context" writable="1" construct-only="1" transfer-ownership="none">
         <doc xml:space="preserve">The #JSCContext in which the value was created.</doc>
         <type name="Context"/>
       </property>
