@@ -625,7 +625,9 @@ to only have one socket address associated with it).</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_name" c:identifier="soup_address_get_name">
+      <method name="get_name"
+              c:identifier="soup_address_get_name"
+              glib:get-property="name">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="441">Returns the hostname associated with @addr.
@@ -650,7 +652,9 @@ is resolved before fetching its name or address.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_physical" c:identifier="soup_address_get_physical">
+      <method name="get_physical"
+              c:identifier="soup_address_get_physical"
+              glib:get-property="physical">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="528">Returns the physical address associated with @addr as a string.
@@ -676,7 +680,9 @@ is resolved before fetching its name or address.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_port" c:identifier="soup_address_get_port">
+      <method name="get_port"
+              c:identifier="soup_address_get_port"
+              glib:get-property="port">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="564">Returns the port associated with @addr.</doc>
@@ -696,7 +702,9 @@ is resolved before fetching its name or address.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_sockaddr" c:identifier="soup_address_get_sockaddr">
+      <method name="get_sockaddr"
+              c:identifier="soup_address_get_sockaddr"
+              glib:get-property="sockaddr">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="465">Returns the sockaddr associated with @addr, with its length in
@@ -911,16 +919,20 @@ soup_address_resolve_async() on the same address.</doc>
       <property name="name"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_name">
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="physical" transfer-ownership="none">
+      <property name="physical"
+                transfer-ownership="none"
+                getter="get_physical">
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="port"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_port">
         <type name="gint" c:type="gint"/>
       </property>
       <property name="protocol"
@@ -932,7 +944,8 @@ soup_address_resolve_async() on the same address.</doc>
       <property name="sockaddr"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_sockaddr">
         <type name="gpointer" c:type="gpointer"/>
       </property>
       <field name="parent">
@@ -1024,7 +1037,8 @@ soup_address_resolve_async()</doc>
       <member name="invalid"
               value="-1"
               c:identifier="SOUP_ADDRESS_FAMILY_INVALID"
-              glib:nick="invalid">
+              glib:nick="invalid"
+              glib:name="SOUP_ADDRESS_FAMILY_INVALID">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="404">an invalid %SoupAddress</doc>
@@ -1032,7 +1046,8 @@ soup_address_resolve_async()</doc>
       <member name="ipv4"
               value="2"
               c:identifier="SOUP_ADDRESS_FAMILY_IPV4"
-              glib:nick="ipv4">
+              glib:nick="ipv4"
+              glib:name="SOUP_ADDRESS_FAMILY_IPV4">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="405">an IPv4 address</doc>
@@ -1040,7 +1055,8 @@ soup_address_resolve_async()</doc>
       <member name="ipv6"
               value="10"
               c:identifier="SOUP_ADDRESS_FAMILY_IPV6"
-              glib:nick="ipv6">
+              glib:nick="ipv6"
+              glib:name="SOUP_ADDRESS_FAMILY_IPV6">
         <doc xml:space="preserve"
              filename="../libsoup/soup-address.c"
              line="406">an IPv6 address</doc>
@@ -1410,7 +1426,9 @@ returned %TRUE.)</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="get_host" c:identifier="soup_auth_get_host">
+      <method name="get_host"
+              c:identifier="soup_auth_get_host"
+              glib:get-property="host">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth.c"
              line="376">Returns the host that @auth is associated with.</doc>
@@ -1487,7 +1505,9 @@ response to.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="get_realm" c:identifier="soup_auth_get_realm">
+      <method name="get_realm"
+              c:identifier="soup_auth_get_realm"
+              glib:get-property="realm">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth.c"
              line="394">Returns @auth's realm. This is an identifier that distinguishes
@@ -1538,7 +1558,9 @@ localized.)</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_scheme_name" c:identifier="soup_auth_get_scheme_name">
+      <method name="get_scheme_name"
+              c:identifier="soup_auth_get_scheme_name"
+              glib:get-property="scheme-name">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth.c"
              line="360">Returns @auth's scheme name. (Eg, "Basic", "Digest", or "NTLM")</doc>
@@ -1577,7 +1599,8 @@ localized.)</doc>
         </parameters>
       </method>
       <method name="is_authenticated"
-              c:identifier="soup_auth_is_authenticated">
+              c:identifier="soup_auth_is_authenticated"
+              glib:get-property="is-authenticated">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth.c"
              line="438">Tests if @auth has been given a username and password</doc>
@@ -1700,19 +1723,29 @@ could not be parsed or incorporated into @auth at all.</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="host" writable="1" transfer-ownership="none">
+      <property name="host"
+                writable="1"
+                transfer-ownership="none"
+                getter="get_host">
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="is-authenticated" transfer-ownership="none">
+      <property name="is-authenticated"
+                transfer-ownership="none"
+                getter="is_authenticated">
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="is-for-proxy" writable="1" transfer-ownership="none">
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="realm" writable="1" transfer-ownership="none">
+      <property name="realm"
+                writable="1"
+                transfer-ownership="none"
+                getter="get_realm">
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="scheme-name" transfer-ownership="none">
+      <property name="scheme-name"
+                transfer-ownership="none"
+                getter="get_scheme_name">
         <type name="utf8" c:type="gchar*"/>
       </property>
       <field name="parent">
@@ -2202,7 +2235,9 @@ anyone else.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="get_realm" c:identifier="soup_auth_domain_get_realm">
+      <method name="get_realm"
+              c:identifier="soup_auth_domain_get_realm"
+              glib:get-property="realm">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain.c"
              line="428">Gets the realm name associated with @domain</doc>
@@ -2258,7 +2293,9 @@ remove one or more paths at construct time.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_filter" c:identifier="soup_auth_domain_set_filter">
+      <method name="set_filter"
+              c:identifier="soup_auth_domain_set_filter"
+              glib:set-property="filter">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain.c"
              line="376">Adds @filter as an authentication filter to @domain. The filter
@@ -2325,7 +2362,8 @@ is destroyed</doc>
         </parameters>
       </method>
       <method name="set_generic_auth_callback"
-              c:identifier="soup_auth_domain_set_generic_auth_callback">
+              c:identifier="soup_auth_domain_set_generic_auth_callback"
+              glib:set-property="generic-auth-callback">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain.c"
              line="472">Sets @auth_callback as an authentication-handling callback for
@@ -2398,7 +2436,10 @@ is destroyed</doc>
                 transfer-ownership="none">
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="filter" writable="1" transfer-ownership="none">
+      <property name="filter"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_filter">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain.c"
              line="249">The #SoupAuthDomainFilter for the domain</doc>
@@ -2409,7 +2450,8 @@ is destroyed</doc>
       </property>
       <property name="generic-auth-callback"
                 writable="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                setter="set_generic_auth_callback">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain.c"
              line="267">The #SoupAuthDomainGenericAuthCallback for the domain</doc>
@@ -2429,7 +2471,8 @@ is destroyed</doc>
       <property name="realm"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_realm">
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="remove-path"
@@ -2484,7 +2527,8 @@ parameters are optional.</doc>
         </parameters>
       </constructor>
       <method name="set_auth_callback"
-              c:identifier="soup_auth_domain_basic_set_auth_callback">
+              c:identifier="soup_auth_domain_basic_set_auth_callback"
+              glib:set-property="auth-callback">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain-basic.c"
              line="157">Sets the callback that @domain will use to authenticate incoming
@@ -2537,7 +2581,10 @@ is destroyed</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="auth-callback" writable="1" transfer-ownership="none">
+      <property name="auth-callback"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_auth_callback">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain-basic.c"
              line="314">The #SoupAuthDomainBasicAuthCallback</doc>
@@ -2859,7 +2906,8 @@ the encoded password stored in an Apache .htdigest file.)</doc>
         </parameters>
       </function>
       <method name="set_auth_callback"
-              c:identifier="soup_auth_domain_digest_set_auth_callback">
+              c:identifier="soup_auth_domain_digest_set_auth_callback"
+              glib:set-property="auth-callback">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain-digest.c"
              line="151">Sets the callback that @domain will use to authenticate incoming
@@ -2912,7 +2960,10 @@ is destroyed</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="auth-callback" writable="1" transfer-ownership="none">
+      <property name="auth-callback"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_auth_callback">
         <doc xml:space="preserve"
              filename="../libsoup/soup-auth-domain-digest.c"
              line="420">The #SoupAuthDomainDigestAuthCallback</doc>
@@ -4196,17 +4247,20 @@ file.</doc>
       <member name="fresh"
               value="0"
               c:identifier="SOUP_CACHE_RESPONSE_FRESH"
-              glib:nick="fresh">
+              glib:nick="fresh"
+              glib:name="SOUP_CACHE_RESPONSE_FRESH">
       </member>
       <member name="needs_validation"
               value="1"
               c:identifier="SOUP_CACHE_RESPONSE_NEEDS_VALIDATION"
-              glib:nick="needs-validation">
+              glib:nick="needs-validation"
+              glib:name="SOUP_CACHE_RESPONSE_NEEDS_VALIDATION">
       </member>
       <member name="stale"
               value="2"
               c:identifier="SOUP_CACHE_RESPONSE_STALE"
-              glib:nick="stale">
+              glib:nick="stale"
+              glib:name="SOUP_CACHE_RESPONSE_STALE">
       </member>
     </enumeration>
     <enumeration name="CacheType"
@@ -4221,7 +4275,8 @@ saved.</doc>
       <member name="single_user"
               value="0"
               c:identifier="SOUP_CACHE_SINGLE_USER"
-              glib:nick="single-user">
+              glib:nick="single-user"
+              glib:name="SOUP_CACHE_SINGLE_USER">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cache.c"
              line="1026">a single-user cache</doc>
@@ -4229,7 +4284,8 @@ saved.</doc>
       <member name="shared"
               value="1"
               c:identifier="SOUP_CACHE_SHARED"
-              glib:nick="shared">
+              glib:nick="shared"
+              glib:name="SOUP_CACHE_SHARED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cache.c"
              line="1027">a shared cache</doc>
@@ -4242,22 +4298,26 @@ saved.</doc>
       <member name="cacheable"
               value="1"
               c:identifier="SOUP_CACHE_CACHEABLE"
-              glib:nick="cacheable">
+              glib:nick="cacheable"
+              glib:name="SOUP_CACHE_CACHEABLE">
       </member>
       <member name="uncacheable"
               value="2"
               c:identifier="SOUP_CACHE_UNCACHEABLE"
-              glib:nick="uncacheable">
+              glib:nick="uncacheable"
+              glib:name="SOUP_CACHE_UNCACHEABLE">
       </member>
       <member name="invalidates"
               value="4"
               c:identifier="SOUP_CACHE_INVALIDATES"
-              glib:nick="invalidates">
+              glib:nick="invalidates"
+              glib:name="SOUP_CACHE_INVALIDATES">
       </member>
       <member name="validates"
               value="8"
               c:identifier="SOUP_CACHE_VALIDATES"
-              glib:nick="validates">
+              glib:nick="validates"
+              glib:name="SOUP_CACHE_VALIDATES">
       </member>
     </bitfield>
     <callback name="ChunkAllocator" c:type="SoupChunkAllocator" deprecated="1">
@@ -4588,32 +4648,38 @@ likely be freed as a side effect.</doc>
       <member name="new"
               value="0"
               c:identifier="SOUP_CONNECTION_NEW"
-              glib:nick="new">
+              glib:nick="new"
+              glib:name="SOUP_CONNECTION_NEW">
       </member>
       <member name="connecting"
               value="1"
               c:identifier="SOUP_CONNECTION_CONNECTING"
-              glib:nick="connecting">
+              glib:nick="connecting"
+              glib:name="SOUP_CONNECTION_CONNECTING">
       </member>
       <member name="idle"
               value="2"
               c:identifier="SOUP_CONNECTION_IDLE"
-              glib:nick="idle">
+              glib:nick="idle"
+              glib:name="SOUP_CONNECTION_IDLE">
       </member>
       <member name="in_use"
               value="3"
               c:identifier="SOUP_CONNECTION_IN_USE"
-              glib:nick="in-use">
+              glib:nick="in-use"
+              glib:name="SOUP_CONNECTION_IN_USE">
       </member>
       <member name="remote_disconnected"
               value="4"
               c:identifier="SOUP_CONNECTION_REMOTE_DISCONNECTED"
-              glib:nick="remote-disconnected">
+              glib:nick="remote-disconnected"
+              glib:name="SOUP_CONNECTION_REMOTE_DISCONNECTED">
       </member>
       <member name="disconnected"
               value="5"
               c:identifier="SOUP_CONNECTION_DISCONNECTED"
-              glib:nick="disconnected">
+              glib:nick="disconnected"
+              glib:name="SOUP_CONNECTION_DISCONNECTED">
       </member>
     </enumeration>
     <class name="ContentDecoder"
@@ -6023,6 +6089,7 @@ with all the cookies in the @jar.</doc>
       </method>
       <method name="get_accept_policy"
               c:identifier="soup_cookie_jar_get_accept_policy"
+              glib:get-property="accept-policy"
               version="2.30">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
@@ -6255,6 +6322,7 @@ are changed.</doc>
       </method>
       <method name="set_accept_policy"
               c:identifier="soup_cookie_jar_set_accept_policy"
+              glib:set-property="accept-policy"
               version="2.30">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
@@ -6361,7 +6429,9 @@ case such a security policy is set in the @jar.</doc>
       <property name="accept-policy"
                 version="2.30"
                 writable="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                setter="set_accept_policy"
+                getter="get_accept_policy">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
              line="206">The policy the jar should follow to accept or reject cookies</doc>
@@ -6417,7 +6487,8 @@ responses.</doc>
       <member name="always"
               value="0"
               c:identifier="SOUP_COOKIE_JAR_ACCEPT_ALWAYS"
-              glib:nick="always">
+              glib:nick="always"
+              glib:name="SOUP_COOKIE_JAR_ACCEPT_ALWAYS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
              line="955">accept all cookies unconditionally.</doc>
@@ -6425,7 +6496,8 @@ responses.</doc>
       <member name="never"
               value="1"
               c:identifier="SOUP_COOKIE_JAR_ACCEPT_NEVER"
-              glib:nick="never">
+              glib:nick="never"
+              glib:name="SOUP_COOKIE_JAR_ACCEPT_NEVER">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
              line="956">reject all cookies unconditionally.</doc>
@@ -6433,7 +6505,8 @@ responses.</doc>
       <member name="no_third_party"
               value="2"
               c:identifier="SOUP_COOKIE_JAR_ACCEPT_NO_THIRD_PARTY"
-              glib:nick="no-third-party">
+              glib:nick="no-third-party"
+              glib:name="SOUP_COOKIE_JAR_ACCEPT_NO_THIRD_PARTY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
              line="957">accept all cookies set by
@@ -6451,7 +6524,8 @@ in effect, cookies will be assumed to be third party by default.</doc>
       <member name="grandfathered_third_party"
               value="3"
               c:identifier="SOUP_COOKIE_JAR_ACCEPT_GRANDFATHERED_THIRD_PARTY"
-              glib:nick="grandfathered-third-party">
+              glib:nick="grandfathered-third-party"
+              glib:name="SOUP_COOKIE_JAR_ACCEPT_GRANDFATHERED_THIRD_PARTY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie-jar.c"
              line="968">accept all cookies
@@ -7442,7 +7516,8 @@ This enum may be extended with more values in future releases.</doc>
       <member name="http"
               value="1"
               c:identifier="SOUP_DATE_HTTP"
-              glib:nick="http">
+              glib:nick="http"
+              glib:name="SOUP_DATE_HTTP">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="435">RFC 1123 format, used by the HTTP "Date" header. Eg
@@ -7451,7 +7526,8 @@ This enum may be extended with more values in future releases.</doc>
       <member name="cookie"
               value="2"
               c:identifier="SOUP_DATE_COOKIE"
-              glib:nick="cookie">
+              glib:nick="cookie"
+              glib:name="SOUP_DATE_COOKIE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="437">The format for the "Expires" timestamp in the
@@ -7460,7 +7536,8 @@ Netscape cookie specification. Eg, "Sun, 06-Nov-1994 08:49:37 GMT".</doc>
       <member name="rfc2822"
               value="3"
               c:identifier="SOUP_DATE_RFC2822"
-              glib:nick="rfc2822">
+              glib:nick="rfc2822"
+              glib:name="SOUP_DATE_RFC2822">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="439">RFC 2822 format, eg "Sun, 6 Nov 1994 09:49:37 -0100"</doc>
@@ -7468,7 +7545,8 @@ Netscape cookie specification. Eg, "Sun, 06-Nov-1994 08:49:37 GMT".</doc>
       <member name="iso8601_compact"
               value="4"
               c:identifier="SOUP_DATE_ISO8601_COMPACT"
-              glib:nick="iso8601-compact">
+              glib:nick="iso8601-compact"
+              glib:name="SOUP_DATE_ISO8601_COMPACT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="440">ISO 8601 date/time with no optional
@@ -7477,7 +7555,8 @@ punctuation. Eg, "19941106T094937-0100".</doc>
       <member name="iso8601_full"
               value="5"
               c:identifier="SOUP_DATE_ISO8601_FULL"
-              glib:nick="iso8601-full">
+              glib:nick="iso8601-full"
+              glib:name="SOUP_DATE_ISO8601_FULL">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="442">ISO 8601 date/time with all optional
@@ -7486,7 +7565,8 @@ punctuation. Eg, "1994-11-06T09:49:37-01:00".</doc>
       <member name="iso8601"
               value="5"
               c:identifier="SOUP_DATE_ISO8601"
-              glib:nick="iso8601">
+              glib:nick="iso8601"
+              glib:name="SOUP_DATE_ISO8601">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="446">An alias for @SOUP_DATE_ISO8601_FULL.</doc>
@@ -7494,7 +7574,8 @@ punctuation. Eg, "1994-11-06T09:49:37-01:00".</doc>
       <member name="iso8601_xmlrpc"
               value="6"
               c:identifier="SOUP_DATE_ISO8601_XMLRPC"
-              glib:nick="iso8601-xmlrpc">
+              glib:nick="iso8601-xmlrpc"
+              glib:name="SOUP_DATE_ISO8601_XMLRPC">
         <doc xml:space="preserve"
              filename="../libsoup/soup-date.c"
              line="444">ISO 8601 date/time as used by XML-RPC.
@@ -7511,7 +7592,8 @@ Eg, "19941106T09:49:37".</doc>
       <member name="unrecognized"
               value="0"
               c:identifier="SOUP_ENCODING_UNRECOGNIZED"
-              glib:nick="unrecognized">
+              glib:nick="unrecognized"
+              glib:name="SOUP_ENCODING_UNRECOGNIZED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="702">unknown / error</doc>
@@ -7519,7 +7601,8 @@ Eg, "19941106T09:49:37".</doc>
       <member name="none"
               value="1"
               c:identifier="SOUP_ENCODING_NONE"
-              glib:nick="none">
+              glib:nick="none"
+              glib:name="SOUP_ENCODING_NONE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="703">no body is present (which is not the same as a
@@ -7528,7 +7611,8 @@ Eg, "19941106T09:49:37".</doc>
       <member name="content_length"
               value="2"
               c:identifier="SOUP_ENCODING_CONTENT_LENGTH"
-              glib:nick="content-length">
+              glib:nick="content-length"
+              glib:name="SOUP_ENCODING_CONTENT_LENGTH">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="705">Content-Length encoding</doc>
@@ -7536,7 +7620,8 @@ Eg, "19941106T09:49:37".</doc>
       <member name="eof"
               value="3"
               c:identifier="SOUP_ENCODING_EOF"
-              glib:nick="eof">
+              glib:nick="eof"
+              glib:name="SOUP_ENCODING_EOF">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="706">Response body ends when the connection is closed</doc>
@@ -7544,7 +7629,8 @@ Eg, "19941106T09:49:37".</doc>
       <member name="chunked"
               value="4"
               c:identifier="SOUP_ENCODING_CHUNKED"
-              glib:nick="chunked">
+              glib:nick="chunked"
+              glib:name="SOUP_ENCODING_CHUNKED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="707">chunked encoding (currently only supported
@@ -7553,7 +7639,8 @@ for response)</doc>
       <member name="byteranges"
               value="5"
               c:identifier="SOUP_ENCODING_BYTERANGES"
-              glib:nick="byteranges">
+              glib:nick="byteranges"
+              glib:name="SOUP_ENCODING_BYTERANGES">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="709">multipart/byteranges (Reserved for future
@@ -7570,7 +7657,8 @@ use: NOT CURRENTLY IMPLEMENTED)</doc>
       <member name="unrecognized"
               value="1"
               c:identifier="SOUP_EXPECTATION_UNRECOGNIZED"
-              glib:nick="unrecognized">
+              glib:nick="unrecognized"
+              glib:name="SOUP_EXPECTATION_UNRECOGNIZED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="861">any unrecognized expectation</doc>
@@ -7578,7 +7666,8 @@ use: NOT CURRENTLY IMPLEMENTED)</doc>
       <member name="continue"
               value="2"
               c:identifier="SOUP_EXPECTATION_CONTINUE"
-              glib:nick="continue">
+              glib:nick="continue"
+              glib:name="SOUP_EXPECTATION_CONTINUE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="860">"100-continue"</doc>
@@ -8627,7 +8716,8 @@ see soup_hsts_policy_new_session_policy() for details.</doc>
       <member name="http_1_0"
               value="0"
               c:identifier="SOUP_HTTP_1_0"
-              glib:nick="http-1-0">
+              glib:nick="http-1-0"
+              glib:name="SOUP_HTTP_1_0">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1567">HTTP 1.0 (RFC 1945)</doc>
@@ -8635,7 +8725,8 @@ see soup_hsts_policy_new_session_policy() for details.</doc>
       <member name="http_1_1"
               value="1"
               c:identifier="SOUP_HTTP_1_1"
-              glib:nick="http-1-1">
+              glib:nick="http-1-1"
+              glib:name="SOUP_HTTP_1_1">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1568">HTTP 1.1 (RFC 2616)</doc>
@@ -8997,7 +9088,7 @@ see soup_hsts_policy_new_session_policy() for details.</doc>
                     c:identifier="SOUP_IS_PROXY_RESOLVER_DEFAULT"
                     introspectable="0">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="13"/>
+                       line="15"/>
       <parameters>
         <parameter name="object">
         </parameter>
@@ -9007,7 +9098,7 @@ see soup_hsts_policy_new_session_policy() for details.</doc>
                     c:identifier="SOUP_IS_PROXY_RESOLVER_DEFAULT_CLASS"
                     introspectable="0">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="14"/>
+                       line="16"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -9318,317 +9409,380 @@ see soup_hsts_policy_new_session_policy() for details.</doc>
       <member name="none"
               value="0"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NONE"
-              glib:nick="none">
+              glib:nick="none"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NONE">
       </member>
       <member name="cancelled"
               value="1"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CANCELLED"
-              glib:nick="cancelled">
+              glib:nick="cancelled"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CANCELLED">
       </member>
       <member name="cant_resolve"
               value="2"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CANT_RESOLVE"
-              glib:nick="cant-resolve">
+              glib:nick="cant-resolve"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CANT_RESOLVE">
       </member>
       <member name="cant_resolve_proxy"
               value="3"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CANT_RESOLVE_PROXY"
-              glib:nick="cant-resolve-proxy">
+              glib:nick="cant-resolve-proxy"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CANT_RESOLVE_PROXY">
       </member>
       <member name="cant_connect"
               value="4"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CANT_CONNECT"
-              glib:nick="cant-connect">
+              glib:nick="cant-connect"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CANT_CONNECT">
       </member>
       <member name="cant_connect_proxy"
               value="5"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CANT_CONNECT_PROXY"
-              glib:nick="cant-connect-proxy">
+              glib:nick="cant-connect-proxy"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CANT_CONNECT_PROXY">
       </member>
       <member name="ssl_failed"
               value="6"
               c:identifier="SOUP_KNOWN_STATUS_CODE_SSL_FAILED"
-              glib:nick="ssl-failed">
+              glib:nick="ssl-failed"
+              glib:name="SOUP_KNOWN_STATUS_CODE_SSL_FAILED">
       </member>
       <member name="io_error"
               value="7"
               c:identifier="SOUP_KNOWN_STATUS_CODE_IO_ERROR"
-              glib:nick="io-error">
+              glib:nick="io-error"
+              glib:name="SOUP_KNOWN_STATUS_CODE_IO_ERROR">
       </member>
       <member name="malformed"
               value="8"
               c:identifier="SOUP_KNOWN_STATUS_CODE_MALFORMED"
-              glib:nick="malformed">
+              glib:nick="malformed"
+              glib:name="SOUP_KNOWN_STATUS_CODE_MALFORMED">
       </member>
       <member name="try_again"
               value="9"
               c:identifier="SOUP_KNOWN_STATUS_CODE_TRY_AGAIN"
-              glib:nick="try-again">
+              glib:nick="try-again"
+              glib:name="SOUP_KNOWN_STATUS_CODE_TRY_AGAIN">
       </member>
       <member name="too_many_redirects"
               value="10"
               c:identifier="SOUP_KNOWN_STATUS_CODE_TOO_MANY_REDIRECTS"
-              glib:nick="too-many-redirects">
+              glib:nick="too-many-redirects"
+              glib:name="SOUP_KNOWN_STATUS_CODE_TOO_MANY_REDIRECTS">
       </member>
       <member name="tls_failed"
               value="11"
               c:identifier="SOUP_KNOWN_STATUS_CODE_TLS_FAILED"
-              glib:nick="tls-failed">
+              glib:nick="tls-failed"
+              glib:name="SOUP_KNOWN_STATUS_CODE_TLS_FAILED">
       </member>
       <member name="continue"
               value="100"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CONTINUE"
-              glib:nick="continue">
+              glib:nick="continue"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CONTINUE">
       </member>
       <member name="switching_protocols"
               value="101"
               c:identifier="SOUP_KNOWN_STATUS_CODE_SWITCHING_PROTOCOLS"
-              glib:nick="switching-protocols">
+              glib:nick="switching-protocols"
+              glib:name="SOUP_KNOWN_STATUS_CODE_SWITCHING_PROTOCOLS">
       </member>
       <member name="processing"
               value="102"
               c:identifier="SOUP_KNOWN_STATUS_CODE_PROCESSING"
-              glib:nick="processing">
+              glib:nick="processing"
+              glib:name="SOUP_KNOWN_STATUS_CODE_PROCESSING">
       </member>
       <member name="ok"
               value="200"
               c:identifier="SOUP_KNOWN_STATUS_CODE_OK"
-              glib:nick="ok">
+              glib:nick="ok"
+              glib:name="SOUP_KNOWN_STATUS_CODE_OK">
       </member>
       <member name="created"
               value="201"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CREATED"
-              glib:nick="created">
+              glib:nick="created"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CREATED">
       </member>
       <member name="accepted"
               value="202"
               c:identifier="SOUP_KNOWN_STATUS_CODE_ACCEPTED"
-              glib:nick="accepted">
+              glib:nick="accepted"
+              glib:name="SOUP_KNOWN_STATUS_CODE_ACCEPTED">
       </member>
       <member name="non_authoritative"
               value="203"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NON_AUTHORITATIVE"
-              glib:nick="non-authoritative">
+              glib:nick="non-authoritative"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NON_AUTHORITATIVE">
       </member>
       <member name="no_content"
               value="204"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NO_CONTENT"
-              glib:nick="no-content">
+              glib:nick="no-content"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NO_CONTENT">
       </member>
       <member name="reset_content"
               value="205"
               c:identifier="SOUP_KNOWN_STATUS_CODE_RESET_CONTENT"
-              glib:nick="reset-content">
+              glib:nick="reset-content"
+              glib:name="SOUP_KNOWN_STATUS_CODE_RESET_CONTENT">
       </member>
       <member name="partial_content"
               value="206"
               c:identifier="SOUP_KNOWN_STATUS_CODE_PARTIAL_CONTENT"
-              glib:nick="partial-content">
+              glib:nick="partial-content"
+              glib:name="SOUP_KNOWN_STATUS_CODE_PARTIAL_CONTENT">
       </member>
       <member name="multi_status"
               value="207"
               c:identifier="SOUP_KNOWN_STATUS_CODE_MULTI_STATUS"
-              glib:nick="multi-status">
+              glib:nick="multi-status"
+              glib:name="SOUP_KNOWN_STATUS_CODE_MULTI_STATUS">
       </member>
       <member name="multiple_choices"
               value="300"
               c:identifier="SOUP_KNOWN_STATUS_CODE_MULTIPLE_CHOICES"
-              glib:nick="multiple-choices">
+              glib:nick="multiple-choices"
+              glib:name="SOUP_KNOWN_STATUS_CODE_MULTIPLE_CHOICES">
       </member>
       <member name="moved_permanently"
               value="301"
               c:identifier="SOUP_KNOWN_STATUS_CODE_MOVED_PERMANENTLY"
-              glib:nick="moved-permanently">
+              glib:nick="moved-permanently"
+              glib:name="SOUP_KNOWN_STATUS_CODE_MOVED_PERMANENTLY">
       </member>
       <member name="found"
               value="302"
               c:identifier="SOUP_KNOWN_STATUS_CODE_FOUND"
-              glib:nick="found">
+              glib:nick="found"
+              glib:name="SOUP_KNOWN_STATUS_CODE_FOUND">
       </member>
       <member name="moved_temporarily"
               value="302"
               c:identifier="SOUP_KNOWN_STATUS_CODE_MOVED_TEMPORARILY"
-              glib:nick="moved-temporarily">
+              glib:nick="moved-temporarily"
+              glib:name="SOUP_KNOWN_STATUS_CODE_MOVED_TEMPORARILY">
       </member>
       <member name="see_other"
               value="303"
               c:identifier="SOUP_KNOWN_STATUS_CODE_SEE_OTHER"
-              glib:nick="see-other">
+              glib:nick="see-other"
+              glib:name="SOUP_KNOWN_STATUS_CODE_SEE_OTHER">
       </member>
       <member name="not_modified"
               value="304"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NOT_MODIFIED"
-              glib:nick="not-modified">
+              glib:nick="not-modified"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NOT_MODIFIED">
       </member>
       <member name="use_proxy"
               value="305"
               c:identifier="SOUP_KNOWN_STATUS_CODE_USE_PROXY"
-              glib:nick="use-proxy">
+              glib:nick="use-proxy"
+              glib:name="SOUP_KNOWN_STATUS_CODE_USE_PROXY">
       </member>
       <member name="not_appearing_in_this_protocol"
               value="306"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NOT_APPEARING_IN_THIS_PROTOCOL"
-              glib:nick="not-appearing-in-this-protocol">
+              glib:nick="not-appearing-in-this-protocol"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NOT_APPEARING_IN_THIS_PROTOCOL">
       </member>
       <member name="temporary_redirect"
               value="307"
               c:identifier="SOUP_KNOWN_STATUS_CODE_TEMPORARY_REDIRECT"
-              glib:nick="temporary-redirect">
+              glib:nick="temporary-redirect"
+              glib:name="SOUP_KNOWN_STATUS_CODE_TEMPORARY_REDIRECT">
       </member>
       <member name="bad_request"
               value="400"
               c:identifier="SOUP_KNOWN_STATUS_CODE_BAD_REQUEST"
-              glib:nick="bad-request">
+              glib:nick="bad-request"
+              glib:name="SOUP_KNOWN_STATUS_CODE_BAD_REQUEST">
       </member>
       <member name="unauthorized"
               value="401"
               c:identifier="SOUP_KNOWN_STATUS_CODE_UNAUTHORIZED"
-              glib:nick="unauthorized">
+              glib:nick="unauthorized"
+              glib:name="SOUP_KNOWN_STATUS_CODE_UNAUTHORIZED">
       </member>
       <member name="payment_required"
               value="402"
               c:identifier="SOUP_KNOWN_STATUS_CODE_PAYMENT_REQUIRED"
-              glib:nick="payment-required">
+              glib:nick="payment-required"
+              glib:name="SOUP_KNOWN_STATUS_CODE_PAYMENT_REQUIRED">
       </member>
       <member name="forbidden"
               value="403"
               c:identifier="SOUP_KNOWN_STATUS_CODE_FORBIDDEN"
-              glib:nick="forbidden">
+              glib:nick="forbidden"
+              glib:name="SOUP_KNOWN_STATUS_CODE_FORBIDDEN">
       </member>
       <member name="not_found"
               value="404"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NOT_FOUND"
-              glib:nick="not-found">
+              glib:nick="not-found"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NOT_FOUND">
       </member>
       <member name="method_not_allowed"
               value="405"
               c:identifier="SOUP_KNOWN_STATUS_CODE_METHOD_NOT_ALLOWED"
-              glib:nick="method-not-allowed">
+              glib:nick="method-not-allowed"
+              glib:name="SOUP_KNOWN_STATUS_CODE_METHOD_NOT_ALLOWED">
       </member>
       <member name="not_acceptable"
               value="406"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NOT_ACCEPTABLE"
-              glib:nick="not-acceptable">
+              glib:nick="not-acceptable"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NOT_ACCEPTABLE">
       </member>
       <member name="proxy_authentication_required"
               value="407"
               c:identifier="SOUP_KNOWN_STATUS_CODE_PROXY_AUTHENTICATION_REQUIRED"
-              glib:nick="proxy-authentication-required">
+              glib:nick="proxy-authentication-required"
+              glib:name="SOUP_KNOWN_STATUS_CODE_PROXY_AUTHENTICATION_REQUIRED">
       </member>
       <member name="proxy_unauthorized"
               value="407"
               c:identifier="SOUP_KNOWN_STATUS_CODE_PROXY_UNAUTHORIZED"
-              glib:nick="proxy-unauthorized">
+              glib:nick="proxy-unauthorized"
+              glib:name="SOUP_KNOWN_STATUS_CODE_PROXY_UNAUTHORIZED">
       </member>
       <member name="request_timeout"
               value="408"
               c:identifier="SOUP_KNOWN_STATUS_CODE_REQUEST_TIMEOUT"
-              glib:nick="request-timeout">
+              glib:nick="request-timeout"
+              glib:name="SOUP_KNOWN_STATUS_CODE_REQUEST_TIMEOUT">
       </member>
       <member name="conflict"
               value="409"
               c:identifier="SOUP_KNOWN_STATUS_CODE_CONFLICT"
-              glib:nick="conflict">
+              glib:nick="conflict"
+              glib:name="SOUP_KNOWN_STATUS_CODE_CONFLICT">
       </member>
       <member name="gone"
               value="410"
               c:identifier="SOUP_KNOWN_STATUS_CODE_GONE"
-              glib:nick="gone">
+              glib:nick="gone"
+              glib:name="SOUP_KNOWN_STATUS_CODE_GONE">
       </member>
       <member name="length_required"
               value="411"
               c:identifier="SOUP_KNOWN_STATUS_CODE_LENGTH_REQUIRED"
-              glib:nick="length-required">
+              glib:nick="length-required"
+              glib:name="SOUP_KNOWN_STATUS_CODE_LENGTH_REQUIRED">
       </member>
       <member name="precondition_failed"
               value="412"
               c:identifier="SOUP_KNOWN_STATUS_CODE_PRECONDITION_FAILED"
-              glib:nick="precondition-failed">
+              glib:nick="precondition-failed"
+              glib:name="SOUP_KNOWN_STATUS_CODE_PRECONDITION_FAILED">
       </member>
       <member name="request_entity_too_large"
               value="413"
               c:identifier="SOUP_KNOWN_STATUS_CODE_REQUEST_ENTITY_TOO_LARGE"
-              glib:nick="request-entity-too-large">
+              glib:nick="request-entity-too-large"
+              glib:name="SOUP_KNOWN_STATUS_CODE_REQUEST_ENTITY_TOO_LARGE">
       </member>
       <member name="request_uri_too_long"
               value="414"
               c:identifier="SOUP_KNOWN_STATUS_CODE_REQUEST_URI_TOO_LONG"
-              glib:nick="request-uri-too-long">
+              glib:nick="request-uri-too-long"
+              glib:name="SOUP_KNOWN_STATUS_CODE_REQUEST_URI_TOO_LONG">
       </member>
       <member name="unsupported_media_type"
               value="415"
               c:identifier="SOUP_KNOWN_STATUS_CODE_UNSUPPORTED_MEDIA_TYPE"
-              glib:nick="unsupported-media-type">
+              glib:nick="unsupported-media-type"
+              glib:name="SOUP_KNOWN_STATUS_CODE_UNSUPPORTED_MEDIA_TYPE">
       </member>
       <member name="requested_range_not_satisfiable"
               value="416"
               c:identifier="SOUP_KNOWN_STATUS_CODE_REQUESTED_RANGE_NOT_SATISFIABLE"
-              glib:nick="requested-range-not-satisfiable">
+              glib:nick="requested-range-not-satisfiable"
+              glib:name="SOUP_KNOWN_STATUS_CODE_REQUESTED_RANGE_NOT_SATISFIABLE">
       </member>
       <member name="invalid_range"
               value="416"
               c:identifier="SOUP_KNOWN_STATUS_CODE_INVALID_RANGE"
-              glib:nick="invalid-range">
+              glib:nick="invalid-range"
+              glib:name="SOUP_KNOWN_STATUS_CODE_INVALID_RANGE">
       </member>
       <member name="expectation_failed"
               value="417"
               c:identifier="SOUP_KNOWN_STATUS_CODE_EXPECTATION_FAILED"
-              glib:nick="expectation-failed">
+              glib:nick="expectation-failed"
+              glib:name="SOUP_KNOWN_STATUS_CODE_EXPECTATION_FAILED">
       </member>
       <member name="unprocessable_entity"
               value="422"
               c:identifier="SOUP_KNOWN_STATUS_CODE_UNPROCESSABLE_ENTITY"
-              glib:nick="unprocessable-entity">
+              glib:nick="unprocessable-entity"
+              glib:name="SOUP_KNOWN_STATUS_CODE_UNPROCESSABLE_ENTITY">
       </member>
       <member name="locked"
               value="423"
               c:identifier="SOUP_KNOWN_STATUS_CODE_LOCKED"
-              glib:nick="locked">
+              glib:nick="locked"
+              glib:name="SOUP_KNOWN_STATUS_CODE_LOCKED">
       </member>
       <member name="failed_dependency"
               value="424"
               c:identifier="SOUP_KNOWN_STATUS_CODE_FAILED_DEPENDENCY"
-              glib:nick="failed-dependency">
+              glib:nick="failed-dependency"
+              glib:name="SOUP_KNOWN_STATUS_CODE_FAILED_DEPENDENCY">
       </member>
       <member name="internal_server_error"
               value="500"
               c:identifier="SOUP_KNOWN_STATUS_CODE_INTERNAL_SERVER_ERROR"
-              glib:nick="internal-server-error">
+              glib:nick="internal-server-error"
+              glib:name="SOUP_KNOWN_STATUS_CODE_INTERNAL_SERVER_ERROR">
       </member>
       <member name="not_implemented"
               value="501"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NOT_IMPLEMENTED"
-              glib:nick="not-implemented">
+              glib:nick="not-implemented"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NOT_IMPLEMENTED">
       </member>
       <member name="bad_gateway"
               value="502"
               c:identifier="SOUP_KNOWN_STATUS_CODE_BAD_GATEWAY"
-              glib:nick="bad-gateway">
+              glib:nick="bad-gateway"
+              glib:name="SOUP_KNOWN_STATUS_CODE_BAD_GATEWAY">
       </member>
       <member name="service_unavailable"
               value="503"
               c:identifier="SOUP_KNOWN_STATUS_CODE_SERVICE_UNAVAILABLE"
-              glib:nick="service-unavailable">
+              glib:nick="service-unavailable"
+              glib:name="SOUP_KNOWN_STATUS_CODE_SERVICE_UNAVAILABLE">
       </member>
       <member name="gateway_timeout"
               value="504"
               c:identifier="SOUP_KNOWN_STATUS_CODE_GATEWAY_TIMEOUT"
-              glib:nick="gateway-timeout">
+              glib:nick="gateway-timeout"
+              glib:name="SOUP_KNOWN_STATUS_CODE_GATEWAY_TIMEOUT">
       </member>
       <member name="http_version_not_supported"
               value="505"
               c:identifier="SOUP_KNOWN_STATUS_CODE_HTTP_VERSION_NOT_SUPPORTED"
-              glib:nick="http-version-not-supported">
+              glib:nick="http-version-not-supported"
+              glib:name="SOUP_KNOWN_STATUS_CODE_HTTP_VERSION_NOT_SUPPORTED">
       </member>
       <member name="insufficient_storage"
               value="507"
               c:identifier="SOUP_KNOWN_STATUS_CODE_INSUFFICIENT_STORAGE"
-              glib:nick="insufficient-storage">
+              glib:nick="insufficient-storage"
+              glib:name="SOUP_KNOWN_STATUS_CODE_INSUFFICIENT_STORAGE">
       </member>
       <member name="not_extended"
               value="510"
               c:identifier="SOUP_KNOWN_STATUS_CODE_NOT_EXTENDED"
-              glib:nick="not-extended">
+              glib:nick="not-extended"
+              glib:name="SOUP_KNOWN_STATUS_CODE_NOT_EXTENDED">
       </member>
     </enumeration>
     <function-macro name="LOGGER"
@@ -10025,7 +10179,8 @@ or soup_logger_set_response_filter()</doc>
       <member name="none"
               value="0"
               c:identifier="SOUP_LOGGER_LOG_NONE"
-              glib:nick="none">
+              glib:nick="none"
+              glib:name="SOUP_LOGGER_LOG_NONE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-logger.c"
              line="268">No logging</doc>
@@ -10033,7 +10188,8 @@ or soup_logger_set_response_filter()</doc>
       <member name="minimal"
               value="1"
               c:identifier="SOUP_LOGGER_LOG_MINIMAL"
-              glib:nick="minimal">
+              glib:nick="minimal"
+              glib:name="SOUP_LOGGER_LOG_MINIMAL">
         <doc xml:space="preserve"
              filename="../libsoup/soup-logger.c"
              line="269">Log the Request-Line or Status-Line and
@@ -10042,7 +10198,8 @@ the Soup-Debug pseudo-headers</doc>
       <member name="headers"
               value="2"
               c:identifier="SOUP_LOGGER_LOG_HEADERS"
-              glib:nick="headers">
+              glib:nick="headers"
+              glib:name="SOUP_LOGGER_LOG_HEADERS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-logger.c"
              line="271">Log the full request/response headers</doc>
@@ -10050,7 +10207,8 @@ the Soup-Debug pseudo-headers</doc>
       <member name="body"
               value="3"
               c:identifier="SOUP_LOGGER_LOG_BODY"
-              glib:nick="body">
+              glib:nick="body"
+              glib:name="SOUP_LOGGER_LOG_BODY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-logger.c"
              line="272">Log the full headers and request/response
@@ -10339,7 +10497,7 @@ verification errors on #SoupMessage:tls-certificate.)</doc>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="MICRO_VERSION"
-              value="0"
+              value="2"
               c:type="SOUP_MICRO_VERSION"
               version="2.42">
       <doc xml:space="preserve"
@@ -10406,7 +10564,8 @@ buffer containing data which is owned by another object.</doc>
       <member name="static"
               value="0"
               c:identifier="SOUP_MEMORY_STATIC"
-              glib:nick="static">
+              glib:nick="static"
+              glib:name="SOUP_MEMORY_STATIC">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-body.c"
              line="34">The memory is statically allocated and
@@ -10416,7 +10575,8 @@ need to worry about it being modified or freed.</doc>
       <member name="take"
               value="1"
               c:identifier="SOUP_MEMORY_TAKE"
-              glib:nick="take">
+              glib:nick="take"
+              glib:name="SOUP_MEMORY_TAKE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-body.c"
              line="37">The caller has allocated the memory for the
@@ -10426,7 +10586,8 @@ need to worry about it being modified or freed.</doc>
       <member name="copy"
               value="2"
               c:identifier="SOUP_MEMORY_COPY"
-              glib:nick="copy">
+              glib:nick="copy"
+              glib:name="SOUP_MEMORY_COPY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-body.c"
              line="40">The passed-in data belongs to the caller; the
@@ -10436,7 +10597,8 @@ to reuse the original memory.</doc>
       <member name="temporary"
               value="3"
               c:identifier="SOUP_MEMORY_TEMPORARY"
-              glib:nick="temporary">
+              glib:nick="temporary"
+              glib:name="SOUP_MEMORY_TEMPORARY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-body.c"
              line="43">The passed-in data belongs to the caller,
@@ -10876,6 +11038,7 @@ session will resolve it before sending the message.</doc>
       </method>
       <method name="get_first_party"
               c:identifier="soup_message_get_first_party"
+              glib:get-property="first-party"
               version="2.30">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -10896,7 +11059,9 @@ session will resolve it before sending the message.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_flags" c:identifier="soup_message_get_flags">
+      <method name="get_flags"
+              c:identifier="soup_message_get_flags"
+              glib:get-property="flags">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1545">Gets the flags on @msg</doc>
@@ -10917,7 +11082,8 @@ session will resolve it before sending the message.</doc>
         </parameters>
       </method>
       <method name="get_http_version"
-              c:identifier="soup_message_get_http_version">
+              c:identifier="soup_message_get_http_version"
+              glib:get-property="http-version">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1596">Gets the HTTP version of @msg. This is the minimum of the
@@ -10988,6 +11154,7 @@ not useful for messages received by a #SoupServer&lt;/para&gt;&lt;/note&gt;</doc
       </method>
       <method name="get_is_top_level_navigation"
               c:identifier="soup_message_get_is_top_level_navigation"
+              glib:get-property="is-top-level-navigation"
               version="2.70">
         <source-position filename="../libsoup/soup-message.h" line="140"/>
         <return-value transfer-ownership="none">
@@ -11004,6 +11171,7 @@ not useful for messages received by a #SoupServer&lt;/para&gt;&lt;/note&gt;</doc
       </method>
       <method name="get_priority"
               c:identifier="soup_message_get_priority"
+              glib:get-property="priority"
               version="2.44">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -11027,6 +11195,7 @@ to #SOUP_MESSAGE_PRIORITY_NORMAL.</doc>
       </method>
       <method name="get_site_for_cookies"
               c:identifier="soup_message_get_site_for_cookies"
+              glib:get-property="site-for-cookies"
               version="2.70">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -11070,7 +11239,9 @@ request. Otherwise it returns %NULL.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_uri" c:identifier="soup_message_get_uri">
+      <method name="get_uri"
+              c:identifier="soup_message_get_uri"
+              glib:get-property="uri">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1692">Gets @msg's URI</doc>
@@ -11280,6 +11451,7 @@ destroyed</doc>
       </method>
       <method name="set_first_party"
               c:identifier="soup_message_set_first_party"
+              glib:set-property="first-party"
               version="2.30">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -11305,7 +11477,9 @@ details of when and how this is used refer to the documentation for
           </parameter>
         </parameters>
       </method>
-      <method name="set_flags" c:identifier="soup_message_set_flags">
+      <method name="set_flags"
+              c:identifier="soup_message_set_flags"
+              glib:set-property="flags">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1520">Sets the specified flags on @msg.</doc>
@@ -11329,7 +11503,8 @@ details of when and how this is used refer to the documentation for
         </parameters>
       </method>
       <method name="set_http_version"
-              c:identifier="soup_message_set_http_version">
+              c:identifier="soup_message_set_http_version"
+              glib:set-property="http-version">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1573">Sets the HTTP version on @msg. The default version is
@@ -11356,6 +11531,7 @@ functionality from being used.</doc>
       </method>
       <method name="set_is_top_level_navigation"
               c:identifier="soup_message_set_is_top_level_navigation"
+              glib:set-property="is-top-level-navigation"
               version="2.70">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -11382,6 +11558,7 @@ for more information.</doc>
       </method>
       <method name="set_priority"
               c:identifier="soup_message_set_priority"
+              glib:set-property="priority"
               version="2.44">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -11558,6 +11735,7 @@ interpreted relative to @msg's current URI. In particular, if
       </method>
       <method name="set_site_for_cookies"
               c:identifier="soup_message_set_site_for_cookies"
+              glib:set-property="site-for-cookies"
               version="2.70">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
@@ -11645,7 +11823,9 @@ known value, it will also set @msg's reason_phrase.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_uri" c:identifier="soup_message_set_uri">
+      <method name="set_uri"
+              c:identifier="soup_message_set_uri"
+              glib:set-property="uri">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1664">Sets @msg's URI to @uri. If @msg has already been sent and you want
@@ -11744,23 +11924,35 @@ soup_session_requeue_message().</doc>
       <property name="first-party"
                 version="2.30"
                 writable="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                setter="set_first_party"
+                getter="get_first_party">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="813">The #SoupURI loaded in the application when the message was
 queued.</doc>
         <type name="URI"/>
       </property>
-      <property name="flags" writable="1" transfer-ownership="none">
+      <property name="flags"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_flags"
+                getter="get_flags">
         <type name="MessageFlags"/>
       </property>
-      <property name="http-version" writable="1" transfer-ownership="none">
+      <property name="http-version"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_http_version"
+                getter="get_http_version">
         <type name="HTTPVersion"/>
       </property>
       <property name="is-top-level-navigation"
                 version="2.70"
                 writable="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                setter="set_is_top_level_navigation"
+                getter="get_is_top_level_navigation">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="843">Set when the message is navigating between top level domains.</doc>
@@ -11769,7 +11961,11 @@ queued.</doc>
       <property name="method" writable="1" transfer-ownership="none">
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="priority" writable="1" transfer-ownership="none">
+      <property name="priority"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_priority"
+                getter="get_priority">
         <type name="MessagePriority"/>
       </property>
       <property name="reason-phrase" writable="1" transfer-ownership="none">
@@ -11809,7 +12005,11 @@ queued.</doc>
                 transfer-ownership="none">
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="site-for-cookies" writable="1" transfer-ownership="none">
+      <property name="site-for-cookies"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_site_for_cookies"
+                getter="get_site_for_cookies">
         <type name="URI"/>
       </property>
       <property name="status-code" writable="1" transfer-ownership="none">
@@ -11833,7 +12033,11 @@ queued.</doc>
              line="990">The verification errors on #SoupMessage:tls-certificate</doc>
         <type name="Gio.TlsCertificateFlags"/>
       </property>
-      <property name="uri" writable="1" transfer-ownership="none">
+      <property name="uri"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_uri"
+                getter="get_uri">
         <type name="URI"/>
       </property>
       <field name="parent">
@@ -12729,7 +12933,8 @@ behavior.</doc>
       <member name="no_redirect"
               value="2"
               c:identifier="SOUP_MESSAGE_NO_REDIRECT"
-              glib:nick="no-redirect">
+              glib:nick="no-redirect"
+              glib:name="SOUP_MESSAGE_NO_REDIRECT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1477">The session should not follow redirect
@@ -12738,7 +12943,8 @@ behavior.</doc>
       <member name="can_rebuild"
               value="4"
               c:identifier="SOUP_MESSAGE_CAN_REBUILD"
-              glib:nick="can-rebuild">
+              glib:nick="can-rebuild"
+              glib:name="SOUP_MESSAGE_CAN_REBUILD">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1479">The caller will rebuild the request
@@ -12748,7 +12954,8 @@ behavior.</doc>
       <member name="overwrite_chunks"
               value="8"
               c:identifier="SOUP_MESSAGE_OVERWRITE_CHUNKS"
-              glib:nick="overwrite-chunks">
+              glib:nick="overwrite-chunks"
+              glib:name="SOUP_MESSAGE_OVERWRITE_CHUNKS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1482">Deprecated: equivalent to calling
@@ -12759,7 +12966,8 @@ behavior.</doc>
       <member name="content_decoded"
               value="16"
               c:identifier="SOUP_MESSAGE_CONTENT_DECODED"
-              glib:nick="content-decoded">
+              glib:nick="content-decoded"
+              glib:name="SOUP_MESSAGE_CONTENT_DECODED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1486">Set by #SoupContentDecoder to
@@ -12770,7 +12978,8 @@ behavior.</doc>
       <member name="certificate_trusted"
               value="32"
               c:identifier="SOUP_MESSAGE_CERTIFICATE_TRUSTED"
-              glib:nick="certificate-trusted">
+              glib:nick="certificate-trusted"
+              glib:name="SOUP_MESSAGE_CERTIFICATE_TRUSTED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1490">if set after an https response
@@ -12780,7 +12989,8 @@ behavior.</doc>
       <member name="new_connection"
               value="64"
               c:identifier="SOUP_MESSAGE_NEW_CONNECTION"
-              glib:nick="new-connection">
+              glib:nick="new-connection"
+              glib:name="SOUP_MESSAGE_NEW_CONNECTION">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1493">Requests that the message should be
@@ -12792,7 +13002,8 @@ behavior.</doc>
       <member name="idempotent"
               value="128"
               c:identifier="SOUP_MESSAGE_IDEMPOTENT"
-              glib:nick="idempotent">
+              glib:nick="idempotent"
+              glib:name="SOUP_MESSAGE_IDEMPOTENT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1498">The message is considered idempotent,
@@ -12803,7 +13014,8 @@ behavior.</doc>
       <member name="ignore_connection_limits"
               value="256"
               c:identifier="SOUP_MESSAGE_IGNORE_CONNECTION_LIMITS"
-              glib:nick="ignore-connection-limits">
+              glib:nick="ignore-connection-limits"
+              glib:name="SOUP_MESSAGE_IGNORE_CONNECTION_LIMITS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1502">Request that a new connection is
@@ -12816,7 +13028,8 @@ behavior.</doc>
       <member name="do_not_use_auth_cache"
               value="512"
               c:identifier="SOUP_MESSAGE_DO_NOT_USE_AUTH_CACHE"
-              glib:nick="do-not-use-auth-cache">
+              glib:nick="do-not-use-auth-cache"
+              glib:name="SOUP_MESSAGE_DO_NOT_USE_AUTH_CACHE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="1508">The #SoupAuthManager should not use
@@ -14052,7 +14265,8 @@ behaviors.</doc>
       <member name="request"
               value="0"
               c:identifier="SOUP_MESSAGE_HEADERS_REQUEST"
-              glib:nick="request">
+              glib:nick="request"
+              glib:name="SOUP_MESSAGE_HEADERS_REQUEST">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="35">request headers</doc>
@@ -14060,7 +14274,8 @@ behaviors.</doc>
       <member name="response"
               value="1"
               c:identifier="SOUP_MESSAGE_HEADERS_RESPONSE"
-              glib:nick="response">
+              glib:nick="response"
+              glib:name="SOUP_MESSAGE_HEADERS_RESPONSE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="36">response headers</doc>
@@ -14068,7 +14283,8 @@ behaviors.</doc>
       <member name="multipart"
               value="2"
               c:identifier="SOUP_MESSAGE_HEADERS_MULTIPART"
-              glib:nick="multipart">
+              glib:nick="multipart"
+              glib:name="SOUP_MESSAGE_HEADERS_MULTIPART">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message-headers.c"
              line="37">multipart body part headers</doc>
@@ -14086,7 +14302,8 @@ priority.</doc>
       <member name="very_low"
               value="0"
               c:identifier="SOUP_MESSAGE_PRIORITY_VERY_LOW"
-              glib:nick="very-low">
+              glib:nick="very-low"
+              glib:name="SOUP_MESSAGE_PRIORITY_VERY_LOW">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="2265">The lowest priority, the messages
@@ -14095,7 +14312,8 @@ priority.</doc>
       <member name="low"
               value="1"
               c:identifier="SOUP_MESSAGE_PRIORITY_LOW"
-              glib:nick="low">
+              glib:nick="low"
+              glib:name="SOUP_MESSAGE_PRIORITY_LOW">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="2267">Use this for low priority messages, a
@@ -14104,7 +14322,8 @@ priority.</doc>
       <member name="normal"
               value="2"
               c:identifier="SOUP_MESSAGE_PRIORITY_NORMAL"
-              glib:nick="normal">
+              glib:nick="normal"
+              glib:name="SOUP_MESSAGE_PRIORITY_NORMAL">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="2269">The default priotity, this is the
@@ -14113,7 +14332,8 @@ priority.</doc>
       <member name="high"
               value="3"
               c:identifier="SOUP_MESSAGE_PRIORITY_HIGH"
-              glib:nick="high">
+              glib:nick="high"
+              glib:name="SOUP_MESSAGE_PRIORITY_HIGH">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="2271">High priority, a #SoupMessage with
@@ -14123,7 +14343,8 @@ priority.</doc>
       <member name="very_high"
               value="4"
               c:identifier="SOUP_MESSAGE_PRIORITY_VERY_HIGH"
-              glib:nick="very-high">
+              glib:nick="very-high"
+              glib:name="SOUP_MESSAGE_PRIORITY_VERY_HIGH">
         <doc xml:space="preserve"
              filename="../libsoup/soup-message.c"
              line="2274">The highest priority, use this
@@ -14740,7 +14961,7 @@ more parts.</doc>
                     c:identifier="SOUP_PROXY_RESOLVER_DEFAULT"
                     introspectable="0">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="11"/>
+                       line="13"/>
       <parameters>
         <parameter name="object">
         </parameter>
@@ -14750,7 +14971,7 @@ more parts.</doc>
                     c:identifier="SOUP_PROXY_RESOLVER_DEFAULT_CLASS"
                     introspectable="0">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="12"/>
+                       line="14"/>
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -14760,7 +14981,7 @@ more parts.</doc>
                     c:identifier="SOUP_PROXY_RESOLVER_DEFAULT_GET_CLASS"
                     introspectable="0">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="15"/>
+                       line="17"/>
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -15259,7 +15480,7 @@ more parts.</doc>
            glib:get-type="soup_proxy_resolver_default_get_type"
            glib:type-struct="ProxyResolverDefaultClass">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="25"/>
+                       line="27"/>
       <implements name="ProxyURIResolver"/>
       <implements name="SessionFeature"/>
       <property name="gproxy-resolver"
@@ -15276,7 +15497,7 @@ more parts.</doc>
             c:type="SoupProxyResolverDefaultClass"
             glib:is-gtype-struct-for="ProxyResolverDefault">
       <source-position filename="../libsoup/soup-proxy-resolver-default.h"
-                       line="25"/>
+                       line="27"/>
       <field name="parent_class">
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
@@ -16242,6 +16463,7 @@ after the MIME type.</doc>
       </method>
       <method name="get_session"
               c:identifier="soup_request_get_session"
+              glib:get-property="session"
               version="2.42">
         <doc xml:space="preserve"
              filename="../libsoup/soup-request.c"
@@ -16264,6 +16486,7 @@ after the MIME type.</doc>
       </method>
       <method name="get_uri"
               c:identifier="soup_request_get_uri"
+              glib:get-property="uri"
               version="2.42">
         <doc xml:space="preserve"
              filename="../libsoup/soup-request.c"
@@ -16407,7 +16630,8 @@ a #SoupSessionSync.</doc>
                 version="2.42"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_session">
         <doc xml:space="preserve"
              filename="../libsoup/soup-request.c"
              line="312">The request's #SoupSession.</doc>
@@ -16417,7 +16641,8 @@ a #SoupSessionSync.</doc>
                 version="2.42"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_uri">
         <doc xml:space="preserve"
              filename="../libsoup/soup-request.c"
              line="290">The request URI.</doc>
@@ -16640,7 +16865,8 @@ a #SoupSessionSync.</doc>
       <member name="bad_uri"
               value="0"
               c:identifier="SOUP_REQUEST_ERROR_BAD_URI"
-              glib:nick="bad-uri">
+              glib:nick="bad-uri"
+              glib:name="SOUP_REQUEST_ERROR_BAD_URI">
         <doc xml:space="preserve"
              filename="../libsoup/soup-session.c"
              line="4732">the URI could not be parsed</doc>
@@ -16648,7 +16874,8 @@ a #SoupSessionSync.</doc>
       <member name="unsupported_uri_scheme"
               value="1"
               c:identifier="SOUP_REQUEST_ERROR_UNSUPPORTED_URI_SCHEME"
-              glib:nick="unsupported-uri-scheme">
+              glib:nick="unsupported-uri-scheme"
+              glib:name="SOUP_REQUEST_ERROR_UNSUPPORTED_URI_SCHEME">
         <doc xml:space="preserve"
              filename="../libsoup/soup-session.c"
              line="4733">the URI scheme is not
@@ -16657,7 +16884,8 @@ a #SoupSessionSync.</doc>
       <member name="parsing"
               value="2"
               c:identifier="SOUP_REQUEST_ERROR_PARSING"
-              glib:nick="parsing">
+              glib:nick="parsing"
+              glib:name="SOUP_REQUEST_ERROR_PARSING">
         <doc xml:space="preserve"
              filename="../libsoup/soup-session.c"
              line="4735">the server's response could not
@@ -16666,7 +16894,8 @@ a #SoupSessionSync.</doc>
       <member name="encoding"
               value="3"
               c:identifier="SOUP_REQUEST_ERROR_ENCODING"
-              glib:nick="encoding">
+              glib:nick="encoding"
+              glib:name="SOUP_REQUEST_ERROR_ENCODING">
         <doc xml:space="preserve"
              filename="../libsoup/soup-session.c"
              line="4737">the server's response was in an
@@ -16851,12 +17080,14 @@ a #SoupSessionSync.</doc>
       <member name="bad_uri"
               value="0"
               c:identifier="SOUP_REQUESTER_ERROR_BAD_URI"
-              glib:nick="bad-uri">
+              glib:nick="bad-uri"
+              glib:name="SOUP_REQUESTER_ERROR_BAD_URI">
       </member>
       <member name="unsupported_uri_scheme"
               value="1"
               c:identifier="SOUP_REQUESTER_ERROR_UNSUPPORTED_URI_SCHEME"
-              glib:nick="unsupported-uri-scheme">
+              glib:nick="unsupported-uri-scheme"
+              glib:name="SOUP_REQUESTER_ERROR_UNSUPPORTED_URI_SCHEME">
       </member>
       <function name="quark" c:identifier="soup_requester_error_quark">
         <return-value transfer-ownership="none">
@@ -17626,7 +17857,8 @@ g_main_context_get_thread_default())</doc>
       <member name="none"
               value="0"
               c:identifier="SOUP_SAME_SITE_POLICY_NONE"
-              glib:nick="none">
+              glib:nick="none"
+              glib:name="SOUP_SAME_SITE_POLICY_NONE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie.h"
              line="15">The cookie is exposed with both cross-site and same-site requests</doc>
@@ -17634,7 +17866,8 @@ g_main_context_get_thread_default())</doc>
       <member name="lax"
               value="1"
               c:identifier="SOUP_SAME_SITE_POLICY_LAX"
-              glib:nick="lax">
+              glib:nick="lax"
+              glib:name="SOUP_SAME_SITE_POLICY_LAX">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie.h"
              line="16">The cookie is withheld on cross-site requests but exposed on cross-site navigations</doc>
@@ -17642,7 +17875,8 @@ g_main_context_get_thread_default())</doc>
       <member name="strict"
               value="2"
               c:identifier="SOUP_SAME_SITE_POLICY_STRICT"
-              glib:nick="strict">
+              glib:nick="strict"
+              glib:name="SOUP_SAME_SITE_POLICY_STRICT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-cookie.h"
              line="17">The cookie is only exposed for same-site requests</doc>
@@ -18156,6 +18390,7 @@ if you want to start listening again.</doc>
       </method>
       <method name="get_async_context"
               c:identifier="soup_server_get_async_context"
+              glib:get-property="async-context"
               deprecated="1">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
@@ -18244,6 +18479,7 @@ list of listening sockets.</doc>
       </method>
       <method name="get_port"
               c:identifier="soup_server_get_port"
+              glib:get-property="port"
               deprecated="1">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
@@ -18832,7 +19068,8 @@ This must only be called on #SoupMessages which were created by the
                 deprecated="1"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_async_context">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
              line="809">The server's #GMainContext, if you are using the old API.
@@ -18905,7 +19142,8 @@ are being listened on.</doc-deprecated>
                 deprecated="1"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_port">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
              line="659">The port the server is listening on, if you are using the
@@ -19348,7 +19586,8 @@ cannot specify both of them in a single call.</doc>
       <member name="https"
               value="1"
               c:identifier="SOUP_SERVER_LISTEN_HTTPS"
-              glib:nick="https">
+              glib:nick="https"
+              glib:name="SOUP_SERVER_LISTEN_HTTPS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
              line="1781">Listen for https connections rather
@@ -19357,7 +19596,8 @@ cannot specify both of them in a single call.</doc>
       <member name="ipv4_only"
               value="2"
               c:identifier="SOUP_SERVER_LISTEN_IPV4_ONLY"
-              glib:nick="ipv4-only">
+              glib:nick="ipv4-only"
+              glib:name="SOUP_SERVER_LISTEN_IPV4_ONLY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
              line="1783">Only listen on IPv4 interfaces.</doc>
@@ -19365,7 +19605,8 @@ cannot specify both of them in a single call.</doc>
       <member name="ipv6_only"
               value="4"
               c:identifier="SOUP_SERVER_LISTEN_IPV6_ONLY"
-              glib:nick="ipv6-only">
+              glib:nick="ipv6-only"
+              glib:name="SOUP_SERVER_LISTEN_IPV6_ONLY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-server.c"
              line="1784">Only listen on IPv6 interfaces.</doc>
@@ -19974,7 +20215,8 @@ will be called for every network event that occurs during the connection.</doc>
         </parameters>
       </method>
       <method name="get_async_context"
-              c:identifier="soup_session_get_async_context">
+              c:identifier="soup_session_get_async_context"
+              glib:get-property="async-context">
         <doc xml:space="preserve"
              filename="../libsoup/soup-session.c"
              line="920">Gets @session's #SoupSession:async-context. This does not add a ref
@@ -21056,7 +21298,8 @@ soup_session_add_feature().)</doc>
       <property name="async-context"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_async_context">
         <doc xml:space="preserve"
              filename="../libsoup/soup-session.c"
              line="3513">The #GMainContext that miscellaneous session-related
@@ -21280,7 +21523,7 @@ See #SoupSession:ssl-strict for more information on how
 https certificate validation is handled.
 
 If you are using #SoupSessionAsync or
-#SoupSessionSync, on libsoup older than 2.72.1, the default value
+#SoupSessionSync, on libsoup older than 2.74.0, the default value
 is %FALSE, for backward compatibility.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
@@ -21328,7 +21571,7 @@ If you are using a plain #SoupSession then
 #SoupSession:ssl-use-system-ca-file will be %TRUE by
 default, and so this property will be a copy of the system
 CA database. If you are using #SoupSessionAsync or
-#SoupSessionSync, on libsoup older than 2.72.1, this property
+#SoupSessionSync, on libsoup older than 2.74.0, this property
 will be %NULL by default.</doc>
         <type name="Gio.TlsDatabase"/>
       </property>
@@ -22769,7 +23012,9 @@ fail.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_fd" c:identifier="soup_socket_get_fd">
+      <method name="get_fd"
+              c:identifier="soup_socket_get_fd"
+              glib:get-property="fd">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1118">Gets @sock's underlying file descriptor.
@@ -22793,7 +23038,8 @@ Note that fiddling with the file descriptor may break the
         </parameters>
       </method>
       <method name="get_local_address"
-              c:identifier="soup_socket_get_local_address">
+              c:identifier="soup_socket_get_local_address"
+              glib:get-property="local-address">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1654">Returns the #SoupAddress corresponding to the local end of @sock.
@@ -22817,7 +23063,8 @@ an error, and produces undefined results.</doc>
         </parameters>
       </method>
       <method name="get_remote_address"
-              c:identifier="soup_socket_get_remote_address">
+              c:identifier="soup_socket_get_remote_address"
+              glib:get-property="remote-address">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1702">Returns the #SoupAddress corresponding to the remote end of @sock.
@@ -23197,7 +23444,8 @@ return value is %SOUP_SOCKET_ERROR.)</doc>
       <property name="fd"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_fd">
         <type name="gint" c:type="gint"/>
       </property>
       <property name="gsocket"
@@ -23232,7 +23480,8 @@ sockets.</doc>
       <property name="local-address"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_local_address">
         <type name="Address"/>
       </property>
       <property name="non-blocking" writable="1" transfer-ownership="none">
@@ -23263,7 +23512,8 @@ code that handles that case just won't get used for them.</doc>
       <property name="remote-address"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_remote_address">
         <type name="Address"/>
       </property>
       <property name="socket-properties"
@@ -23520,7 +23770,11 @@ soup_socket_write() and #SoupSocket:non-blocking.</doc>
       <doc xml:space="preserve"
            filename="../libsoup/soup-socket.c"
            line="1817">Return value from the #SoupSocket IO methods.</doc>
-      <member name="ok" value="0" c:identifier="SOUP_SOCKET_OK" glib:nick="ok">
+      <member name="ok"
+              value="0"
+              c:identifier="SOUP_SOCKET_OK"
+              glib:nick="ok"
+              glib:name="SOUP_SOCKET_OK">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1819">Success</doc>
@@ -23528,7 +23782,8 @@ soup_socket_write() and #SoupSocket:non-blocking.</doc>
       <member name="would_block"
               value="1"
               c:identifier="SOUP_SOCKET_WOULD_BLOCK"
-              glib:nick="would-block">
+              glib:nick="would-block"
+              glib:name="SOUP_SOCKET_WOULD_BLOCK">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1820">Cannot read/write any more at this time</doc>
@@ -23536,7 +23791,8 @@ soup_socket_write() and #SoupSocket:non-blocking.</doc>
       <member name="eof"
               value="2"
               c:identifier="SOUP_SOCKET_EOF"
-              glib:nick="eof">
+              glib:nick="eof"
+              glib:name="SOUP_SOCKET_EOF">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1821">End of file</doc>
@@ -23544,7 +23800,8 @@ soup_socket_write() and #SoupSocket:non-blocking.</doc>
       <member name="error"
               value="3"
               c:identifier="SOUP_SOCKET_ERROR"
-              glib:nick="error">
+              glib:nick="error"
+              glib:name="SOUP_SOCKET_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-socket.c"
              line="1822">Other error</doc>
@@ -23569,7 +23826,8 @@ have always had the names they have now.</doc>
       <member name="none"
               value="0"
               c:identifier="SOUP_STATUS_NONE"
-              glib:nick="none">
+              glib:nick="none"
+              glib:name="SOUP_STATUS_NONE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="72">No status available. (Eg, the message has not
@@ -23578,7 +23836,8 @@ been sent yet)</doc>
       <member name="cancelled"
               value="1"
               c:identifier="SOUP_STATUS_CANCELLED"
-              glib:nick="cancelled">
+              glib:nick="cancelled"
+              glib:name="SOUP_STATUS_CANCELLED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="74">Message was cancelled locally</doc>
@@ -23586,7 +23845,8 @@ been sent yet)</doc>
       <member name="cant_resolve"
               value="2"
               c:identifier="SOUP_STATUS_CANT_RESOLVE"
-              glib:nick="cant-resolve">
+              glib:nick="cant-resolve"
+              glib:name="SOUP_STATUS_CANT_RESOLVE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="75">Unable to resolve destination host name</doc>
@@ -23594,7 +23854,8 @@ been sent yet)</doc>
       <member name="cant_resolve_proxy"
               value="3"
               c:identifier="SOUP_STATUS_CANT_RESOLVE_PROXY"
-              glib:nick="cant-resolve-proxy">
+              glib:nick="cant-resolve-proxy"
+              glib:name="SOUP_STATUS_CANT_RESOLVE_PROXY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="76">Unable to resolve proxy host name</doc>
@@ -23602,7 +23863,8 @@ been sent yet)</doc>
       <member name="cant_connect"
               value="4"
               c:identifier="SOUP_STATUS_CANT_CONNECT"
-              glib:nick="cant-connect">
+              glib:nick="cant-connect"
+              glib:name="SOUP_STATUS_CANT_CONNECT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="77">Unable to connect to remote host</doc>
@@ -23610,7 +23872,8 @@ been sent yet)</doc>
       <member name="cant_connect_proxy"
               value="5"
               c:identifier="SOUP_STATUS_CANT_CONNECT_PROXY"
-              glib:nick="cant-connect-proxy">
+              glib:nick="cant-connect-proxy"
+              glib:name="SOUP_STATUS_CANT_CONNECT_PROXY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="78">Unable to connect to proxy</doc>
@@ -23618,7 +23881,8 @@ been sent yet)</doc>
       <member name="ssl_failed"
               value="6"
               c:identifier="SOUP_STATUS_SSL_FAILED"
-              glib:nick="ssl-failed">
+              glib:nick="ssl-failed"
+              glib:name="SOUP_STATUS_SSL_FAILED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="79">SSL/TLS negotiation failed</doc>
@@ -23626,7 +23890,8 @@ been sent yet)</doc>
       <member name="io_error"
               value="7"
               c:identifier="SOUP_STATUS_IO_ERROR"
-              glib:nick="io-error">
+              glib:nick="io-error"
+              glib:name="SOUP_STATUS_IO_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="80">A network error occurred, or the other end
@@ -23635,7 +23900,8 @@ closed the connection unexpectedly</doc>
       <member name="malformed"
               value="8"
               c:identifier="SOUP_STATUS_MALFORMED"
-              glib:nick="malformed">
+              glib:nick="malformed"
+              glib:name="SOUP_STATUS_MALFORMED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="82">Malformed data (usually a programmer error)</doc>
@@ -23643,7 +23909,8 @@ closed the connection unexpectedly</doc>
       <member name="try_again"
               value="9"
               c:identifier="SOUP_STATUS_TRY_AGAIN"
-              glib:nick="try-again">
+              glib:nick="try-again"
+              glib:name="SOUP_STATUS_TRY_AGAIN">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="83">Used internally</doc>
@@ -23651,7 +23918,8 @@ closed the connection unexpectedly</doc>
       <member name="too_many_redirects"
               value="10"
               c:identifier="SOUP_STATUS_TOO_MANY_REDIRECTS"
-              glib:nick="too-many-redirects">
+              glib:nick="too-many-redirects"
+              glib:name="SOUP_STATUS_TOO_MANY_REDIRECTS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="84">There were too many redirections</doc>
@@ -23659,7 +23927,8 @@ closed the connection unexpectedly</doc>
       <member name="tls_failed"
               value="11"
               c:identifier="SOUP_STATUS_TLS_FAILED"
-              glib:nick="tls-failed">
+              glib:nick="tls-failed"
+              glib:name="SOUP_STATUS_TLS_FAILED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="85">Used internally</doc>
@@ -23667,7 +23936,8 @@ closed the connection unexpectedly</doc>
       <member name="continue"
               value="100"
               c:identifier="SOUP_STATUS_CONTINUE"
-              glib:nick="continue">
+              glib:nick="continue"
+              glib:name="SOUP_STATUS_CONTINUE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="86">100 Continue (HTTP)</doc>
@@ -23675,7 +23945,8 @@ closed the connection unexpectedly</doc>
       <member name="switching_protocols"
               value="101"
               c:identifier="SOUP_STATUS_SWITCHING_PROTOCOLS"
-              glib:nick="switching-protocols">
+              glib:nick="switching-protocols"
+              glib:name="SOUP_STATUS_SWITCHING_PROTOCOLS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="87">101 Switching Protocols (HTTP)</doc>
@@ -23683,7 +23954,8 @@ closed the connection unexpectedly</doc>
       <member name="processing"
               value="102"
               c:identifier="SOUP_STATUS_PROCESSING"
-              glib:nick="processing">
+              glib:nick="processing"
+              glib:name="SOUP_STATUS_PROCESSING">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="88">102 Processing (WebDAV)</doc>
@@ -23691,7 +23963,8 @@ closed the connection unexpectedly</doc>
       <member name="ok"
               value="200"
               c:identifier="SOUP_STATUS_OK"
-              glib:nick="ok">
+              glib:nick="ok"
+              glib:name="SOUP_STATUS_OK">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="89">200 Success (HTTP). Also used by many lower-level
@@ -23700,7 +23973,8 @@ soup routines to indicate success.</doc>
       <member name="created"
               value="201"
               c:identifier="SOUP_STATUS_CREATED"
-              glib:nick="created">
+              glib:nick="created"
+              glib:name="SOUP_STATUS_CREATED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="91">201 Created (HTTP)</doc>
@@ -23708,7 +23982,8 @@ soup routines to indicate success.</doc>
       <member name="accepted"
               value="202"
               c:identifier="SOUP_STATUS_ACCEPTED"
-              glib:nick="accepted">
+              glib:nick="accepted"
+              glib:name="SOUP_STATUS_ACCEPTED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="92">202 Accepted (HTTP)</doc>
@@ -23716,7 +23991,8 @@ soup routines to indicate success.</doc>
       <member name="non_authoritative"
               value="203"
               c:identifier="SOUP_STATUS_NON_AUTHORITATIVE"
-              glib:nick="non-authoritative">
+              glib:nick="non-authoritative"
+              glib:name="SOUP_STATUS_NON_AUTHORITATIVE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="93">203 Non-Authoritative Information
@@ -23725,7 +24001,8 @@ soup routines to indicate success.</doc>
       <member name="no_content"
               value="204"
               c:identifier="SOUP_STATUS_NO_CONTENT"
-              glib:nick="no-content">
+              glib:nick="no-content"
+              glib:name="SOUP_STATUS_NO_CONTENT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="95">204 No Content (HTTP)</doc>
@@ -23733,7 +24010,8 @@ soup routines to indicate success.</doc>
       <member name="reset_content"
               value="205"
               c:identifier="SOUP_STATUS_RESET_CONTENT"
-              glib:nick="reset-content">
+              glib:nick="reset-content"
+              glib:name="SOUP_STATUS_RESET_CONTENT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="96">205 Reset Content (HTTP)</doc>
@@ -23741,7 +24019,8 @@ soup routines to indicate success.</doc>
       <member name="partial_content"
               value="206"
               c:identifier="SOUP_STATUS_PARTIAL_CONTENT"
-              glib:nick="partial-content">
+              glib:nick="partial-content"
+              glib:name="SOUP_STATUS_PARTIAL_CONTENT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="97">206 Partial Content (HTTP)</doc>
@@ -23749,7 +24028,8 @@ soup routines to indicate success.</doc>
       <member name="multi_status"
               value="207"
               c:identifier="SOUP_STATUS_MULTI_STATUS"
-              glib:nick="multi-status">
+              glib:nick="multi-status"
+              glib:name="SOUP_STATUS_MULTI_STATUS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="98">207 Multi-Status (WebDAV)</doc>
@@ -23757,7 +24037,8 @@ soup routines to indicate success.</doc>
       <member name="multiple_choices"
               value="300"
               c:identifier="SOUP_STATUS_MULTIPLE_CHOICES"
-              glib:nick="multiple-choices">
+              glib:nick="multiple-choices"
+              glib:name="SOUP_STATUS_MULTIPLE_CHOICES">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="99">300 Multiple Choices (HTTP)</doc>
@@ -23765,7 +24046,8 @@ soup routines to indicate success.</doc>
       <member name="moved_permanently"
               value="301"
               c:identifier="SOUP_STATUS_MOVED_PERMANENTLY"
-              glib:nick="moved-permanently">
+              glib:nick="moved-permanently"
+              glib:name="SOUP_STATUS_MOVED_PERMANENTLY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="100">301 Moved Permanently (HTTP)</doc>
@@ -23773,7 +24055,8 @@ soup routines to indicate success.</doc>
       <member name="found"
               value="302"
               c:identifier="SOUP_STATUS_FOUND"
-              glib:nick="found">
+              glib:nick="found"
+              glib:name="SOUP_STATUS_FOUND">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="101">302 Found (HTTP)</doc>
@@ -23781,7 +24064,8 @@ soup routines to indicate success.</doc>
       <member name="moved_temporarily"
               value="302"
               c:identifier="SOUP_STATUS_MOVED_TEMPORARILY"
-              glib:nick="moved-temporarily">
+              glib:nick="moved-temporarily"
+              glib:name="SOUP_STATUS_MOVED_TEMPORARILY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="102">302 Moved Temporarily (old name,
@@ -23790,7 +24074,8 @@ RFC 2068)</doc>
       <member name="see_other"
               value="303"
               c:identifier="SOUP_STATUS_SEE_OTHER"
-              glib:nick="see-other">
+              glib:nick="see-other"
+              glib:name="SOUP_STATUS_SEE_OTHER">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="104">303 See Other (HTTP)</doc>
@@ -23798,7 +24083,8 @@ RFC 2068)</doc>
       <member name="not_modified"
               value="304"
               c:identifier="SOUP_STATUS_NOT_MODIFIED"
-              glib:nick="not-modified">
+              glib:nick="not-modified"
+              glib:name="SOUP_STATUS_NOT_MODIFIED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="105">304 Not Modified (HTTP)</doc>
@@ -23806,7 +24092,8 @@ RFC 2068)</doc>
       <member name="use_proxy"
               value="305"
               c:identifier="SOUP_STATUS_USE_PROXY"
-              glib:nick="use-proxy">
+              glib:nick="use-proxy"
+              glib:name="SOUP_STATUS_USE_PROXY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="106">305 Use Proxy (HTTP)</doc>
@@ -23814,7 +24101,8 @@ RFC 2068)</doc>
       <member name="not_appearing_in_this_protocol"
               value="306"
               c:identifier="SOUP_STATUS_NOT_APPEARING_IN_THIS_PROTOCOL"
-              glib:nick="not-appearing-in-this-protocol">
+              glib:nick="not-appearing-in-this-protocol"
+              glib:name="SOUP_STATUS_NOT_APPEARING_IN_THIS_PROTOCOL">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="107">306 [Unused] (HTTP)</doc>
@@ -23822,7 +24110,8 @@ RFC 2068)</doc>
       <member name="temporary_redirect"
               value="307"
               c:identifier="SOUP_STATUS_TEMPORARY_REDIRECT"
-              glib:nick="temporary-redirect">
+              glib:nick="temporary-redirect"
+              glib:name="SOUP_STATUS_TEMPORARY_REDIRECT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="108">307 Temporary Redirect (HTTP)</doc>
@@ -23830,12 +24119,14 @@ RFC 2068)</doc>
       <member name="permanent_redirect"
               value="308"
               c:identifier="SOUP_STATUS_PERMANENT_REDIRECT"
-              glib:nick="permanent-redirect">
+              glib:nick="permanent-redirect"
+              glib:name="SOUP_STATUS_PERMANENT_REDIRECT">
       </member>
       <member name="bad_request"
               value="400"
               c:identifier="SOUP_STATUS_BAD_REQUEST"
-              glib:nick="bad-request">
+              glib:nick="bad-request"
+              glib:name="SOUP_STATUS_BAD_REQUEST">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="109">400 Bad Request (HTTP)</doc>
@@ -23843,7 +24134,8 @@ RFC 2068)</doc>
       <member name="unauthorized"
               value="401"
               c:identifier="SOUP_STATUS_UNAUTHORIZED"
-              glib:nick="unauthorized">
+              glib:nick="unauthorized"
+              glib:name="SOUP_STATUS_UNAUTHORIZED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="110">401 Unauthorized (HTTP)</doc>
@@ -23851,7 +24143,8 @@ RFC 2068)</doc>
       <member name="payment_required"
               value="402"
               c:identifier="SOUP_STATUS_PAYMENT_REQUIRED"
-              glib:nick="payment-required">
+              glib:nick="payment-required"
+              glib:name="SOUP_STATUS_PAYMENT_REQUIRED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="111">402 Payment Required (HTTP)</doc>
@@ -23859,7 +24152,8 @@ RFC 2068)</doc>
       <member name="forbidden"
               value="403"
               c:identifier="SOUP_STATUS_FORBIDDEN"
-              glib:nick="forbidden">
+              glib:nick="forbidden"
+              glib:name="SOUP_STATUS_FORBIDDEN">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="112">403 Forbidden (HTTP)</doc>
@@ -23867,7 +24161,8 @@ RFC 2068)</doc>
       <member name="not_found"
               value="404"
               c:identifier="SOUP_STATUS_NOT_FOUND"
-              glib:nick="not-found">
+              glib:nick="not-found"
+              glib:name="SOUP_STATUS_NOT_FOUND">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="113">404 Not Found (HTTP)</doc>
@@ -23875,7 +24170,8 @@ RFC 2068)</doc>
       <member name="method_not_allowed"
               value="405"
               c:identifier="SOUP_STATUS_METHOD_NOT_ALLOWED"
-              glib:nick="method-not-allowed">
+              glib:nick="method-not-allowed"
+              glib:name="SOUP_STATUS_METHOD_NOT_ALLOWED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="114">405 Method Not Allowed (HTTP)</doc>
@@ -23883,7 +24179,8 @@ RFC 2068)</doc>
       <member name="not_acceptable"
               value="406"
               c:identifier="SOUP_STATUS_NOT_ACCEPTABLE"
-              glib:nick="not-acceptable">
+              glib:nick="not-acceptable"
+              glib:name="SOUP_STATUS_NOT_ACCEPTABLE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="115">406 Not Acceptable (HTTP)</doc>
@@ -23891,7 +24188,8 @@ RFC 2068)</doc>
       <member name="proxy_authentication_required"
               value="407"
               c:identifier="SOUP_STATUS_PROXY_AUTHENTICATION_REQUIRED"
-              glib:nick="proxy-authentication-required">
+              glib:nick="proxy-authentication-required"
+              glib:name="SOUP_STATUS_PROXY_AUTHENTICATION_REQUIRED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="116">407 Proxy Authentication
@@ -23900,7 +24198,8 @@ Required (HTTP)</doc>
       <member name="proxy_unauthorized"
               value="407"
               c:identifier="SOUP_STATUS_PROXY_UNAUTHORIZED"
-              glib:nick="proxy-unauthorized">
+              glib:nick="proxy-unauthorized"
+              glib:name="SOUP_STATUS_PROXY_UNAUTHORIZED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="118">shorter alias for
@@ -23909,7 +24208,8 @@ Required (HTTP)</doc>
       <member name="request_timeout"
               value="408"
               c:identifier="SOUP_STATUS_REQUEST_TIMEOUT"
-              glib:nick="request-timeout">
+              glib:nick="request-timeout"
+              glib:name="SOUP_STATUS_REQUEST_TIMEOUT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="120">408 Request Timeout (HTTP)</doc>
@@ -23917,7 +24217,8 @@ Required (HTTP)</doc>
       <member name="conflict"
               value="409"
               c:identifier="SOUP_STATUS_CONFLICT"
-              glib:nick="conflict">
+              glib:nick="conflict"
+              glib:name="SOUP_STATUS_CONFLICT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="121">409 Conflict (HTTP)</doc>
@@ -23925,7 +24226,8 @@ Required (HTTP)</doc>
       <member name="gone"
               value="410"
               c:identifier="SOUP_STATUS_GONE"
-              glib:nick="gone">
+              glib:nick="gone"
+              glib:name="SOUP_STATUS_GONE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="122">410 Gone (HTTP)</doc>
@@ -23933,7 +24235,8 @@ Required (HTTP)</doc>
       <member name="length_required"
               value="411"
               c:identifier="SOUP_STATUS_LENGTH_REQUIRED"
-              glib:nick="length-required">
+              glib:nick="length-required"
+              glib:name="SOUP_STATUS_LENGTH_REQUIRED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="123">411 Length Required (HTTP)</doc>
@@ -23941,7 +24244,8 @@ Required (HTTP)</doc>
       <member name="precondition_failed"
               value="412"
               c:identifier="SOUP_STATUS_PRECONDITION_FAILED"
-              glib:nick="precondition-failed">
+              glib:nick="precondition-failed"
+              glib:name="SOUP_STATUS_PRECONDITION_FAILED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="124">412 Precondition Failed (HTTP)</doc>
@@ -23949,7 +24253,8 @@ Required (HTTP)</doc>
       <member name="request_entity_too_large"
               value="413"
               c:identifier="SOUP_STATUS_REQUEST_ENTITY_TOO_LARGE"
-              glib:nick="request-entity-too-large">
+              glib:nick="request-entity-too-large"
+              glib:name="SOUP_STATUS_REQUEST_ENTITY_TOO_LARGE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="125">413 Request Entity Too Large
@@ -23958,7 +24263,8 @@ Required (HTTP)</doc>
       <member name="request_uri_too_long"
               value="414"
               c:identifier="SOUP_STATUS_REQUEST_URI_TOO_LONG"
-              glib:nick="request-uri-too-long">
+              glib:nick="request-uri-too-long"
+              glib:name="SOUP_STATUS_REQUEST_URI_TOO_LONG">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="127">414 Request-URI Too Long (HTTP)</doc>
@@ -23966,7 +24272,8 @@ Required (HTTP)</doc>
       <member name="unsupported_media_type"
               value="415"
               c:identifier="SOUP_STATUS_UNSUPPORTED_MEDIA_TYPE"
-              glib:nick="unsupported-media-type">
+              glib:nick="unsupported-media-type"
+              glib:name="SOUP_STATUS_UNSUPPORTED_MEDIA_TYPE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="128">415 Unsupported Media Type
@@ -23975,7 +24282,8 @@ Required (HTTP)</doc>
       <member name="requested_range_not_satisfiable"
               value="416"
               c:identifier="SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE"
-              glib:nick="requested-range-not-satisfiable">
+              glib:nick="requested-range-not-satisfiable"
+              glib:name="SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="130">416 Requested Range
@@ -23984,7 +24292,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="invalid_range"
               value="416"
               c:identifier="SOUP_STATUS_INVALID_RANGE"
-              glib:nick="invalid-range">
+              glib:nick="invalid-range"
+              glib:name="SOUP_STATUS_INVALID_RANGE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="132">shorter alias for
@@ -23993,7 +24302,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="expectation_failed"
               value="417"
               c:identifier="SOUP_STATUS_EXPECTATION_FAILED"
-              glib:nick="expectation-failed">
+              glib:nick="expectation-failed"
+              glib:name="SOUP_STATUS_EXPECTATION_FAILED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="134">417 Expectation Failed (HTTP)</doc>
@@ -24001,7 +24311,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="unprocessable_entity"
               value="422"
               c:identifier="SOUP_STATUS_UNPROCESSABLE_ENTITY"
-              glib:nick="unprocessable-entity">
+              glib:nick="unprocessable-entity"
+              glib:name="SOUP_STATUS_UNPROCESSABLE_ENTITY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="135">422 Unprocessable Entity
@@ -24010,7 +24321,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="locked"
               value="423"
               c:identifier="SOUP_STATUS_LOCKED"
-              glib:nick="locked">
+              glib:nick="locked"
+              glib:name="SOUP_STATUS_LOCKED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="137">423 Locked (WebDAV)</doc>
@@ -24018,7 +24330,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="failed_dependency"
               value="424"
               c:identifier="SOUP_STATUS_FAILED_DEPENDENCY"
-              glib:nick="failed-dependency">
+              glib:nick="failed-dependency"
+              glib:name="SOUP_STATUS_FAILED_DEPENDENCY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="138">424 Failed Dependency (WebDAV)</doc>
@@ -24026,7 +24339,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="internal_server_error"
               value="500"
               c:identifier="SOUP_STATUS_INTERNAL_SERVER_ERROR"
-              glib:nick="internal-server-error">
+              glib:nick="internal-server-error"
+              glib:name="SOUP_STATUS_INTERNAL_SERVER_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="139">500 Internal Server Error
@@ -24035,7 +24349,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="not_implemented"
               value="501"
               c:identifier="SOUP_STATUS_NOT_IMPLEMENTED"
-              glib:nick="not-implemented">
+              glib:nick="not-implemented"
+              glib:name="SOUP_STATUS_NOT_IMPLEMENTED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="141">501 Not Implemented (HTTP)</doc>
@@ -24043,7 +24358,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="bad_gateway"
               value="502"
               c:identifier="SOUP_STATUS_BAD_GATEWAY"
-              glib:nick="bad-gateway">
+              glib:nick="bad-gateway"
+              glib:name="SOUP_STATUS_BAD_GATEWAY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="142">502 Bad Gateway (HTTP)</doc>
@@ -24051,7 +24367,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="service_unavailable"
               value="503"
               c:identifier="SOUP_STATUS_SERVICE_UNAVAILABLE"
-              glib:nick="service-unavailable">
+              glib:nick="service-unavailable"
+              glib:name="SOUP_STATUS_SERVICE_UNAVAILABLE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="143">503 Service Unavailable (HTTP)</doc>
@@ -24059,7 +24376,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="gateway_timeout"
               value="504"
               c:identifier="SOUP_STATUS_GATEWAY_TIMEOUT"
-              glib:nick="gateway-timeout">
+              glib:nick="gateway-timeout"
+              glib:name="SOUP_STATUS_GATEWAY_TIMEOUT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="144">504 Gateway Timeout (HTTP)</doc>
@@ -24067,7 +24385,8 @@ Not Satisfiable (HTTP)</doc>
       <member name="http_version_not_supported"
               value="505"
               c:identifier="SOUP_STATUS_HTTP_VERSION_NOT_SUPPORTED"
-              glib:nick="http-version-not-supported">
+              glib:nick="http-version-not-supported"
+              glib:name="SOUP_STATUS_HTTP_VERSION_NOT_SUPPORTED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="145">505 HTTP Version Not
@@ -24076,7 +24395,8 @@ Supported (HTTP)</doc>
       <member name="insufficient_storage"
               value="507"
               c:identifier="SOUP_STATUS_INSUFFICIENT_STORAGE"
-              glib:nick="insufficient-storage">
+              glib:nick="insufficient-storage"
+              glib:name="SOUP_STATUS_INSUFFICIENT_STORAGE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="147">507 Insufficient Storage
@@ -24085,7 +24405,8 @@ Supported (HTTP)</doc>
       <member name="not_extended"
               value="510"
               c:identifier="SOUP_STATUS_NOT_EXTENDED"
-              glib:nick="not-extended">
+              glib:nick="not-extended"
+              glib:name="SOUP_STATUS_NOT_EXTENDED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-status.c"
              line="149">510 Not Extended (RFC 2774)</doc>
@@ -24160,7 +24481,8 @@ through unchanged.</doc>
       <member name="invalid_hostname"
               value="0"
               c:identifier="SOUP_TLD_ERROR_INVALID_HOSTNAME"
-              glib:nick="invalid-hostname">
+              glib:nick="invalid-hostname"
+              glib:name="SOUP_TLD_ERROR_INVALID_HOSTNAME">
         <doc xml:space="preserve"
              filename="../libsoup/soup-tld.c"
              line="115">A hostname was syntactically
@@ -24169,7 +24491,8 @@ through unchanged.</doc>
       <member name="is_ip_address"
               value="1"
               c:identifier="SOUP_TLD_ERROR_IS_IP_ADDRESS"
-              glib:nick="is-ip-address">
+              glib:nick="is-ip-address"
+              glib:name="SOUP_TLD_ERROR_IS_IP_ADDRESS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-tld.c"
              line="117">The passed-in "hostname" was
@@ -24179,7 +24502,8 @@ through unchanged.</doc>
       <member name="not_enough_domains"
               value="2"
               c:identifier="SOUP_TLD_ERROR_NOT_ENOUGH_DOMAINS"
-              glib:nick="not-enough-domains">
+              glib:nick="not-enough-domains"
+              glib:name="SOUP_TLD_ERROR_NOT_ENOUGH_DOMAINS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-tld.c"
              line="120">The passed-in hostname
@@ -24189,7 +24513,8 @@ through unchanged.</doc>
       <member name="no_base_domain"
               value="3"
               c:identifier="SOUP_TLD_ERROR_NO_BASE_DOMAIN"
-              glib:nick="no-base-domain">
+              glib:nick="no-base-domain"
+              glib:name="SOUP_TLD_ERROR_NO_BASE_DOMAIN">
         <doc xml:space="preserve"
              filename="../libsoup/soup-tld.c"
              line="123">The passed-in hostname has
@@ -24198,7 +24523,8 @@ through unchanged.</doc>
       <member name="no_psl_data"
               value="4"
               c:identifier="SOUP_TLD_ERROR_NO_PSL_DATA"
-              glib:nick="no-psl-data">
+              glib:nick="no-psl-data"
+              glib:name="SOUP_TLD_ERROR_NO_PSL_DATA">
       </member>
       <function name="quark" c:identifier="soup_tld_error_quark">
         <return-value transfer-ownership="none">
@@ -25339,7 +25665,8 @@ are also allowed.)</doc>
       <member name="normal"
               value="1000"
               c:identifier="SOUP_WEBSOCKET_CLOSE_NORMAL"
-              glib:nick="normal">
+              glib:nick="normal"
+              glib:name="SOUP_WEBSOCKET_CLOSE_NORMAL">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="113">a normal, non-error close</doc>
@@ -25347,7 +25674,8 @@ are also allowed.)</doc>
       <member name="going_away"
               value="1001"
               c:identifier="SOUP_WEBSOCKET_CLOSE_GOING_AWAY"
-              glib:nick="going-away">
+              glib:nick="going-away"
+              glib:name="SOUP_WEBSOCKET_CLOSE_GOING_AWAY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="114">the client/server is going away</doc>
@@ -25355,7 +25683,8 @@ are also allowed.)</doc>
       <member name="protocol_error"
               value="1002"
               c:identifier="SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR"
-              glib:nick="protocol-error">
+              glib:nick="protocol-error"
+              glib:name="SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="115">a protocol error occurred</doc>
@@ -25363,7 +25692,8 @@ are also allowed.)</doc>
       <member name="unsupported_data"
               value="1003"
               c:identifier="SOUP_WEBSOCKET_CLOSE_UNSUPPORTED_DATA"
-              glib:nick="unsupported-data">
+              glib:nick="unsupported-data"
+              glib:name="SOUP_WEBSOCKET_CLOSE_UNSUPPORTED_DATA">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="116">the endpoint received data
@@ -25372,7 +25702,8 @@ are also allowed.)</doc>
       <member name="no_status"
               value="1005"
               c:identifier="SOUP_WEBSOCKET_CLOSE_NO_STATUS"
-              glib:nick="no-status">
+              glib:nick="no-status"
+              glib:name="SOUP_WEBSOCKET_CLOSE_NO_STATUS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="118">reserved value indicating that
@@ -25381,7 +25712,8 @@ are also allowed.)</doc>
       <member name="abnormal"
               value="1006"
               c:identifier="SOUP_WEBSOCKET_CLOSE_ABNORMAL"
-              glib:nick="abnormal">
+              glib:nick="abnormal"
+              glib:name="SOUP_WEBSOCKET_CLOSE_ABNORMAL">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="120">reserved value indicating that
@@ -25390,7 +25722,8 @@ are also allowed.)</doc>
       <member name="bad_data"
               value="1007"
               c:identifier="SOUP_WEBSOCKET_CLOSE_BAD_DATA"
-              glib:nick="bad-data">
+              glib:nick="bad-data"
+              glib:name="SOUP_WEBSOCKET_CLOSE_BAD_DATA">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="122">the endpoint received data that
@@ -25399,7 +25732,8 @@ are also allowed.)</doc>
       <member name="policy_violation"
               value="1008"
               c:identifier="SOUP_WEBSOCKET_CLOSE_POLICY_VIOLATION"
-              glib:nick="policy-violation">
+              glib:nick="policy-violation"
+              glib:name="SOUP_WEBSOCKET_CLOSE_POLICY_VIOLATION">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="124">generic error code
@@ -25408,7 +25742,8 @@ are also allowed.)</doc>
       <member name="too_big"
               value="1009"
               c:identifier="SOUP_WEBSOCKET_CLOSE_TOO_BIG"
-              glib:nick="too-big">
+              glib:nick="too-big"
+              glib:name="SOUP_WEBSOCKET_CLOSE_TOO_BIG">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="126">the endpoint received a message
@@ -25417,7 +25752,8 @@ are also allowed.)</doc>
       <member name="no_extension"
               value="1010"
               c:identifier="SOUP_WEBSOCKET_CLOSE_NO_EXTENSION"
-              glib:nick="no-extension">
+              glib:nick="no-extension"
+              glib:name="SOUP_WEBSOCKET_CLOSE_NO_EXTENSION">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="128">the client is closing the
@@ -25427,7 +25763,8 @@ are also allowed.)</doc>
       <member name="server_error"
               value="1011"
               c:identifier="SOUP_WEBSOCKET_CLOSE_SERVER_ERROR"
-              glib:nick="server-error">
+              glib:nick="server-error"
+              glib:name="SOUP_WEBSOCKET_CLOSE_SERVER_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="131">the server is closing the
@@ -25436,7 +25773,8 @@ are also allowed.)</doc>
       <member name="tls_handshake"
               value="1015"
               c:identifier="SOUP_WEBSOCKET_CLOSE_TLS_HANDSHAKE"
-              glib:nick="tls-handshake">
+              glib:nick="tls-handshake"
+              glib:name="SOUP_WEBSOCKET_CLOSE_TLS_HANDSHAKE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="133">reserved value indicating that
@@ -25757,6 +26095,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_connection_type"
               c:identifier="soup_websocket_connection_get_connection_type"
+              glib:get-property="connection-type"
               version="2.50">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25782,6 +26121,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_extensions"
               c:identifier="soup_websocket_connection_get_extensions"
+              glib:get-property="extensions"
               version="2.68">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25808,6 +26148,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_io_stream"
               c:identifier="soup_websocket_connection_get_io_stream"
+              glib:get-property="io-stream"
               version="2.50">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25832,6 +26173,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_keepalive_interval"
               c:identifier="soup_websocket_connection_get_keepalive_interval"
+              glib:get-property="keepalive-interval"
               version="2.58">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25856,6 +26198,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_max_incoming_payload_size"
               c:identifier="soup_websocket_connection_get_max_incoming_payload_size"
+              glib:get-property="max-incoming-payload-size"
               version="2.56">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25880,6 +26223,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_origin"
               c:identifier="soup_websocket_connection_get_origin"
+              glib:get-property="origin"
               version="2.50">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25904,6 +26248,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_protocol"
               c:identifier="soup_websocket_connection_get_protocol"
+              glib:get-property="protocol"
               version="2.50">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25928,6 +26273,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_state"
               c:identifier="soup_websocket_connection_get_state"
+              glib:get-property="state"
               version="2.50">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -25952,6 +26298,7 @@ the main loop is run, so copy it if you need to keep it around.</doc>
       </method>
       <method name="get_uri"
               c:identifier="soup_websocket_connection_get_uri"
+              glib:get-property="uri"
               version="2.50">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -26089,6 +26436,7 @@ is run.</doc>
       </method>
       <method name="set_keepalive_interval"
               c:identifier="soup_websocket_connection_set_keepalive_interval"
+              glib:set-property="keepalive-interval"
               version="2.58">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -26117,6 +26465,7 @@ as a keepalive message. If set to 0 the keepalive message is disabled.</doc>
       </method>
       <method name="set_max_incoming_payload_size"
               c:identifier="soup_websocket_connection_set_max_incoming_payload_size"
+              glib:set-property="max-incoming-payload-size"
               version="2.56">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
@@ -26148,7 +26497,8 @@ does not limit the outgoing packet size.</doc>
                 version="2.50"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_connection_type">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1496">The type of connection (client/server).</doc>
@@ -26158,7 +26508,8 @@ does not limit the outgoing packet size.</doc>
                 version="2.68"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_extensions">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1620">List of #SoupWebsocketExtension objects that are active in the connection.</doc>
@@ -26168,7 +26519,8 @@ does not limit the outgoing packet size.</doc>
                 version="2.50"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_io_stream">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1477">The underlying IO stream the WebSocket is communicating
@@ -26181,7 +26533,9 @@ The input and output streams must be pollable streams.</doc>
                 version="2.58"
                 writable="1"
                 construct="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                setter="set_keepalive_interval"
+                getter="get_keepalive_interval">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1600">Interval in seconds on when to send a ping message which will
@@ -26193,7 +26547,9 @@ disabled.</doc>
                 version="2.56"
                 writable="1"
                 construct="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                setter="set_max_incoming_payload_size"
+                getter="get_max_incoming_payload_size">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1581">The maximum payload size for incoming packets the protocol expects
@@ -26204,7 +26560,8 @@ or 0 to not limit it.</doc>
                 version="2.50"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_origin">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1532">The client's Origin.</doc>
@@ -26214,14 +26571,18 @@ or 0 to not limit it.</doc>
                 version="2.50"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_protocol">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1548">The chosen protocol, or %NULL if a protocol was not agreed
 upon.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="state" version="2.50" transfer-ownership="none">
+      <property name="state"
+                version="2.50"
+                transfer-ownership="none"
+                getter="get_state">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1565">The current state of the WebSocket.</doc>
@@ -26231,7 +26592,8 @@ upon.</doc>
                 version="2.50"
                 writable="1"
                 construct-only="1"
-                transfer-ownership="none">
+                transfer-ownership="none"
+                getter="get_uri">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket-connection.c"
              line="1513">The URI of the WebSocket.
@@ -26451,7 +26813,8 @@ the length count.</doc>
       <member name="unknown"
               value="0"
               c:identifier="SOUP_WEBSOCKET_CONNECTION_UNKNOWN"
-              glib:nick="unknown">
+              glib:nick="unknown"
+              glib:name="SOUP_WEBSOCKET_CONNECTION_UNKNOWN">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="91">unknown/invalid connection</doc>
@@ -26459,7 +26822,8 @@ the length count.</doc>
       <member name="client"
               value="1"
               c:identifier="SOUP_WEBSOCKET_CONNECTION_CLIENT"
-              glib:nick="client">
+              glib:nick="client"
+              glib:name="SOUP_WEBSOCKET_CONNECTION_CLIENT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="92">a client-side connection</doc>
@@ -26467,7 +26831,8 @@ the length count.</doc>
       <member name="server"
               value="2"
               c:identifier="SOUP_WEBSOCKET_CONNECTION_SERVER"
-              glib:nick="server">
+              glib:nick="server"
+              glib:name="SOUP_WEBSOCKET_CONNECTION_SERVER">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="93">a server-side connection</doc>
@@ -26485,7 +26850,8 @@ signal.</doc>
       <member name="text"
               value="1"
               c:identifier="SOUP_WEBSOCKET_DATA_TEXT"
-              glib:nick="text">
+              glib:nick="text"
+              glib:name="SOUP_WEBSOCKET_DATA_TEXT">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="102">UTF-8 text</doc>
@@ -26493,7 +26859,8 @@ signal.</doc>
       <member name="binary"
               value="2"
               c:identifier="SOUP_WEBSOCKET_DATA_BINARY"
-              glib:nick="binary">
+              glib:nick="binary"
+              glib:name="SOUP_WEBSOCKET_DATA_BINARY">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="103">binary data</doc>
@@ -26510,7 +26877,8 @@ signal.</doc>
       <member name="failed"
               value="0"
               c:identifier="SOUP_WEBSOCKET_ERROR_FAILED"
-              glib:nick="failed">
+              glib:nick="failed"
+              glib:name="SOUP_WEBSOCKET_ERROR_FAILED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="76">a generic error</doc>
@@ -26518,7 +26886,8 @@ signal.</doc>
       <member name="not_websocket"
               value="1"
               c:identifier="SOUP_WEBSOCKET_ERROR_NOT_WEBSOCKET"
-              glib:nick="not-websocket">
+              glib:nick="not-websocket"
+              glib:name="SOUP_WEBSOCKET_ERROR_NOT_WEBSOCKET">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="77">attempted to handshake with a
@@ -26527,7 +26896,8 @@ signal.</doc>
       <member name="bad_handshake"
               value="2"
               c:identifier="SOUP_WEBSOCKET_ERROR_BAD_HANDSHAKE"
-              glib:nick="bad-handshake">
+              glib:nick="bad-handshake"
+              glib:name="SOUP_WEBSOCKET_ERROR_BAD_HANDSHAKE">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="79">the WebSocket handshake failed
@@ -26536,7 +26906,8 @@ signal.</doc>
       <member name="bad_origin"
               value="3"
               c:identifier="SOUP_WEBSOCKET_ERROR_BAD_ORIGIN"
-              glib:nick="bad-origin">
+              glib:nick="bad-origin"
+              glib:name="SOUP_WEBSOCKET_ERROR_BAD_ORIGIN">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="81">the WebSocket handshake failed
@@ -27179,7 +27550,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
       <member name="open"
               value="1"
               c:identifier="SOUP_WEBSOCKET_STATE_OPEN"
-              glib:nick="open">
+              glib:nick="open"
+              glib:name="SOUP_WEBSOCKET_STATE_OPEN">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="146">the connection is ready to send messages</doc>
@@ -27187,7 +27559,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
       <member name="closing"
               value="2"
               c:identifier="SOUP_WEBSOCKET_STATE_CLOSING"
-              glib:nick="closing">
+              glib:nick="closing"
+              glib:name="SOUP_WEBSOCKET_STATE_CLOSING">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="147">the connection is in the process of
@@ -27196,7 +27569,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
       <member name="closed"
               value="3"
               c:identifier="SOUP_WEBSOCKET_STATE_CLOSED"
-              glib:nick="closed">
+              glib:nick="closed"
+              glib:name="SOUP_WEBSOCKET_STATE_CLOSED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-websocket.c"
              line="149">the connection is completely closed down</doc>
@@ -27210,12 +27584,14 @@ Extensions using reserved bits of the header will change them in @header.</doc>
       <member name="arguments"
               value="0"
               c:identifier="SOUP_XMLRPC_ERROR_ARGUMENTS"
-              glib:nick="arguments">
+              glib:nick="arguments"
+              glib:name="SOUP_XMLRPC_ERROR_ARGUMENTS">
       </member>
       <member name="retval"
               value="1"
               c:identifier="SOUP_XMLRPC_ERROR_RETVAL"
-              glib:nick="retval">
+              glib:nick="retval"
+              glib:name="SOUP_XMLRPC_ERROR_RETVAL">
       </member>
       <function name="quark" c:identifier="soup_xmlrpc_error_quark">
         <return-value transfer-ownership="none">
@@ -27236,7 +27612,8 @@ assume servers will use them.</doc>
       <member name="parse_error_not_well_formed"
               value="-32700"
               c:identifier="SOUP_XMLRPC_FAULT_PARSE_ERROR_NOT_WELL_FORMED"
-              glib:nick="parse-error-not-well-formed">
+              glib:nick="parse-error-not-well-formed"
+              glib:name="SOUP_XMLRPC_FAULT_PARSE_ERROR_NOT_WELL_FORMED">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1450">request was not
@@ -27245,7 +27622,8 @@ assume servers will use them.</doc>
       <member name="parse_error_unsupported_encoding"
               value="-32701"
               c:identifier="SOUP_XMLRPC_FAULT_PARSE_ERROR_UNSUPPORTED_ENCODING"
-              glib:nick="parse-error-unsupported-encoding">
+              glib:nick="parse-error-unsupported-encoding"
+              glib:name="SOUP_XMLRPC_FAULT_PARSE_ERROR_UNSUPPORTED_ENCODING">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1452">request was in
@@ -27254,7 +27632,8 @@ assume servers will use them.</doc>
       <member name="parse_error_invalid_character_for_encoding"
               value="-32702"
               c:identifier="SOUP_XMLRPC_FAULT_PARSE_ERROR_INVALID_CHARACTER_FOR_ENCODING"
-              glib:nick="parse-error-invalid-character-for-encoding">
+              glib:nick="parse-error-invalid-character-for-encoding"
+              glib:name="SOUP_XMLRPC_FAULT_PARSE_ERROR_INVALID_CHARACTER_FOR_ENCODING">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1454">request contained an invalid character</doc>
@@ -27262,7 +27641,8 @@ assume servers will use them.</doc>
       <member name="server_error_invalid_xml_rpc"
               value="-32600"
               c:identifier="SOUP_XMLRPC_FAULT_SERVER_ERROR_INVALID_XML_RPC"
-              glib:nick="server-error-invalid-xml-rpc">
+              glib:nick="server-error-invalid-xml-rpc"
+              glib:name="SOUP_XMLRPC_FAULT_SERVER_ERROR_INVALID_XML_RPC">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1456">request was not
@@ -27271,7 +27651,8 @@ assume servers will use them.</doc>
       <member name="server_error_requested_method_not_found"
               value="-32601"
               c:identifier="SOUP_XMLRPC_FAULT_SERVER_ERROR_REQUESTED_METHOD_NOT_FOUND"
-              glib:nick="server-error-requested-method-not-found">
+              glib:nick="server-error-requested-method-not-found"
+              glib:name="SOUP_XMLRPC_FAULT_SERVER_ERROR_REQUESTED_METHOD_NOT_FOUND">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1458">method
@@ -27280,7 +27661,8 @@ assume servers will use them.</doc>
       <member name="server_error_invalid_method_parameters"
               value="-32602"
               c:identifier="SOUP_XMLRPC_FAULT_SERVER_ERROR_INVALID_METHOD_PARAMETERS"
-              glib:nick="server-error-invalid-method-parameters">
+              glib:nick="server-error-invalid-method-parameters"
+              glib:name="SOUP_XMLRPC_FAULT_SERVER_ERROR_INVALID_METHOD_PARAMETERS">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1460">invalid
@@ -27289,7 +27671,8 @@ assume servers will use them.</doc>
       <member name="server_error_internal_xml_rpc_error"
               value="-32603"
               c:identifier="SOUP_XMLRPC_FAULT_SERVER_ERROR_INTERNAL_XML_RPC_ERROR"
-              glib:nick="server-error-internal-xml-rpc-error">
+              glib:nick="server-error-internal-xml-rpc-error"
+              glib:name="SOUP_XMLRPC_FAULT_SERVER_ERROR_INTERNAL_XML_RPC_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1462">internal
@@ -27298,7 +27681,8 @@ assume servers will use them.</doc>
       <member name="application_error"
               value="-32500"
               c:identifier="SOUP_XMLRPC_FAULT_APPLICATION_ERROR"
-              glib:nick="application-error">
+              glib:nick="application-error"
+              glib:name="SOUP_XMLRPC_FAULT_APPLICATION_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1464">start of reserved range for
@@ -27307,7 +27691,8 @@ assume servers will use them.</doc>
       <member name="system_error"
               value="-32400"
               c:identifier="SOUP_XMLRPC_FAULT_SYSTEM_ERROR"
-              glib:nick="system-error">
+              glib:nick="system-error"
+              glib:name="SOUP_XMLRPC_FAULT_SYSTEM_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1466">start of reserved range for
@@ -27316,7 +27701,8 @@ assume servers will use them.</doc>
       <member name="transport_error"
               value="-32300"
               c:identifier="SOUP_XMLRPC_FAULT_TRANSPORT_ERROR"
-              glib:nick="transport-error">
+              glib:nick="transport-error"
+              glib:name="SOUP_XMLRPC_FAULT_TRANSPORT_ERROR">
         <doc xml:space="preserve"
              filename="../libsoup/soup-xmlrpc.c"
              line="1468">start of reserved range for
