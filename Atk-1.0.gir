@@ -544,7 +544,7 @@ A string name/value pair representing a generic attribute.</doc>
         </parameters>
       </function>
     </record>
-    <constant name="BINARY_AGE" value="23610" c:type="ATK_BINARY_AGE" version="2.7.4">
+    <constant name="BINARY_AGE" value="23810" c:type="ATK_BINARY_AGE" version="2.7.4">
       <doc xml:space="preserve">Like atk_get_binary_age(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -4545,7 +4545,7 @@ application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="36" c:type="ATK_MINOR_VERSION" version="2.7.4">
+    <constant name="MINOR_VERSION" value="38" c:type="ATK_MINOR_VERSION" version="2.7.4">
       <doc xml:space="preserve">Like atk_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -8808,7 +8808,10 @@ widget does not include modification by the user, as is the case with
 labels and containers, ATK_STATE_READ_ONLY should not be applied. See also
 ATK_STATE_EDITABLE. @Since: ATK-2-16</doc>
       </member>
-      <member name="last_defined" value="43" c:identifier="ATK_STATE_LAST_DEFINED" glib:nick="last-defined" glib:name="ATK_STATE_LAST_DEFINED">
+      <member name="collapsed" value="43" c:identifier="ATK_STATE_COLLAPSED" glib:nick="collapsed" glib:name="ATK_STATE_COLLAPSED">
+        <doc xml:space="preserve">Indicates this object is collapsed. @Since: ATK-2.38</doc>
+      </member>
+      <member name="last_defined" value="44" c:identifier="ATK_STATE_LAST_DEFINED" glib:nick="last-defined" glib:name="ATK_STATE_LAST_DEFINED">
         <doc xml:space="preserve">Not a valid state, used for finding end of enumeration</doc>
       </member>
       <function name="for_name" c:identifier="atk_state_type_for_name">
