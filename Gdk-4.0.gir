@@ -72,8 +72,7 @@ sliding, which should take precedence over resizing.</doc>
       <doc xml:space="preserve">`GdkAppLaunchContext` handles launching an application in a graphical context.
 
 It is an implementation of `GAppLaunchContext` that provides startup
-notification and allows to launch applications on a specific screen
-or workspace.
+notification and allows to launch applications on a specific workspace.
 
 ## Launching an application
 
@@ -82,7 +81,6 @@ GdkAppLaunchContext *context;
 
 context = gdk_display_get_app_launch_context (display);
 
-gdk_app_launch_context_set_display (display);
 gdk_app_launch_context_set_timestamp (gdk_event_get_time (event));
 
 if (!g_app_info_launch_default_for_uri ("http://www.gtk.org", context, &amp;error))
@@ -110,6 +108,10 @@ g_object_unref (context);
 This only works when running under a window manager that
 supports multiple workspaces, as described in the
 [Extended Window Manager Hints](http://www.freedesktop.org/Standards/wm-spec).
+Specifically this sets the `_NET_WM_DESKTOP` property described
+in that spec.
+
+This only works when using the X11 backend.
 
 When the workspace is not specified or @desktop is set to -1,
 it is up to the window manager to pick one, typically it will
@@ -710,7 +712,7 @@ See [method@Gdk.Clipboard.read_value_async].</doc>
 
 Values should be passed the same way they are passed to other value
 collecting APIs, such as [`method@GObject.Object.set`] or
-[`id@g_signal_emit`].
+[`func@GObject.signal_emit`].
 
 ```c
 gdk_clipboard_set (clipboard, GTK_TYPE_STRING, "Hello World");
@@ -952,7 +954,7 @@ Also see [class@Gdk.ContentSerializer].</doc>
         <doc xml:space="preserve">Gets the cancellable for the current operation.
 
 This is the `GCancellable` that was passed to [func@Gdk.content_deserialize_async].</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the cancellable for the current operation</doc>
           <type name="Gio.Cancellable" c:type="GCancellable*"/>
         </return-value>
@@ -1759,7 +1761,7 @@ given `GType` is not supported, this operation can fail and
             <doc xml:space="preserve">a `GdkContentProvider`</doc>
             <type name="ContentProvider" c:type="GdkContentProvider*"/>
           </instance-parameter>
-          <parameter name="value" transfer-ownership="none">
+          <parameter name="value" direction="out" caller-allocates="1" transfer-ownership="none">
             <doc xml:space="preserve">the `GValue` to fill</doc>
             <type name="GObject.Value" c:type="GValue*"/>
           </parameter>
@@ -1895,7 +1897,7 @@ given `GType` is not supported, this operation can fail and
             <doc xml:space="preserve">a `GdkContentProvider`</doc>
             <type name="ContentProvider" c:type="GdkContentProvider*"/>
           </instance-parameter>
-          <parameter name="value" transfer-ownership="none">
+          <parameter name="value" direction="out" caller-allocates="1" transfer-ownership="none">
             <doc xml:space="preserve">the `GValue` to fill</doc>
             <type name="GObject.Value" c:type="GValue*"/>
           </parameter>
@@ -2165,7 +2167,7 @@ See [method@Gdk.ContentProvider.write_mime_type_async].</doc>
               <doc xml:space="preserve">a `GdkContentProvider`</doc>
               <type name="ContentProvider" c:type="GdkContentProvider*"/>
             </parameter>
-            <parameter name="value" transfer-ownership="none">
+            <parameter name="value" direction="out" caller-allocates="1" transfer-ownership="none">
               <doc xml:space="preserve">the `GValue` to fill</doc>
               <type name="GObject.Value" c:type="GValue*"/>
             </parameter>
@@ -2212,7 +2214,7 @@ Also see [class@Gdk.ContentDeserializer].</doc>
         <doc xml:space="preserve">Gets the cancellable for the current operation.
 
 This is the `GCancellable` that was passed to [func@content_serialize_async].</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the cancellable for the current operation</doc>
           <type name="Gio.Cancellable" c:type="GCancellable*"/>
         </return-value>
@@ -2458,8 +2460,7 @@ something about it.
 Cursors by themselves are not very interesting: they must be bound to a
 window for users to see them. This is done with [method@Gdk.Surface.set_cursor]
 or [method@Gdk.Surface.set_device_cursor]. Applications will typically
-use higher-level GTK functions such as [method@Gtk.Widget.set_cursor]`
-instead.
+use higher-level GTK functions such as [method@Gtk.Widget.set_cursor] instead.
 
 Cursors are not bound to a given [class@Gdk.Display], so they can be shared.
 However, the appearance of cursors may vary when used on different
@@ -2773,7 +2774,7 @@ This is only relevant for keyboard devices.</doc>
       <method name="get_device_tool" c:identifier="gdk_device_get_device_tool">
         <attribute name="org.gtk.Method.get_property" value="tool"/>
         <doc xml:space="preserve">Retrieves the current tool for @device.</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the `GdkDeviceTool`</doc>
           <type name="DeviceTool" c:type="GdkDeviceTool*"/>
         </return-value>
@@ -3157,7 +3158,7 @@ See [method@Gdk.Device.get_vendor_id].</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <glib:signal name="changed" when="last">
-        <doc xml:space="preserve">Emitted either when the the number of either axes or keys changes.
+        <doc xml:space="preserve">Emitted either when the number of either axes or keys changes.
 
 On X11 this will normally happen when the physical device
 routing events through the logical device changes (for
@@ -3473,6 +3474,27 @@ This cleans up associated resources.</doc>
         </return-value>
         <parameters>
           <instance-parameter name="display" transfer-ownership="none">
+            <doc xml:space="preserve">a `GdkDisplay`</doc>
+            <type name="Display" c:type="GdkDisplay*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="create_gl_context" c:identifier="gdk_display_create_gl_context" version="4.6" throws="1">
+        <doc xml:space="preserve">Creates a new `GdkGLContext` for the `GdkDisplay`.
+
+The context is disconnected from any particular surface or surface
+and cannot be used to draw to any surface. It can only be used to
+draw to non-surface framebuffers like textures.
+
+If the creation of the `GdkGLContext` failed, @error will be set.
+Before using the returned `GdkGLContext`, you will need to
+call [method@Gdk.GLContext.make_current] or [method@Gdk.GLContext.realize].</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">the newly created `GdkGLContext`</doc>
+          <type name="GLContext" c:type="GdkGLContext*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve">a `GdkDisplay`</doc>
             <type name="Display" c:type="GdkDisplay*"/>
           </instance-parameter>
@@ -4611,7 +4633,8 @@ these functions explicitly.</doc>
         </return-value>
         <parameters>
           <instance-parameter name="context" transfer-ownership="none">
-            <doc xml:space="preserve">the `GdkDrawContext` used to draw the frame</doc>
+            <doc xml:space="preserve">the `GdkDrawContext` used to draw the frame. The context must
+  have a surface.</doc>
             <type name="DrawContext" c:type="GdkDrawContext*"/>
           </instance-parameter>
           <parameter name="region" transfer-ownership="none">
@@ -5145,7 +5168,10 @@ If not, this function returns %FALSE.</doc>
         </parameters>
       </method>
       <method name="get_axes" c:identifier="gdk_event_get_axes">
-        <doc xml:space="preserve">Extracts all axis values from an event.</doc>
+        <doc xml:space="preserve">Extracts all axis values from an event.
+
+To find out which axes are used, use [method@Gdk.DeviceTool.get_axes]
+on the device tool returned by [method@Gdk.Event.get_device_tool].</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE on success, otherwise %FALSE</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -5169,7 +5195,10 @@ If not, this function returns %FALSE.</doc>
       </method>
       <method name="get_axis" c:identifier="gdk_event_get_axis">
         <doc xml:space="preserve">Extract the axis value for a particular axis use from
-an event structure.</doc>
+an event structure.
+
+To find out which axes are used, use [method@Gdk.DeviceTool.get_axes]
+on the device tool returned by [method@Gdk.Event.get_device_tool].</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if the specified axis was found, otherwise %FALSE</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -5274,7 +5303,8 @@ The history includes positions that are not delivered as separate events
 to the application because they occurred in the same frame as @event.
 
 Note that only motion and scroll events record history, and motion
-events do it only if one of the mouse buttons is down.</doc>
+events do it only if one of the mouse buttons is down, or the device
+has a tool.</doc>
         <return-value transfer-ownership="container" nullable="1">
           <doc xml:space="preserve">an
   array of time and coordinates</doc>
@@ -5356,7 +5386,7 @@ Emulated pointer events typically originate from a touch events.</doc>
       </method>
       <method name="get_surface" c:identifier="gdk_event_get_surface">
         <doc xml:space="preserve">Extracts the surface associated with an event.</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">The `GdkSurface` associated with the event</doc>
           <type name="Surface" c:type="GdkSurface*"/>
         </return-value>
@@ -5527,7 +5557,11 @@ of related touch events.</doc>
       <member name="pad_group_mode" value="27" c:identifier="GDK_PAD_GROUP_MODE" glib:nick="pad-group-mode" glib:name="GDK_PAD_GROUP_MODE">
         <doc xml:space="preserve">A tablet pad group mode change.</doc>
       </member>
-      <member name="event_last" value="28" c:identifier="GDK_EVENT_LAST" glib:nick="event-last" glib:name="GDK_EVENT_LAST">
+      <member name="touchpad_hold" value="28" c:identifier="GDK_TOUCHPAD_HOLD" glib:nick="touchpad-hold" glib:name="GDK_TOUCHPAD_HOLD">
+        <doc xml:space="preserve">A touchpad hold gesture event, the current state
+  is determined by its phase field. Since: 4.6</doc>
+      </member>
+      <member name="event_last" value="29" c:identifier="GDK_EVENT_LAST" glib:nick="event-last" glib:name="GDK_EVENT_LAST">
         <doc xml:space="preserve">marks the end of the GdkEventType enumeration.</doc>
       </member>
     </enumeration>
@@ -5549,8 +5583,26 @@ of related touch events.</doc>
         </parameter>
       </parameters>
     </function-macro>
-    <glib:boxed glib:name="FileList" c:symbol-prefix="file_list" glib:type-name="GdkFileList" glib:get-type="gdk_file_list_get_type">
-    </glib:boxed>
+    <record name="FileList" c:type="GdkFileList" version="4.6" glib:type-name="GdkFileList" glib:get-type="gdk_file_list_get_type" c:symbol-prefix="file_list">
+      <doc xml:space="preserve">An opaque type representing a list of files.</doc>
+      <method name="get_files" c:identifier="gdk_file_list_get_files" version="4.6">
+        <doc xml:space="preserve">Retrieves the list of files inside a `GdkFileList`.
+
+This function is meant for language bindings.</doc>
+        <return-value transfer-ownership="container">
+          <doc xml:space="preserve">the files inside the list</doc>
+          <type name="GLib.SList" c:type="GSList*">
+            <type name="Gio.File"/>
+          </type>
+        </return-value>
+        <parameters>
+          <instance-parameter name="file_list" transfer-ownership="none">
+            <doc xml:space="preserve">the file list</doc>
+            <type name="FileList" c:type="GdkFileList*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+    </record>
     <class name="FocusEvent" c:symbol-prefix="focus_event" c:type="GdkFocusEvent" parent="Event" glib:type-name="GdkFocusEvent" glib:get-type="gdk_focus_event_get_type" glib:fundamental="1">
       <doc xml:space="preserve">An event related to a keyboard focus change.</doc>
       <method name="get_in" c:identifier="gdk_focus_event_get_in">
@@ -6069,13 +6121,22 @@ If @timings is no longer referenced, it will be freed.</doc>
         <doc xml:space="preserve">Span across all monitors when fullscreen.</doc>
       </member>
     </enumeration>
+    <bitfield name="GLAPI" version="4.6" glib:type-name="GdkGLAPI" glib:get-type="gdk_gl_api_get_type" c:type="GdkGLAPI">
+      <doc xml:space="preserve">The list of the different APIs that GdkGLContext can potentially support.</doc>
+      <member name="gl" value="1" c:identifier="GDK_GL_API_GL" glib:nick="gl" glib:name="GDK_GL_API_GL">
+        <doc xml:space="preserve">The OpenGL API</doc>
+      </member>
+      <member name="gles" value="2" c:identifier="GDK_GL_API_GLES" glib:nick="gles" glib:name="GDK_GL_API_GLES">
+        <doc xml:space="preserve">The OpenGL ES API</doc>
+      </member>
+    </bitfield>
     <class name="GLContext" c:symbol-prefix="gl_context" c:type="GdkGLContext" parent="DrawContext" abstract="1" glib:type-name="GdkGLContext" glib:get-type="gdk_gl_context_get_type">
       <doc xml:space="preserve">`GdkGLContext` is an object representing a platform-specific
 OpenGL draw context.
 
 `GdkGLContext`s are created for a surface using
 [method@Gdk.Surface.create_gl_context], and the context will match
-the the characteristics of the surface.
+the characteristics of the surface.
 
 A `GdkGLContext` is not tied to any particular normal framebuffer.
 For instance, it cannot draw to the surface back buffer. The GDK
@@ -6135,6 +6196,36 @@ until [method@Gdk.GLContext.make_current] is called.</doc>
           <type name="GLContext" c:type="GdkGLContext*"/>
         </return-value>
       </function>
+      <method name="get_allowed_apis" c:identifier="gdk_gl_context_get_allowed_apis" glib:get-property="allowed-apis" version="4.6">
+        <attribute name="org.gtk.Method.get_property" value="allowed-apis"/>
+        <doc xml:space="preserve">Gets the allowed APIs set via gdk_gl_context_set_allowed_apis().</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the allowed APIs</doc>
+          <type name="GLAPI" c:type="GdkGLAPI"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve">a GL context</doc>
+            <type name="GLContext" c:type="GdkGLContext*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_api" c:identifier="gdk_gl_context_get_api" glib:get-property="api" version="4.6">
+        <attribute name="org.gtk.Method.get_property" value="api"/>
+        <doc xml:space="preserve">Gets the API currently in use.
+
+If the renderer has not been realized yet, 0 is returned.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the currently used API</doc>
+          <type name="GLAPI" c:type="GdkGLAPI"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve">a GL context</doc>
+            <type name="GLContext" c:type="GdkGLContext*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_debug_enabled" c:identifier="gdk_gl_context_get_debug_enabled">
         <doc xml:space="preserve">Retrieves whether the context is doing extra validations and runtime checking.
 
@@ -6350,6 +6441,29 @@ It is safe to call this function on a realized `GdkGLContext`.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="set_allowed_apis" c:identifier="gdk_gl_context_set_allowed_apis" glib:set-property="allowed-apis" version="4.6">
+        <attribute name="org.gtk.Method.set_property" value="allowed-apis"/>
+        <doc xml:space="preserve">Sets the allowed APIs. When gdk_gl_context_realize() is called, only the
+allowed APIs will be tried. If you set this to 0, realizing will always fail.
+
+If you set it on a realized context, the property will not have any effect.
+It is only relevant during gdk_gl_context_realize().
+
+By default, all APIs are allowed.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve">a GL context</doc>
+            <type name="GLContext" c:type="GdkGLContext*"/>
+          </instance-parameter>
+          <parameter name="apis" transfer-ownership="none">
+            <doc xml:space="preserve">the allowed APIs</doc>
+            <type name="GLAPI" c:type="GdkGLAPI"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_debug_enabled" c:identifier="gdk_gl_context_set_debug_enabled">
         <doc xml:space="preserve">Sets whether the `GdkGLContext` should perform extra validations and
 runtime checking.
@@ -6450,6 +6564,16 @@ the OpenGL or OpenGL ES API, extensions, or shaders.</doc>
           </parameter>
         </parameters>
       </method>
+      <property name="allowed-apis" version="4.6" writable="1" transfer-ownership="none" setter="set_allowed_apis" getter="get_allowed_apis">
+        <attribute name="org.gtk.Property.get" value="gdk_gl_context_get_allowed_apis"/>
+        <doc xml:space="preserve">The allowed APIs.</doc>
+        <type name="GLAPI"/>
+      </property>
+      <property name="api" version="4.6" transfer-ownership="none" getter="get_api">
+        <attribute name="org.gtk.Property.get" value="gdk_gl_context_get_api"/>
+        <doc xml:space="preserve">The API currently in use.</doc>
+        <type name="GLAPI"/>
+      </property>
       <property name="shared-context" deprecated="1" deprecated-version="4.4" writable="1" construct-only="1" transfer-ownership="none" getter="get_shared_context">
         <attribute name="org.gtk.Property.get" value="gdk_gl_context_get_shared_context"/>
         <doc xml:space="preserve">Always %NULL
@@ -6487,6 +6611,8 @@ anymore, this function has been deprecated and now always returns %NULL.</doc>
     <class name="GLTexture" c:symbol-prefix="gl_texture" c:type="GdkGLTexture" parent="Texture" glib:type-name="GdkGLTexture" glib:get-type="gdk_gl_texture_get_type" glib:type-struct="GLTextureClass">
       <doc xml:space="preserve">A GdkTexture representing a GL texture object.</doc>
       <implements name="Paintable"/>
+      <implements name="Gio.Icon"/>
+      <implements name="Gio.LoadableIcon"/>
       <constructor name="new" c:identifier="gdk_gl_texture_new">
         <doc xml:space="preserve">Creates a new texture for an existing GL texture.
 
@@ -6494,8 +6620,9 @@ Note that the GL texture must not be modified until @destroy is called,
 which will happen when the GdkTexture object is finalized, or due to
 an explicit call of [method@Gdk.GLTexture.release].</doc>
         <return-value transfer-ownership="full">
-          <doc xml:space="preserve">A newly-created `GdkTexture`</doc>
-          <type name="Texture" c:type="GdkTexture*"/>
+          <doc xml:space="preserve">A newly-created
+  `GdkTexture`</doc>
+          <type name="GLTexture" c:type="GdkTexture*"/>
         </return-value>
         <parameters>
           <parameter name="context" transfer-ownership="none">
@@ -13851,7 +13978,7 @@ Note that we ignore Caps Lock for matching.</doc>
       </parameters>
     </function-macro>
     <enumeration name="MemoryFormat" glib:type-name="GdkMemoryFormat" glib:get-type="gdk_memory_format_get_type" c:type="GdkMemoryFormat">
-      <doc xml:space="preserve">`GdkMemoryFormat` describes a format that bytes can have in memory.
+      <doc xml:space="preserve">`GdkMemoryFormat` describes formats that image data can have in memory.
 
 It describes formats by listing the contents of the memory passed to it.
 So GDK_MEMORY_A8R8G8B8 will be 1 byte (8 bits) of alpha, followed by a
@@ -13892,7 +14019,43 @@ for details).</doc>
       <member name="b8g8r8" value="8" c:identifier="GDK_MEMORY_B8G8R8" glib:nick="b8g8r8" glib:name="GDK_MEMORY_B8G8R8">
         <doc xml:space="preserve">3 bytes; for blue, green, red. The data is opaque.</doc>
       </member>
-      <member name="n_formats" value="9" c:identifier="GDK_MEMORY_N_FORMATS" glib:nick="n-formats" glib:name="GDK_MEMORY_N_FORMATS">
+      <member name="r16g16b16" value="9" c:identifier="GDK_MEMORY_R16G16B16" glib:nick="r16g16b16" glib:name="GDK_MEMORY_R16G16B16">
+        <doc xml:space="preserve">3 guint16 values; for red, green, blue. Since: 4.6</doc>
+      </member>
+      <member name="r16g16b16a16_premultiplied" value="10" c:identifier="GDK_MEMORY_R16G16B16A16_PREMULTIPLIED" glib:nick="r16g16b16a16-premultiplied" glib:name="GDK_MEMORY_R16G16B16A16_PREMULTIPLIED">
+        <doc xml:space="preserve">4 guint16 values; for red, green,
+  blue, alpha. The color values are premultiplied with the alpha value.
+ Since: 4.6</doc>
+      </member>
+      <member name="r16g16b16a16" value="11" c:identifier="GDK_MEMORY_R16G16B16A16" glib:nick="r16g16b16a16" glib:name="GDK_MEMORY_R16G16B16A16">
+        <doc xml:space="preserve">4 guint16 values; for red, green, blue, alpha.
+ Since: 4.6</doc>
+      </member>
+      <member name="r16g16b16_float" value="12" c:identifier="GDK_MEMORY_R16G16B16_FLOAT" glib:nick="r16g16b16-float" glib:name="GDK_MEMORY_R16G16B16_FLOAT">
+        <doc xml:space="preserve">3 half-float values; for red, green, blue.
+  The data is opaque. Since: 4.6</doc>
+      </member>
+      <member name="r16g16b16a16_float_premultiplied" value="13" c:identifier="GDK_MEMORY_R16G16B16A16_FLOAT_PREMULTIPLIED" glib:nick="r16g16b16a16-float-premultiplied" glib:name="GDK_MEMORY_R16G16B16A16_FLOAT_PREMULTIPLIED">
+        <doc xml:space="preserve">4 half-float values; for
+  red, green, blue and alpha. The color values are premultiplied with
+  the alpha value. Since: 4.6</doc>
+      </member>
+      <member name="r16g16b16a16_float" value="14" c:identifier="GDK_MEMORY_R16G16B16A16_FLOAT" glib:nick="r16g16b16a16-float" glib:name="GDK_MEMORY_R16G16B16A16_FLOAT">
+        <doc xml:space="preserve">4 half-float values; for red, green,
+  blue and alpha. Since: 4.6</doc>
+      </member>
+      <member name="r32g32b32_float" value="15" c:identifier="GDK_MEMORY_R32G32B32_FLOAT" glib:nick="r32g32b32-float" glib:name="GDK_MEMORY_R32G32B32_FLOAT">
+      </member>
+      <member name="r32g32b32a32_float_premultiplied" value="16" c:identifier="GDK_MEMORY_R32G32B32A32_FLOAT_PREMULTIPLIED" glib:nick="r32g32b32a32-float-premultiplied" glib:name="GDK_MEMORY_R32G32B32A32_FLOAT_PREMULTIPLIED">
+        <doc xml:space="preserve">4 float values; for
+  red, green, blue and alpha. The color values are premultiplied with
+  the alpha value. Since: 4.6</doc>
+      </member>
+      <member name="r32g32b32a32_float" value="17" c:identifier="GDK_MEMORY_R32G32B32A32_FLOAT" glib:nick="r32g32b32a32-float" glib:name="GDK_MEMORY_R32G32B32A32_FLOAT">
+        <doc xml:space="preserve">4 float values; for red, green, blue and
+  alpha. Since: 4.6</doc>
+      </member>
+      <member name="n_formats" value="18" c:identifier="GDK_MEMORY_N_FORMATS" glib:nick="n-formats" glib:name="GDK_MEMORY_N_FORMATS">
         <doc xml:space="preserve">The number of formats. This value will change as
   more formats get added, so do not rely on its concrete integer.</doc>
       </member>
@@ -13900,14 +14063,16 @@ for details).</doc>
     <class name="MemoryTexture" c:symbol-prefix="memory_texture" c:type="GdkMemoryTexture" parent="Texture" glib:type-name="GdkMemoryTexture" glib:get-type="gdk_memory_texture_get_type" glib:type-struct="MemoryTextureClass">
       <doc xml:space="preserve">A `GdkTexture` representing image data in memory.</doc>
       <implements name="Paintable"/>
+      <implements name="Gio.Icon"/>
+      <implements name="Gio.LoadableIcon"/>
       <constructor name="new" c:identifier="gdk_memory_texture_new">
         <doc xml:space="preserve">Creates a new texture for a blob of image data.
 
-The `GBytes` must contain @stride x @height pixels
+The `GBytes` must contain @stride &#xD7; @height pixels
 in the given format.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">A newly-created `GdkTexture`</doc>
-          <type name="Texture" c:type="GdkTexture*"/>
+          <type name="MemoryTexture" c:type="GdkTexture*"/>
         </return-value>
         <parameters>
           <parameter name="width" transfer-ownership="none">
@@ -14943,7 +15108,7 @@ property.</doc>
       <method name="get_parent" c:identifier="gdk_popup_get_parent" glib:get-property="parent">
         <attribute name="org.gtk.Method.get_property" value="parent"/>
         <doc xml:space="preserve">Returns the parent surface of a popup.</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the parent surface</doc>
           <type name="Surface" c:type="GdkSurface*"/>
         </return-value>
@@ -15532,7 +15697,7 @@ from previous contents.</doc>
 
 The string can be either one of:
 
-- A standard name (Taken from the X11 rgb.txt file).
+- A standard name (Taken from the Css specification).
 - A hexadecimal value in the form &#x201C;\#rgb&#x201D;, &#x201C;\#rrggbb&#x201D;,
   &#x201C;\#rrrgggbbb&#x201D; or &#x201D;\#rrrrggggbbbb&#x201D;
 - A hexadecimal value in the form &#x201C;\#rgba&#x201D;, &#x201C;\#rrggbbaa&#x201D;,
@@ -16042,8 +16207,8 @@ of physical pixels on an output device are laid out.</doc>
 It&#x2019;s a low-level object, used to implement high-level objects
 such as [class@Gtk.Window] or [class@Gtk.Dialog] in GTK.
 
-The surfaces you see in practice are either [class@Gdk.Toplevel] or
-[class@Gdk.Popup], and those interfaces provide much of the required
+The surfaces you see in practice are either [iface@Gdk.Toplevel] or
+[iface@Gdk.Popup], and those interfaces provide much of the required
 API to interact with these surfaces. Other, more specialized surface
 types exist, but you will rarely interact with them directly.</doc>
       <constructor name="new_popup" c:identifier="gdk_surface_new_popup">
@@ -16114,7 +16279,7 @@ The context is disconnected from any particular surface or surface.
 If the creation of the `GdkGLContext` failed, @error will be set.
 Before using the returned `GdkGLContext`, you will need to
 call [method@Gdk.GLContext.make_current] or [method@Gdk.GLContext.realize].</doc>
-        <return-value transfer-ownership="full" nullable="1">
+        <return-value transfer-ownership="full">
           <doc xml:space="preserve">the newly created `GdkGLContext`</doc>
           <type name="GLContext" c:type="GdkGLContext*"/>
         </return-value>
@@ -16729,18 +16894,23 @@ It is primarily meant for pixel data that will not change over
 multiple frames, and will be used for a long time.
 
 There are various ways to create `GdkTexture` objects from a
-`GdkPixbuf`, or a Cairo surface, or other pixel data.
+[class@GdkPixbuf.Pixbuf], or a Cairo surface, or other pixel data.
 
 The ownership of the pixel data is transferred to the `GdkTexture`
-instance; you can only make a copy of it, via
-[method@Gdk.Texture.download].
+instance; you can only make a copy of it, via [method@Gdk.Texture.download].
 
 `GdkTexture` is an immutable object: That means you cannot change
 anything about it other than increasing the reference count via
-g_object_ref().</doc>
+[method@GObject.Object.ref], and consequently, it is a thread-safe object.</doc>
       <implements name="Paintable"/>
+      <implements name="Gio.Icon"/>
+      <implements name="Gio.LoadableIcon"/>
       <constructor name="new_for_pixbuf" c:identifier="gdk_texture_new_for_pixbuf">
-        <doc xml:space="preserve">Creates a new texture object representing the `GdkPixbuf`.</doc>
+        <doc xml:space="preserve">Creates a new texture object representing the `GdkPixbuf`.
+
+This function is threadsafe, so that you can e.g. use GTask
+and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+while loading a big image.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a new `GdkTexture`</doc>
           <type name="Texture" c:type="GdkTexture*"/>
@@ -16752,13 +16922,39 @@ g_object_ref().</doc>
           </parameter>
         </parameters>
       </constructor>
+      <constructor name="new_from_bytes" c:identifier="gdk_texture_new_from_bytes" version="4.6" throws="1">
+        <doc xml:space="preserve">Creates a new texture by loading an image from memory,
+
+The file format is detected automatically. The supported formats
+are PNG and JPEG, though more formats might be available.
+
+If %NULL is returned, then @error will be set.
+
+This function is threadsafe, so that you can e.g. use GTask
+and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+while loading a big image.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">A newly-created `GdkTexture`</doc>
+          <type name="Texture" c:type="GdkTexture*"/>
+        </return-value>
+        <parameters>
+          <parameter name="bytes" transfer-ownership="none">
+            <doc xml:space="preserve">a `GBytes` containing the data to load</doc>
+            <type name="GLib.Bytes" c:type="GBytes*"/>
+          </parameter>
+        </parameters>
+      </constructor>
       <constructor name="new_from_file" c:identifier="gdk_texture_new_from_file" throws="1">
         <doc xml:space="preserve">Creates a new texture by loading an image from a file.
 
 The file format is detected automatically. The supported formats
 are PNG and JPEG, though more formats might be available.
 
-If %NULL is returned, then @error will be set.</doc>
+If %NULL is returned, then @error will be set.
+
+This function is threadsafe, so that you can e.g. use GTask
+and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+while loading a big image.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">A newly-created `GdkTexture`</doc>
           <type name="Texture" c:type="GdkTexture*"/>
@@ -16767,6 +16963,28 @@ If %NULL is returned, then @error will be set.</doc>
           <parameter name="file" transfer-ownership="none">
             <doc xml:space="preserve">`GFile` to load</doc>
             <type name="Gio.File" c:type="GFile*"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <constructor name="new_from_filename" c:identifier="gdk_texture_new_from_filename" version="4.6" throws="1">
+        <doc xml:space="preserve">Creates a new texture by loading an image from a file.
+
+The file format is detected automatically. The supported formats
+are PNG and JPEG, though more formats might be available.
+
+If %NULL is returned, then @error will be set.
+
+This function is threadsafe, so that you can e.g. use GTask
+and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+while loading a big image.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">A newly-created `GdkTexture`</doc>
+          <type name="Texture" c:type="GdkTexture*"/>
+        </return-value>
+        <parameters>
+          <parameter name="path" transfer-ownership="none">
+            <doc xml:space="preserve">the filename to load</doc>
+            <type name="filename" c:type="const char*"/>
           </parameter>
         </parameters>
       </constructor>
@@ -16779,7 +16997,11 @@ are PNG and JPEG, though more formats might be available.
 It is a fatal error if @resource_path does not specify a valid
 image resource and the program will abort if that happens.
 If you are unsure about the validity of a resource, use
-[ctor@Gdk.Texture.new_from_file] to load it.</doc>
+[ctor@Gdk.Texture.new_from_file] to load it.
+
+This function is threadsafe, so that you can e.g. use GTask
+and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+while loading a big image.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">A newly-created `GdkTexture`</doc>
           <type name="Texture" c:type="GdkTexture*"/>
@@ -16865,8 +17087,9 @@ cairo_surface_mark_dirty (surface);
 
 This is a utility function intended for debugging and testing.
 If you want more control over formats, proper error handling or
-want to store to a `GFile` or other location, you might want to
-look into using the gdk-pixbuf library.</doc>
+want to store to a [iface@Gio.File] or other location, you might want to
+use [method@Gdk.Texture.save_to_png_bytes] or look into the
+gdk-pixbuf library.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if saving succeeded, %FALSE on failure.</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -16882,6 +17105,75 @@ look into using the gdk-pixbuf library.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="save_to_png_bytes" c:identifier="gdk_texture_save_to_png_bytes" version="4.6">
+        <doc xml:space="preserve">Store the given @texture in memory as a PNG file.
+
+Use [ctor@Gdk.Texture.new_from_bytes] to read it back.
+
+If you want to serialize a texture, this is a convenient and
+portable way to do that.
+
+If you need more control over the generated image, such as
+attaching metadata, you should look into an image handling
+library such as the gdk-pixbuf library.
+
+If you are dealing with high dynamic range float data, you
+might also want to consider [method@Gdk.Texture.save_to_tiff_bytes]
+instead.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">a newly allocated `GBytes` containing PNG data</doc>
+          <type name="GLib.Bytes" c:type="GBytes*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="texture" transfer-ownership="none">
+            <doc xml:space="preserve">a `GdkTexture`</doc>
+            <type name="Texture" c:type="GdkTexture*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="save_to_tiff" c:identifier="gdk_texture_save_to_tiff" version="4.6">
+        <doc xml:space="preserve">Store the given @texture to the @filename as a TIFF file.
+
+GTK will attempt to store data without loss.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE if saving succeeded, %FALSE on failure.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="texture" transfer-ownership="none">
+            <doc xml:space="preserve">a `GdkTexture`</doc>
+            <type name="Texture" c:type="GdkTexture*"/>
+          </instance-parameter>
+          <parameter name="filename" transfer-ownership="none">
+            <doc xml:space="preserve">the filename to store to</doc>
+            <type name="filename" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="save_to_tiff_bytes" c:identifier="gdk_texture_save_to_tiff_bytes" version="4.6">
+        <doc xml:space="preserve">Store the given @texture in memory as a TIFF file.
+
+Use [ctor@Gdk.Texture.new_from_bytes] to read it back.
+
+This function is intended to store a representation of the
+texture's data that is as accurate as possible. This is
+particularly relevant when working with high dynamic range
+images and floating-point texture data.
+
+If that is not your concern and you are interested in a
+smaller size and a more portable format, you might want to
+use [method@Gdk.Texture.save_to_png_bytes].</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">a newly allocated `GBytes` containing TIFF data</doc>
+          <type name="GLib.Bytes" c:type="GBytes*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="texture" transfer-ownership="none">
+            <doc xml:space="preserve">a `GdkTexture`</doc>
+            <type name="Texture" c:type="GdkTexture*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <property name="height" writable="1" construct-only="1" transfer-ownership="none" getter="get_height">
         <attribute name="org.gtk.Property.get" value="gdk_texture_get_height"/>
         <doc xml:space="preserve">The height of the texture, in pixels.</doc>
@@ -16894,6 +17186,27 @@ look into using the gdk-pixbuf library.</doc>
       </property>
     </class>
     <record name="TextureClass" c:type="GdkTextureClass" disguised="1" glib:is-gtype-struct-for="Texture"/>
+    <enumeration name="TextureError" version="4.6" glib:type-name="GdkTextureError" glib:get-type="gdk_texture_error_get_type" c:type="GdkTextureError" glib:error-domain="gdk-texture-error-quark">
+      <doc xml:space="preserve">Possible errors that can be returned by `GdkTexture` constructors.</doc>
+      <member name="too_large" value="0" c:identifier="GDK_TEXTURE_ERROR_TOO_LARGE" glib:nick="too-large" glib:name="GDK_TEXTURE_ERROR_TOO_LARGE">
+        <doc xml:space="preserve">Not enough memory to handle this image</doc>
+      </member>
+      <member name="corrupt_image" value="1" c:identifier="GDK_TEXTURE_ERROR_CORRUPT_IMAGE" glib:nick="corrupt-image" glib:name="GDK_TEXTURE_ERROR_CORRUPT_IMAGE">
+        <doc xml:space="preserve">The image data appears corrupted</doc>
+      </member>
+      <member name="unsupported_content" value="2" c:identifier="GDK_TEXTURE_ERROR_UNSUPPORTED_CONTENT" glib:nick="unsupported-content" glib:name="GDK_TEXTURE_ERROR_UNSUPPORTED_CONTENT">
+        <doc xml:space="preserve">The image contains features
+  that cannot be loaded</doc>
+      </member>
+      <member name="unsupported_format" value="3" c:identifier="GDK_TEXTURE_ERROR_UNSUPPORTED_FORMAT" glib:nick="unsupported-format" glib:name="GDK_TEXTURE_ERROR_UNSUPPORTED_FORMAT">
+        <doc xml:space="preserve">The image format is not supported</doc>
+      </member>
+      <function name="quark" c:identifier="gdk_texture_error_quark">
+        <return-value transfer-ownership="none">
+          <type name="GLib.Quark" c:type="GQuark"/>
+        </return-value>
+      </function>
+    </enumeration>
     <record name="TimeCoord" c:type="GdkTimeCoord">
       <doc xml:space="preserve">A `GdkTimeCoord` stores a single event in a motion history.</doc>
       <field name="time" writable="1">
@@ -16911,7 +17224,7 @@ look into using the gdk-pixbuf library.</doc>
         </array>
       </field>
     </record>
-    <enumeration name="TitlebarGesture" glib:type-name="GdkTitlebarGesture" glib:get-type="gdk_titlebar_gesture_get_type" c:type="GdkTitlebarGesture">
+    <enumeration name="TitlebarGesture" version="4.4" glib:type-name="GdkTitlebarGesture" glib:get-type="gdk_titlebar_gesture_get_type" c:type="GdkTitlebarGesture">
       <member name="double_click" value="1" c:identifier="GDK_TITLEBAR_GESTURE_DOUBLE_CLICK" glib:nick="double-click" glib:name="GDK_TITLEBAR_GESTURE_DOUBLE_CLICK">
       </member>
       <member name="right_click" value="2" c:identifier="GDK_TITLEBAR_GESTURE_RIGHT_CLICK" glib:nick="right-click" glib:name="GDK_TITLEBAR_GESTURE_RIGHT_CLICK">
@@ -17338,15 +17651,17 @@ tiled window states.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="titlebar_gesture" c:identifier="gdk_toplevel_titlebar_gesture">
+      <method name="titlebar_gesture" c:identifier="gdk_toplevel_titlebar_gesture" version="4.4">
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="toplevel" transfer-ownership="none">
+            <doc xml:space="preserve">a `GdkToplevel`</doc>
             <type name="Toplevel" c:type="GdkToplevel*"/>
           </instance-parameter>
           <parameter name="gesture" transfer-ownership="none">
+            <doc xml:space="preserve">a `GdkTitlebarGesture`</doc>
             <type name="TitlebarGesture" c:type="GdkTitlebarGesture"/>
           </parameter>
         </parameters>
@@ -17942,7 +18257,7 @@ Vulkan draw context.
 
 `GdkVulkanContext`s are created for a surface using
 [method@Gdk.Surface.create_vulkan_context], and the context will match
-the the characteristics of the surface.
+the characteristics of the surface.
 
 Support for `GdkVulkanContext` is platform-specific and context creation
 can fail, returning %NULL context.</doc>
@@ -17972,8 +18287,8 @@ for example in response to a change of the surface size.</doc>
         </return-value>
       </function>
     </enumeration>
-    <function name="cairo_draw_from_gl" c:identifier="gdk_cairo_draw_from_gl">
-      <doc xml:space="preserve">The main way to draw GL content in GTK.
+    <function name="cairo_draw_from_gl" c:identifier="gdk_cairo_draw_from_gl" deprecated="1" deprecated-version="4.6">
+      <doc xml:space="preserve">The main way to not draw GL content in GTK.
 
 It takes a render buffer ID (@source_type == GL_RENDERBUFFER) or a texture
 id (@source_type == GL_TEXTURE) and draws it onto @cr with an OVER operation,
@@ -17991,6 +18306,11 @@ For GL_RENDERBUFFER the code will always fall back to software for buffers
 with alpha components, so make sure you use GL_TEXTURE if using alpha.
 
 Calling this may change the current GL context.</doc>
+      <doc-deprecated xml:space="preserve">The function is overly complex and produces broken output
+  in various combinations of arguments. If you want to draw with GL textures
+  in GTK, use [ctor@Gdk.GLTexture.new]; if you want to use that texture in
+  Cairo, use [method@Gdk.Texture.download] to download the data into a Cairo
+  image surface.</doc-deprecated>
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
       </return-value>
@@ -18180,7 +18500,7 @@ call [func@Gdk.content_deserialize_finish] to get the result of the operation.</
           <doc xml:space="preserve">the `GAsyncResult`</doc>
           <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
         </parameter>
-        <parameter name="value" transfer-ownership="none">
+        <parameter name="value" direction="out" caller-allocates="1" transfer-ownership="none">
           <doc xml:space="preserve">return location for the result of the operation</doc>
           <type name="GObject.Value" c:type="GValue*"/>
         </parameter>
@@ -18772,6 +19092,11 @@ in order to take effect.</doc>
           <type name="utf8" c:type="const char*"/>
         </parameter>
       </parameters>
+    </function>
+    <function name="texture_error_quark" c:identifier="gdk_texture_error_quark" moved-to="TextureError.quark">
+      <return-value transfer-ownership="none">
+        <type name="GLib.Quark" c:type="GQuark"/>
+      </return-value>
     </function>
     <function name="toplevel_size_get_type" c:identifier="gdk_toplevel_size_get_type">
       <return-value transfer-ownership="none">

@@ -195,43 +195,45 @@ in a #GIBaseInfo struct.</doc>
       </field>
     </record>
     <record name="BaseInfo" c:type="GIBaseInfo" glib:type-name="GIBaseInfo" glib:get-type="g_base_info_gtype_get_type" c:symbol-prefix="base_info_gtype">
-      <doc xml:space="preserve">GIBaseInfo is the common base struct of all other *Info structs
+      <doc xml:space="preserve">GIBaseInfo is the common base struct of all other Info structs
 accessible through the #GIRepository API.
-All other structs can be casted to a #GIBaseInfo, for instance:
-&lt;example&gt;
-&lt;title&gt;Casting a #GIFunctionInfo to #GIBaseInfo&lt;/title&gt;
-&lt;programlisting&gt;
+
+All info structures can be cast to a #GIBaseInfo, for instance:
+
+|[&lt;!-- language="C" --&gt;
    GIFunctionInfo *function_info = ...;
-   GIBaseInfo *info = (GIBaseInfo*)function_info;
-&lt;/programlisting&gt;
-&lt;/example&gt;
-Most #GIRepository APIs returning a #GIBaseInfo is actually creating a new struct, in other
-words, g_base_info_unref() has to be called when done accessing the data.
-GIBaseInfos are normally accessed by calling either
-g_irepository_find_by_name(), g_irepository_find_by_gtype() or g_irepository_get_info().
+   GIBaseInfo *info = (GIBaseInfo *) function_info;
+]|
 
-&lt;example&gt;
-&lt;title&gt;Getting the Button of the Gtk typelib&lt;/title&gt;
-&lt;programlisting&gt;
-   GIBaseInfo *button_info = g_irepository_find_by_name(NULL, "Gtk", "Button");
-   ... use button_info ...
-   g_base_info_unref(button_info);
-&lt;/programlisting&gt;
-&lt;/example&gt;
+Most #GIRepository APIs returning a #GIBaseInfo is actually
+creating a new struct; in other words, g_base_info_unref() has to
+be called when done accessing the data.
 
-&lt;refsect1 id="gi-gibaseinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
+#GIBaseInfo structuress are normally accessed by calling either
+g_irepository_find_by_name(), g_irepository_find_by_gtype() or
+g_irepository_get_info().
+
+|[&lt;!-- language="C" --&gt;
+GIBaseInfo *button_info =
+  g_irepository_find_by_name (NULL, "Gtk", "Button");
+
+// ... use button_info ...
+
+g_base_info_unref (button_info);
+]|
+
+## Hierarchy
+
+|[&lt;!-- language="plain" --&gt;
   GIBaseInfo
-   +----&lt;link linkend="gi-GIArgInfo"&gt;GIArgInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GICallableInfo"&gt;GICallableInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIConstantInfo"&gt;GIConstantInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIFieldInfo"&gt;GIFieldInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIPropertyInfo"&gt;GIPropertyInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIRegisteredTypeInfo"&gt;GIRegisteredTypeInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GITypeInfo"&gt;GITypeInfo&lt;/link&gt;
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+   +---- GIArgInfo
+   +---- GICallableInfo
+   +---- GIConstantInfo
+   +---- GIFieldInfo
+   +---- GIPropertyInfo
+   +---- GIRegisteredTypeInfo
+   +---- GITypeInfo
+]|</doc>
       <field name="dummy1" readable="0" private="1">
         <type name="gint32" c:type="gint32"/>
       </field>
@@ -390,9 +392,7 @@ normal GIR annotations.
 Both the @name and @value should be treated as constants
 and must not be freed.
 
-&lt;example&gt;
-&lt;title&gt;Iterating over attributes&lt;/title&gt;
-&lt;programlisting&gt;
+|[&lt;!-- language="C" --&gt;
 void
 print_attributes (GIBaseInfo *info)
 {
@@ -404,8 +404,7 @@ print_attributes (GIBaseInfo *info)
       g_print ("attribute name: %s value: %s", name, value);
     }
 }
-&lt;/programlisting&gt;
-&lt;/example&gt;</doc>
+]|</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if there are more attributes</doc>
           <type name="gboolean" c:type="gboolean"/>
@@ -743,7 +742,7 @@ against.</doc>
       <doc xml:space="preserve">The micro version number of the girepository library.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="70" c:type="GI_MINOR_VERSION" version="1.60">
+    <constant name="MINOR_VERSION" value="72" c:type="GI_MINOR_VERSION" version="1.60">
       <doc xml:space="preserve">The minor version number of the girepository library.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
@@ -1006,9 +1005,10 @@ such as g_irepository_require() before calling this function.</doc>
         </parameters>
       </method>
       <method name="get_dependencies" c:identifier="g_irepository_get_dependencies">
-        <doc xml:space="preserve">Return an array of all (transitive) versioned dependencies for
-@namespace_. Returned strings are of the form
-&lt;code&gt;namespace-version&lt;/code&gt;.
+        <doc xml:space="preserve">Retrieves all (transitive) versioned dependencies for
+@namespace_.
+
+The strings are of the form `namespace-version`.
 
 Note: @namespace_ must have already been loaded using a function
 such as g_irepository_require() before calling this function.
@@ -1016,7 +1016,7 @@ such as g_irepository_require() before calling this function.
 To get only the immediate dependencies for @namespace_, use
 g_irepository_get_immediate_dependencies().</doc>
         <return-value transfer-ownership="full">
-          <doc xml:space="preserve">Zero-terminated string array of all versioned
+          <doc xml:space="preserve">all versioned
   dependencies</doc>
           <array c:type="gchar**">
             <type name="utf8"/>
@@ -1036,7 +1036,7 @@ g_irepository_get_immediate_dependencies().</doc>
       </method>
       <method name="get_immediate_dependencies" c:identifier="g_irepository_get_immediate_dependencies" version="1.44">
         <doc xml:space="preserve">Return an array of the immediate versioned dependencies for @namespace_.
-Returned strings are of the form &lt;code&gt;namespace-version&lt;/code&gt;.
+Returned strings are of the form `namespace-version`.
 
 Note: @namespace_ must have already been loaded using a function
 such as g_irepository_require() before calling this function.
@@ -1387,20 +1387,42 @@ can be freed.</doc>
       </member>
       <member name="call" value="1" c:identifier="GI_SCOPE_TYPE_CALL">
         <doc xml:space="preserve">The callback and associated user_data is only
-used during the call to this function.</doc>
+  used during the call to this function.</doc>
       </member>
       <member name="async" value="2" c:identifier="GI_SCOPE_TYPE_ASYNC">
         <doc xml:space="preserve">The callback and associated user_data is
-only used until the callback is invoked, and the callback.
-is invoked always exactly once.</doc>
+  only used until the callback is invoked, and the callback.
+  is invoked always exactly once.</doc>
       </member>
       <member name="notified" value="3" c:identifier="GI_SCOPE_TYPE_NOTIFIED">
-        <doc xml:space="preserve">The callback and and associated
-user_data is used until the caller is notfied via the destroy_notify.</doc>
+        <doc xml:space="preserve">The callback and associated
+  user_data is used until the caller is notfied via the destroy_notify.</doc>
+      </member>
+      <member name="forever" value="4" c:identifier="GI_SCOPE_TYPE_FOREVER">
+        <doc xml:space="preserve">The callback and associated user_data is
+  used until the process terminates</doc>
       </member>
     </enumeration>
-    <function-macro name="TYPE_TAG_IS_BASIC" c:identifier="G_TYPE_TAG_IS_BASIC" introspectable="0">
+    <function-macro name="TYPE_TAG_IS_BASIC" c:identifier="G_TYPE_TAG_IS_BASIC" introspectable="0" deprecated="1" deprecated-version="1.72">
       <doc xml:space="preserve">Checks if @tag is a basic type.</doc>
+      <doc-deprecated xml:space="preserve">Use GI_TYPE_TAG_IS_BASIC() instead</doc-deprecated>
+      <parameters>
+        <parameter name="tag">
+          <doc xml:space="preserve">a type tag</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="TYPE_TAG_IS_CONTAINER" c:identifier="GI_TYPE_TAG_IS_CONTAINER" version="1.72" introspectable="0">
+      <doc xml:space="preserve">Checks if @tag is a container type. That is, a type which may have a nonnull
+return from g_type_info_get_param_type().</doc>
+      <parameters>
+        <parameter name="tag">
+          <doc xml:space="preserve">a type tag</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="TYPE_TAG_IS_NUMERIC" c:identifier="GI_TYPE_TAG_IS_NUMERIC" version="1.72" introspectable="0">
+      <doc xml:space="preserve">Checks if @tag is a numeric type. That is, integer or floating point.</doc>
       <parameters>
         <parameter name="tag">
           <doc xml:space="preserve">a type tag</doc>
@@ -2471,270 +2493,138 @@ have been g_module_symbol()&lt;!-- --&gt;ed before calling this function.</doc>
       </return-value>
     </function>
     <docsection name="giarginfo">
-      <doc xml:space="preserve">GIArgInfo represents an argument. An argument is always
-part of a #GICallableInfo.
+      <doc xml:space="preserve">GIArgInfo represents an argument of a callable.
 
-&lt;refsect1 id="gi-giarginfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GIArgInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+An argument is always part of a #GICallableInfo.</doc>
     </docsection>
     <docsection name="gicallableinfo">
       <doc xml:space="preserve">GICallableInfo represents an entity which is callable.
-Currently a function (#GIFunctionInfo), virtual function,
-(#GIVFuncInfo) or callback (#GICallbackInfo).
+
+Examples of callable are:
+
+ - functions (#GIFunctionInfo)
+ - virtual functions (#GIVFuncInfo)
+ - callbacks (#GICallbackInfo).
 
 A callable has a list of arguments (#GIArgInfo), a return type,
-direction and a flag which decides if it returns null.
-
-&lt;refsect1 id="gi-gicallableinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GICallableInfo
-         +----&lt;link linkend="gi-GIFunctionInfo"&gt;GIFunctionInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GISignalInfo"&gt;GISignalInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIVFuncInfo"&gt;GIVFuncInfo&lt;/link&gt;
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+direction and a flag which decides if it returns null.</doc>
     </docsection>
     <docsection name="gicallbackinfo">
-      <doc xml:space="preserve">GICallbackInfo represents a callback.
-
-&lt;refsect1 id="gi-gicallbackinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GICallableInfo"&gt;GICallableInfo&lt;/link&gt;
-         +----GIFunctionInfo
-         +----&lt;link linkend="gi-GISignalInfo"&gt;GISignalInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIVFuncInfo"&gt;GIVFuncInfo&lt;/link&gt;
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+      <doc xml:space="preserve">GICallbackInfo represents a callback.</doc>
     </docsection>
     <docsection name="giconstantinfo">
-      <doc xml:space="preserve">GIConstantInfo represents a constant. A constant has a type associated
-which can be obtained by calling g_constant_info_get_type() and a value,
-which can be obtained by calling g_constant_info_get_value().
+      <doc xml:space="preserve">GIConstantInfo represents a constant.
 
-&lt;refsect1 id="gi-giconstantinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GIConstantInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+A constant has a type associated which can be obtained by calling
+g_constant_info_get_type() and a value, which can be obtained by
+calling g_constant_info_get_value().</doc>
     </docsection>
     <docsection name="gienuminfo">
-      <doc xml:space="preserve">A GIEnumInfo represents an enumeration and a GIValueInfo struct represents a value
-of an enumeration. The GIEnumInfo contains a set of values and a type
-The GIValueInfo is fetched by calling g_enum_info_get_value() on a #GIEnumInfo.
+      <doc xml:space="preserve">A GIEnumInfo represents an enumeration, and a GIValueInfo represents
+a value in the enumeration.
 
-&lt;refsect1 id="gi-gienuminfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIRegisteredTypeInfo"&gt;GIRegisteredTypeInfo&lt;/link&gt;
-         +----GIEnumInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+The GIEnumInfo contains a set of values and a type.
+
+The GIValueInfo is fetched by calling g_enum_info_get_value() on
+a GIEnumInfo.</doc>
     </docsection>
     <docsection name="gifieldinfo">
-      <doc xml:space="preserve">A GIFieldInfo struct represents a field of a struct (see #GIStructInfo),
-union (see #GIUnionInfo) or an object (see #GIObjectInfo). The GIFieldInfo
-is fetched by calling g_struct_info_get_field(), g_union_info_get_field()
-or g_object_info_get_field().
-A field has a size, type and a struct offset asssociated and a set of flags,
-which is currently #GI_FIELD_IS_READABLE or #GI_FIELD_IS_WRITABLE.
+      <doc xml:space="preserve">A GIFieldInfo struct represents a field of a struct, union, or object.
 
-&lt;refsect1 id="gi-gifieldinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GIFieldInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+The GIFieldInfo is fetched by calling g_struct_info_get_field(),
+g_union_info_get_field() or g_object_info_get_field().
+
+A field has a size, type and a struct offset asssociated and a set of flags,
+which are currently #GI_FIELD_IS_READABLE or #GI_FIELD_IS_WRITABLE.
+
+See also: #GIStructInfo, #GIUnionInfo, #GIObjectInfo</doc>
     </docsection>
     <docsection name="gifunctioninfo">
       <doc xml:space="preserve">GIFunctionInfo represents a function, method or constructor.
+
 To find out what kind of entity a #GIFunctionInfo represents, call
 g_function_info_get_flags().
 
 See also #GICallableInfo for information on how to retreive arguments and
-other metadata.
-
-&lt;refsect1 id="gi-gifunctioninfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GICallableInfo"&gt;GICallableInfo&lt;/link&gt;
-         +----GIFunctionInfo
-         +----&lt;link linkend="gi-GISignalInfo"&gt;GISignalInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIVFuncInfo"&gt;GIVFuncInfo&lt;/link&gt;
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+other metadata.</doc>
     </docsection>
     <docsection name="giinterfaceinfo">
       <doc xml:space="preserve">GIInterfaceInfo represents a #GInterface type.
 
 A GInterface has methods, fields, properties, signals, interfaces, constants,
-virtual functions and prerequisites.
-
-&lt;refsect1 id="gi-giinterfaceinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIRegisteredTypeInfo"&gt;GIRegisteredTypeInfo&lt;/link&gt;
-         +----GIInterfaceInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+virtual functions and prerequisites.</doc>
     </docsection>
     <docsection name="giobjectinfo">
-      <doc xml:space="preserve">GIObjectInfo represents a #GObject. This doesn't represent a specific
-instance of a GObject, instead this represent the object type (eg class).
+      <doc xml:space="preserve">GIObjectInfo represents a classed type.
 
-A GObject has methods, fields, properties, signals, interfaces, constants
-and virtual functions.
+Classed types in GType inherit from #GTypeInstance; the most common
+type is #GObject.
 
-&lt;refsect1 id="gi-giobjectinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIRegisteredTypeInfo"&gt;GIRegisteredTypeInfo&lt;/link&gt;
-         +----GIObjectInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+A GIObjectInfo doesn't represent a specific instance of a classed type,
+instead this represent the object type (eg class).
+
+A GIObjectInfo has methods, fields, properties, signals, interfaces,
+constants and virtual functions.</doc>
     </docsection>
     <docsection name="gipropertyinfo">
-      <doc xml:space="preserve">GIPropertyInfo represents a property. A property belongs to
-either a #GIObjectInfo or a #GIInterfaceInfo.
+      <doc xml:space="preserve">GIPropertyInfo represents a property in a #GObject.
 
-&lt;refsect1 id="gi-gipropertyinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GIPropertyInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+A property belongs to either a #GIObjectInfo or a #GIInterfaceInfo.</doc>
     </docsection>
     <docsection name="giregisteredtypeinfo">
-      <doc xml:space="preserve">GIRegisteredTypeInfo represents an entity with a GType associated. Could
-be either a #GIEnumInfo, #GIInterfaceInfo, #GIObjectInfo, #GIStructInfo or a
-#GIUnionInfo.
+      <doc xml:space="preserve">GIRegisteredTypeInfo represents an entity with a GType associated.
+
+Could be either a #GIEnumInfo, #GIInterfaceInfo, #GIObjectInfo,
+#GIStructInfo or a #GIUnionInfo.
 
 A registered type info struct has a name and a type function.
+
 To get the name call g_registered_type_info_get_type_name().
 Most users want to call g_registered_type_info_get_g_type() and don't worry
-about the rest of the details.
-
-&lt;refsect1 id="gi-giregisteredtypeinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GIRegisteredTypeInfo
-         +----&lt;link linkend="gi-GIEnumInfo"&gt;GIEnumInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIInterfaceInfo"&gt;GIInterfaceInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIObjectInfo"&gt;GIObjectInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIStructInfo"&gt;GIStructInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIUnionInfo"&gt;GIUnionInfo&lt;/link&gt;
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+about the rest of the details.</doc>
     </docsection>
     <docsection name="gisignalinfo">
-      <doc xml:space="preserve">GISignalInfo represents a signal. It's a sub-struct of #GICallableInfo
-and contains a set of flags and a class closure.
+      <doc xml:space="preserve">GISignalInfo represents a signal.
+
+It's a sub-struct of #GICallableInfo and contains a set of flags and
+a class closure.
 
 See #GICallableInfo for information on how to retreive arguments
-and other metadata from the signal.
-
-&lt;refsect1 id="gi-gisignalinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GICallableInfo"&gt;GICallableInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIFunctionInfo"&gt;GIFunctionInfo&lt;/link&gt;
-         +----GISignalInfo
-         +----&lt;link linkend="gi-GIVFuncInfo"&gt;GIVFuncInfo&lt;/link&gt;
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+and other metadata from the signal.</doc>
     </docsection>
     <docsection name="gistructinfo">
       <doc xml:space="preserve">GIStructInfo represents a generic C structure type.
 
-A structure has methods and fields.
-
-&lt;refsect1 id="gi-giobjectinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIRegisteredTypeInfo"&gt;GIRegisteredTypeInfo&lt;/link&gt;
-         +----GIStructInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+A structure has methods and fields.</doc>
     </docsection>
     <docsection name="gitypeinfo">
-      <doc xml:space="preserve">GITypeInfo represents a type. You can retrieve a type info from
-an argument (see #GIArgInfo), a functions return value (see #GIFunctionInfo),
-a field (see #GIFieldInfo), a property (see #GIPropertyInfo), a constant
+      <doc xml:space="preserve">GITypeInfo represents a type.
+
+You can retrieve a type info from an argument (see #GIArgInfo), a
+functions return value (see #GIFunctionInfo), a field (see
+#GIFieldInfo), a property (see #GIPropertyInfo), a constant
 (see #GIConstantInfo) or for a union discriminator (see #GIUnionInfo).
 
 A type can either be a of a basic type which is a standard C primitive
 type or an interface type. For interface types you need to call
 g_type_info_get_interface() to get a reference to the base info for that
-interface.
-
-&lt;refsect1 id="gi-gitypeinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GITypeInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+interface.</doc>
     </docsection>
     <docsection name="giunioninfo">
       <doc xml:space="preserve">GIUnionInfo represents a union type.
 
 A union has methods and fields.  Unions can optionally have a
 discriminator, which is a field deciding what type of real union
-fields is valid for specified instance.
-
-&lt;refsect1 id="gi-giobjectinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GIRegisteredTypeInfo"&gt;GIRegisteredTypeInfo&lt;/link&gt;
-         +----GIUnionInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+fields is valid for specified instance.</doc>
     </docsection>
     <docsection name="givalueinfo">
-      <doc xml:space="preserve">GIValueInfo represents a value.
-
-&lt;refsect1 id="gi-givalueinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----GIValueInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+      <doc xml:space="preserve">GIValueInfo represents a value.</doc>
     </docsection>
     <docsection name="givfuncinfo">
-      <doc xml:space="preserve">GIVfuncInfo represents a virtual function. A property belongs to
-either a #GIObjectInfo or a #GIInterfaceInfo.
+      <doc xml:space="preserve">GIVfuncInfo represents a virtual function.
 
-&lt;refsect1 id="gi-givfuncinfo.struct-hierarchy" role="struct_hierarchy"&gt;
-&lt;title role="struct_hierarchy.title"&gt;Struct hierarchy&lt;/title&gt;
-&lt;synopsis&gt;
-  &lt;link linkend="GIBaseInfo"&gt;GIBaseInfo&lt;/link&gt;
-   +----&lt;link linkend="gi-GICallableInfo"&gt;GICallableInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GIFunctionInfo"&gt;GIFunctionInfo&lt;/link&gt;
-         +----&lt;link linkend="gi-GISignalInfo"&gt;GISignalInfo&lt;/link&gt;
-         +----GIVFuncInfo
-&lt;/synopsis&gt;
-&lt;/refsect1&gt;</doc>
+A virtual function is a callable object that belongs to either a
+#GIObjectInfo or a #GIInterfaceInfo.</doc>
     </docsection>
     <function name="info_new" c:identifier="g_info_new">
       <doc xml:space="preserve">TODO</doc>
@@ -3965,7 +3855,7 @@ from @hash_pointer, depending on the storage type of @info.</doc>
     </function>
     <function name="type_info_get_array_fixed_size" c:identifier="g_type_info_get_array_fixed_size">
       <doc xml:space="preserve">Obtain the fixed array size of the type. The type tag must be a
-#GI_TYPE_TAG_ARRAY or -1 will returned.</doc>
+#GI_TYPE_TAG_ARRAY or -1 will be returned.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve">the size or -1 if it's not an array</doc>
         <type name="gint" c:type="gint"/>
@@ -3978,8 +3868,8 @@ from @hash_pointer, depending on the storage type of @info.</doc>
       </parameters>
     </function>
     <function name="type_info_get_array_length" c:identifier="g_type_info_get_array_length">
-      <doc xml:space="preserve">Obtain the array length of the type. The type tag must be a
-#GI_TYPE_TAG_ARRAY or -1 will returned.</doc>
+      <doc xml:space="preserve">Obtain the position of the argument which gives the array length of the type.
+The type tag must be a #GI_TYPE_TAG_ARRAY or -1 will be returned.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve">the array length, or -1 if the type is not an array</doc>
         <type name="gint" c:type="gint"/>
@@ -4116,7 +4006,7 @@ pointer).</doc>
     </function>
     <function name="type_info_is_zero_terminated" c:identifier="g_type_info_is_zero_terminated">
       <doc xml:space="preserve">Obtain if the last element of the array is %NULL. The type tag must be a
-#GI_TYPE_TAG_ARRAY or %FALSE will returned.</doc>
+#GI_TYPE_TAG_ARRAY or %FALSE will be returned.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve">%TRUE if zero terminated</doc>
         <type name="gboolean" c:type="gboolean"/>
@@ -4125,6 +4015,63 @@ pointer).</doc>
         <parameter name="info" transfer-ownership="none">
           <doc xml:space="preserve">a #GITypeInfo</doc>
           <type name="TypeInfo" c:type="GITypeInfo*"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="type_tag_argument_from_hash_pointer" c:identifier="gi_type_tag_argument_from_hash_pointer" version="1.72">
+      <doc xml:space="preserve">GLib data structures, such as #GList, #GSList, and #GHashTable, all store
+data pointers.
+In the case where the list or hash table is storing single types rather than
+structs, these data pointers may have values stuffed into them via macros
+such as %GPOINTER_TO_INT.
+
+Use this function to ensure that all values are correctly extracted from
+stuffed pointers, regardless of the machine's architecture or endianness.
+
+This function fills in the appropriate field of @arg with the value extracted
+from @hash_pointer, depending on @storage_type.</doc>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="storage_type" transfer-ownership="none">
+          <doc xml:space="preserve">a #GITypeTag obtained from g_type_info_get_storage_type()</doc>
+          <type name="TypeTag" c:type="GITypeTag"/>
+        </parameter>
+        <parameter name="hash_pointer" transfer-ownership="none" nullable="1" allow-none="1">
+          <doc xml:space="preserve">A pointer, such as a #GHashTable data pointer</doc>
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="arg" transfer-ownership="none">
+          <doc xml:space="preserve">A #GIArgument to fill in</doc>
+          <type name="Argument" c:type="GIArgument*"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="type_tag_hash_pointer_from_argument" c:identifier="gi_type_tag_hash_pointer_from_argument" version="1.72">
+      <doc xml:space="preserve">GLib data structures, such as #GList, #GSList, and #GHashTable, all store
+data pointers.
+In the case where the list or hash table is storing single types rather than
+structs, these data pointers may have values stuffed into them via macros
+such as %GPOINTER_TO_INT.
+
+Use this function to ensure that all values are correctly stuffed into
+pointers, regardless of the machine's architecture or endianness.
+
+This function returns a pointer stuffed with the appropriate field of @arg,
+depending on @storage_type.</doc>
+      <return-value transfer-ownership="none" nullable="1">
+        <doc xml:space="preserve">A stuffed pointer, that can be stored in a #GHashTable, for example</doc>
+        <type name="gpointer" c:type="gpointer"/>
+      </return-value>
+      <parameters>
+        <parameter name="storage_type" transfer-ownership="none">
+          <doc xml:space="preserve">a #GITypeTag obtained from g_type_info_get_storage_type()</doc>
+          <type name="TypeTag" c:type="GITypeTag"/>
+        </parameter>
+        <parameter name="arg" transfer-ownership="none">
+          <doc xml:space="preserve">A #GIArgument with the value to stuff into a pointer</doc>
+          <type name="Argument" c:type="GIArgument*"/>
         </parameter>
       </parameters>
     </function>

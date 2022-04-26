@@ -4986,6 +4986,18 @@ is present in #WebKitHitTestResult:context</doc>
         </parameter>
       </parameters>
     </function-macro>
+    <function-macro name="IS_URI_SCHEME_RESPONSE" c:identifier="WEBKIT_IS_URI_SCHEME_RESPONSE" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="IS_URI_SCHEME_RESPONSE_CLASS" c:identifier="WEBKIT_IS_URI_SCHEME_RESPONSE_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
     <function-macro name="IS_USER_CONTENT_FILTER_STORE" c:identifier="WEBKIT_IS_USER_CONTENT_FILTER_STORE" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -6364,13 +6376,13 @@ against at application run time.</doc>
         </parameter>
       </parameters>
     </function-macro>
-    <constant name="MICRO_VERSION" value="3" c:type="WEBKIT_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="1" c:type="WEBKIT_MICRO_VERSION">
       <doc xml:space="preserve">Like webkit_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="34" c:type="WEBKIT_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="36" c:type="WEBKIT_MINOR_VERSION">
       <doc xml:space="preserve">Like webkit_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -11834,6 +11846,45 @@ present.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="finish_with_response" c:identifier="webkit_uri_scheme_request_finish_with_response" version="2.36">
+        <doc xml:space="preserve">Finish a #WebKitURISchemeRequest by returning a #WebKitURISchemeResponse</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitURISchemeRequest</doc>
+            <type name="URISchemeRequest" c:type="WebKitURISchemeRequest*"/>
+          </instance-parameter>
+          <parameter name="response" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitURISchemeResponse</doc>
+            <type name="URISchemeResponse" c:type="WebKitURISchemeResponse*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_http_headers" c:identifier="webkit_uri_scheme_request_get_http_headers">
+        <return-value transfer-ownership="full">
+          <type name="Soup.MessageHeaders" c:type="SoupMessageHeaders*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <type name="URISchemeRequest" c:type="WebKitURISchemeRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_http_method" c:identifier="webkit_uri_scheme_request_get_http_method" version="2.36">
+        <doc xml:space="preserve">Get the HTTP method of the @request</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the HTTP method of the @request</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitURISchemeRequest</doc>
+            <type name="URISchemeRequest" c:type="WebKitURISchemeRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_path" c:identifier="webkit_uri_scheme_request_get_path">
         <doc xml:space="preserve">Get the URI path of @request</doc>
         <return-value transfer-ownership="none">
@@ -11944,6 +11995,122 @@ made for a user registered URI scheme.</doc>
       </field>
     </record>
     <record name="URISchemeRequestPrivate" c:type="WebKitURISchemeRequestPrivate" disguised="1"/>
+    <class name="URISchemeResponse" c:symbol-prefix="uri_scheme_response" c:type="WebKitURISchemeResponse" parent="GObject.Object" glib:type-name="WebKitURISchemeResponse" glib:get-type="webkit_uri_scheme_response_get_type" glib:type-struct="URISchemeResponseClass">
+      <constructor name="new" c:identifier="webkit_uri_scheme_response_new" version="2.36">
+        <doc xml:space="preserve">Create a new #WebKitURISchemeResponse</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">the newly created #WebKitURISchemeResponse.</doc>
+          <type name="URISchemeResponse" c:type="WebKitURISchemeResponse*"/>
+        </return-value>
+        <parameters>
+          <parameter name="input_stream" transfer-ownership="none">
+            <doc xml:space="preserve">a #GInputStream to read the contents of the request</doc>
+            <type name="Gio.InputStream" c:type="GInputStream*"/>
+          </parameter>
+          <parameter name="stream_length" transfer-ownership="none">
+            <doc xml:space="preserve">the length of the stream or -1 if not known</doc>
+            <type name="gint64" c:type="gint64"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <method name="set_content_type" c:identifier="webkit_uri_scheme_response_set_content_type" version="2.36">
+        <doc xml:space="preserve">Sets the content type for the @response</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="response" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitURISchemeResponse</doc>
+            <type name="URISchemeResponse" c:type="WebKitURISchemeResponse*"/>
+          </instance-parameter>
+          <parameter name="content_type" transfer-ownership="none">
+            <doc xml:space="preserve">the content type of the stream</doc>
+            <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_http_headers" c:identifier="webkit_uri_scheme_response_set_http_headers">
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="response" transfer-ownership="none">
+            <type name="URISchemeResponse" c:type="WebKitURISchemeResponse*"/>
+          </instance-parameter>
+          <parameter name="headers" transfer-ownership="none">
+            <type name="Soup.MessageHeaders" c:type="SoupMessageHeaders*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_status" c:identifier="webkit_uri_scheme_response_set_status" version="2.36">
+        <doc xml:space="preserve">Sets the status code and reason phrase for the @response.
+If @status_code is a known value and @reason_phrase is %NULL, the @reason_phrase will be set automatically.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="response" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitURISchemeResponse</doc>
+            <type name="URISchemeResponse" c:type="WebKitURISchemeResponse*"/>
+          </instance-parameter>
+          <parameter name="status_code" transfer-ownership="none">
+            <doc xml:space="preserve">the HTTP status code to be returned</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+          <parameter name="reason_phrase" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">a reason phrase</doc>
+            <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <property name="stream" version="2.36" readable="0" writable="1" construct-only="1" transfer-ownership="none">
+        <doc xml:space="preserve">The input stream to read from.</doc>
+        <type name="Gio.InputStream"/>
+      </property>
+      <property name="stream-length" readable="0" writable="1" construct-only="1" transfer-ownership="none">
+        <type name="gint64" c:type="gint64"/>
+      </property>
+      <field name="parent">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+      <field name="priv">
+        <type name="URISchemeResponsePrivate" c:type="WebKitURISchemeResponsePrivate*"/>
+      </field>
+    </class>
+    <record name="URISchemeResponseClass" c:type="WebKitURISchemeResponseClass" glib:is-gtype-struct-for="URISchemeResponse">
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+      <field name="_webkit_reserved0" introspectable="0">
+        <callback name="_webkit_reserved0">
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+        </callback>
+      </field>
+      <field name="_webkit_reserved1" introspectable="0">
+        <callback name="_webkit_reserved1">
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+        </callback>
+      </field>
+      <field name="_webkit_reserved2" introspectable="0">
+        <callback name="_webkit_reserved2">
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+        </callback>
+      </field>
+      <field name="_webkit_reserved3" introspectable="0">
+        <callback name="_webkit_reserved3">
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+        </callback>
+      </field>
+    </record>
+    <record name="URISchemeResponsePrivate" c:type="WebKitURISchemeResponsePrivate" disguised="1"/>
     <function-macro name="URI_REQUEST" c:identifier="WEBKIT_URI_REQUEST" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -11993,6 +12160,24 @@ made for a user registered URI scheme.</doc>
       </parameters>
     </function-macro>
     <function-macro name="URI_SCHEME_REQUEST_GET_CLASS" c:identifier="WEBKIT_URI_SCHEME_REQUEST_GET_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="URI_SCHEME_RESPONSE" c:identifier="WEBKIT_URI_SCHEME_RESPONSE" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="URI_SCHEME_RESPONSE_CLASS" c:identifier="WEBKIT_URI_SCHEME_RESPONSE_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="URI_SCHEME_RESPONSE_GET_CLASS" c:identifier="WEBKIT_URI_SCHEME_RESPONSE_GET_CLASS" introspectable="0">
       <parameters>
         <parameter name="obj">
         </parameter>
@@ -15234,6 +15419,18 @@ scheme, the URI and path, and the #WebKitWebView that initiated the
 request, and also finish the request with
 webkit_uri_scheme_request_finish().</doc>
     </docsection>
+    <docsection name="WebKitURISchemeResponse">
+      <doc xml:space="preserve">If you register a particular URI scheme in a #WebKitWebContext,
+using webkit_web_context_register_uri_scheme(), you have to provide
+a #WebKitURISchemeRequestCallback. After that, when a URI response
+is made with that particular scheme, your callback will be
+called. There you will be able to provide more response parameters
+when the methods and properties of a #WebKitURISchemeRequest is not
+enough.
+
+When you finished setting up your #WebKitURISchemeResponse, call
+webkit_uri_request_finish_with_response() with it to return the response.</doc>
+    </docsection>
     <docsection name="WebKitUserContent">
       <doc xml:space="preserve">See also: #WebKitUserContentManager</doc>
     </docsection>
@@ -15326,7 +15523,7 @@ to true, otherwise no inspector is available.
 
 &lt;informalexample&gt;&lt;programlisting&gt;
 /&lt;!-- --&gt;* Enable the developer extras *&lt;!-- --&gt;/
-WebKitSettings *setting = webkit_web_view_get_settings (WEBKIT_WEB_VIEW(my_webview));
+WebKitSettings *settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW(my_webview));
 g_object_set (G_OBJECT(settings), "enable-developer-extras", TRUE, NULL);
 
 /&lt;!-- --&gt;* Load some data or reload to be able to inspect the page*&lt;!-- --&gt;/

@@ -192,6 +192,9 @@ for the launched application itself.</doc>
         <doc xml:space="preserve">Sets the screen on which applications will be launched when
 using this context. See also gdk_app_launch_context_set_display().
 
+Note that, typically, a #GdkScreen represents a logical screen,
+not a physical monitor.
+
 If both @screen and @display are set, the @screen takes priority.
 If neither @screen or @display are set, the default screen and
 display are used.</doc>
@@ -14770,7 +14773,7 @@ See gdk_keymap_get_caps_lock_state().</doc>
     <constant name="MAX_TIMECOORD_AXES" value="128" c:type="GDK_MAX_TIMECOORD_AXES">
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="31" c:type="GDK_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="33" c:type="GDK_MICRO_VERSION">
       <type name="gint" c:type="gint"/>
     </constant>
     <constant name="MINOR_VERSION" value="24" c:type="GDK_MINOR_VERSION">

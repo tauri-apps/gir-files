@@ -1909,13 +1909,13 @@ application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="3" c:type="JSC_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="1" c:type="JSC_MICRO_VERSION">
       <doc xml:space="preserve">Like jsc_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="34" c:type="JSC_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="36" c:type="JSC_MINOR_VERSION">
       <doc xml:space="preserve">Like jsc_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -2610,7 +2610,10 @@ when used with an accessor descriptor.
 Note that the value returned by @getter must be fully transferred. In case of boxed types, you could use
 %G_TYPE_POINTER instead of the actual boxed #GType to ensure that the instance owned by #JSCClass is used.
 If you really want to return a new copy of the boxed type, use #JSC_TYPE_VALUE and return a #JSCValue created
-with jsc_value_new_object() that receives the copy as instance parameter.</doc>
+with jsc_value_new_object() that receives the copy as instance parameter.
+
+Note that @getter and @setter are called as functions and not methods, so they don't receive an instance as
+first parameter. Use jsc_class_add_property() if you want to add property accessor invoked as a method.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
