@@ -1871,10 +1871,7 @@ lifetime in seconds. You can use the constants
 %SOUP_COOKIE_MAX_AGE_ONE_WEEK and %SOUP_COOKIE_MAX_AGE_ONE_YEAR (or
 multiples thereof) to calculate this value. (If you really care
 about setting the exact time that the cookie will expire, use
-[method@Cookie.set_expires].)
-
-As of version 3.4.0 the default value of a cookie's same-site-policy
-is %SOUP_SAME_SITE_POLICY_LAX.</doc>
+[method@Cookie.set_expires].)</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a new #SoupCookie.</doc>
           <type name="Cookie" c:type="SoupCookie*"/>
@@ -2299,10 +2296,7 @@ be defaulted from @origin. If @origin is %NULL, path will default
 to "/", but domain will be left as %NULL. Note that this is not a
 valid state for a #SoupCookie, and you will need to fill in some
 appropriate string for the domain if you want to actually make use
-of the cookie.
-
-As of version 3.4.0 the default value of a cookie's same-site-policy
-is %SOUP_SAME_SITE_POLICY_LAX.</doc>
+of the cookie.</doc>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve">a new #SoupCookie, or %NULL if it could
   not be parsed, or contained an illegal "domain" attribute for a
@@ -2952,14 +2946,6 @@ You should use `SOUP_DEPRECATED_FOR_IN_*` in order to handle versioning.</doc>
       </parameters>
     </function-macro>
     <function-macro name="DEPRECATED_IN_3_2_FOR" c:identifier="SOUP_DEPRECATED_IN_3_2_FOR" introspectable="0">
-      <doc xml:space="preserve">A macro used to indicate a symbol was deprecated in this version with a replacement.</doc>
-      <parameters>
-        <parameter name="f">
-          <doc xml:space="preserve">The recommended replacement function.</doc>
-        </parameter>
-      </parameters>
-    </function-macro>
-    <function-macro name="DEPRECATED_IN_3_4_FOR" c:identifier="SOUP_DEPRECATED_IN_3_4_FOR" introspectable="0">
       <doc xml:space="preserve">A macro used to indicate a symbol was deprecated in this version with a replacement.</doc>
       <parameters>
         <parameter name="f">
@@ -3922,13 +3908,13 @@ compile time, rather than from the library linked against at application run
 time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="0" c:type="SOUP_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="2" c:type="SOUP_MICRO_VERSION">
       <doc xml:space="preserve">Like [func@get_micro_version], but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="3" c:type="SOUP_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="2" c:type="SOUP_MINOR_VERSION">
       <doc xml:space="preserve">Like [func@get_minor_version], but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -6324,7 +6310,7 @@ fetch start event and finish with response end. All other events are optional.
 An event can be 0 because it hasn't happened yet, because it's optional or
 because the load failed before the event reached.
 
-Size metrics are expressed in bytes and are updated while the [class@Message] is
+Size metrics are expressed in bytes and aree updated while the [class@Message] is
 being loaded. You can connect to different [class@Message] signals to get the
 final result of every value.</doc>
       <method name="copy" c:identifier="soup_message_metrics_copy">
@@ -6699,11 +6685,11 @@ Uses "Content-Disposition: form-data", as per the HTML forms specification.</doc
             <doc xml:space="preserve">the name of the control associated with this file</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
-          <parameter name="filename" transfer-ownership="none" nullable="1" allow-none="1">
+          <parameter name="filename" transfer-ownership="none">
             <doc xml:space="preserve">the name of the file, or %NULL if not known</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
-          <parameter name="content_type" transfer-ownership="none" nullable="1" allow-none="1">
+          <parameter name="content_type" transfer-ownership="none">
             <doc xml:space="preserve">the MIME type of the file, or %NULL if not known</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
@@ -11278,10 +11264,7 @@ be defaulted from @origin. If @origin is %NULL, path will default
 to "/", but domain will be left as %NULL. Note that this is not a
 valid state for a #SoupCookie, and you will need to fill in some
 appropriate string for the domain if you want to actually make use
-of the cookie.
-
-As of version 3.4.0 the default value of a cookie's same-site-policy
-is %SOUP_SAME_SITE_POLICY_LAX.</doc>
+of the cookie.</doc>
       <return-value transfer-ownership="full" nullable="1">
         <doc xml:space="preserve">a new #SoupCookie, or %NULL if it could
   not be parsed, or contained an illegal "domain" attribute for a

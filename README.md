@@ -8,8 +8,7 @@ files used to generate all [`gtk-rs`](https://github.com/gtk-rs/gtk-rs) crates.
 You can update all the files by doing:
 
 ```console
-$ flatpak remote-add --user --if-not-exists gnome-nightly https://nightly.gnome.org/gnome-nightly.flatpakrepo
-$ flatpak install org.gnome.Sdk//master -y --noninteractive
+$ flatpak install org.gnome.Sdk//43 -y --noninteractive
 $ flatpak run --command=python3 --filesystem=home org.gnome.Sdk//master dl.py
 $ ./reformat.sh && ./fix.sh
 ```

@@ -8,7 +8,7 @@ and/or use gtk-doc annotations.  -->
   <include name="Soup" version="3.0"/>
   <package name="webkit2gtk-4.1"/>
   <c:include name="webkit2/webkit2.h"/>
-  <namespace name="WebKit2" version="4.1" shared-library="libwebkit2gtk-4.1.so.0,libjavascriptcoregtk-4.1.so.0" c:identifier-prefixes="WebKit" c:symbol-prefixes="webkit">
+  <namespace name="WebKit2" version="4.1" shared-library="libwebkit2gtk-4.1.so.0" c:identifier-prefixes="WebKit" c:symbol-prefixes="webkit">
     <function-macro name="AUTHENTICATION_REQUEST" c:identifier="WEBKIT_AUTHENTICATION_REQUEST" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -1317,34 +1317,6 @@ See also webkit_context_menu_new()</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_event" c:identifier="webkit_context_menu_get_event" version="2.40">
-        <doc xml:space="preserve">Gets the #GdkEvent that triggered the context menu. This function only returns a valid
-#GdkEvent when called for a #WebKitContextMenu passed to #WebKitWebView::context-menu
-signal; in all other cases, %NULL is returned.
-
-The returned #GdkEvent is expected to be one of the following types:
-&lt;itemizedlist&gt;
-&lt;listitem&gt;&lt;para&gt;
-a #GdkEventButton of type %GDK_BUTTON_PRESS when the context menu was triggered with mouse.
-&lt;/para&gt;&lt;/listitem&gt;
-&lt;listitem&gt;&lt;para&gt;
-a #GdkEventKey of type %GDK_KEY_PRESS if the keyboard was used to show the menu.
-&lt;/para&gt;&lt;/listitem&gt;
-&lt;listitem&gt;&lt;para&gt;
-a generic #GdkEvent of type %GDK_NOTHING when the #GtkWidget::popup-menu signal was used to show the context menu.
-&lt;/para&gt;&lt;/listitem&gt;
-&lt;/itemizedlist&gt;</doc>
-        <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the menu event or %NULL.</doc>
-          <type name="Gdk.Event" c:type="GdkEvent*"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="menu" transfer-ownership="none">
-            <doc xml:space="preserve">a #WebKitContextMenu</doc>
-            <type name="ContextMenu" c:type="WebKitContextMenu*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
       <method name="get_item_at_position" c:identifier="webkit_context_menu_get_item_at_position">
         <doc xml:space="preserve">Gets the item at the given position in the @menu.</doc>
         <return-value transfer-ownership="none">
@@ -1930,7 +1902,7 @@ submenu of @item is removed.</doc>
       <field name="parent">
         <type name="GObject.InitiallyUnowned" c:type="GInitiallyUnowned"/>
       </field>
-      <field name="priv" readable="0" private="1">
+      <field name="priv">
         <type name="ContextMenuItemPrivate" c:type="WebKitContextMenuItemPrivate*"/>
       </field>
     </class>
@@ -6801,13 +6773,13 @@ against at application run time.</doc>
         </parameter>
       </parameters>
     </function-macro>
-    <constant name="MICRO_VERSION" value="2" c:type="WEBKIT_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="1" c:type="WEBKIT_MICRO_VERSION">
       <doc xml:space="preserve">Like webkit_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="39" c:type="WEBKIT_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="38" c:type="WEBKIT_MINOR_VERSION">
       <doc xml:space="preserve">Like webkit_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -7938,21 +7910,6 @@ unchanged.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_event" c:identifier="webkit_option_menu_get_event" version="2.40">
-        <doc xml:space="preserve">Gets the #GdkEvent that triggered the dropdown menu.
-If @menu was not triggered by a user interaction, like a mouse click,
-%NULL is returned.</doc>
-        <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the menu event or %NULL.</doc>
-          <type name="Gdk.Event" c:type="GdkEvent*"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="menu" transfer-ownership="none">
-            <doc xml:space="preserve">a #WebKitOptionMenu</doc>
-            <type name="OptionMenu" c:type="WebKitOptionMenu*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
       <method name="get_item" c:identifier="webkit_option_menu_get_item" version="2.18">
         <doc xml:space="preserve">Returns the #WebKitOptionMenuItem at @index in @menu.</doc>
         <return-value transfer-ownership="none">
@@ -8462,7 +8419,7 @@ as a list of #WebKitMimeInfo.</doc>
       </field>
     </record>
     <enumeration name="PluginError" glib:type-name="WebKitPluginError" glib:get-type="webkit_plugin_error_get_type" c:type="WebKitPluginError" glib:error-domain="WebKitPluginError">
-      <doc xml:space="preserve">Enum values used to denote the various plugin and media errors.</doc>
+      <doc xml:space="preserve">Enum values used to denote the various plugin and multimedia errors.</doc>
       <member name="failed" value="299" c:identifier="WEBKIT_PLUGIN_ERROR_FAILED" glib:nick="failed" glib:name="WEBKIT_PLUGIN_ERROR_FAILED">
         <doc xml:space="preserve">Generic plugin load failure. Deprecated 2.32</doc>
       </member>
@@ -9253,19 +9210,6 @@ not. To modify requests before they are sent over the network the
           </instance-parameter>
         </parameters>
       </method>
-      <method name="is_main_frame_main_resource" c:identifier="webkit_response_policy_decision_is_main_frame_main_resource" version="2.40">
-        <doc xml:space="preserve">Gets whether the request is the main frame main resource</doc>
-        <return-value transfer-ownership="none">
-          <doc xml:space="preserve">%TRUE if the request is the main frame main resouce or %FALSE otherwise</doc>
-          <type name="gboolean" c:type="gboolean"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="decision" transfer-ownership="none">
-            <doc xml:space="preserve">a #WebKitResponsePolicyDecision</doc>
-            <type name="ResponsePolicyDecision" c:type="WebKitResponsePolicyDecision*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
       <method name="is_mime_type_supported" c:identifier="webkit_response_policy_decision_is_mime_type_supported" version="2.4">
         <doc xml:space="preserve">Gets whether the MIME type of the response can be displayed in the #WebKitWebView.
 
@@ -9536,74 +9480,6 @@ information to the user.</doc>
 used to ask confirmation to leave the current page to the user. Since 2.12</doc>
       </member>
     </enumeration>
-    <record name="ScriptMessageReply" c:type="WebKitScriptMessageReply" version="2.40" glib:type-name="WebKitScriptMessageReply" glib:get-type="webkit_script_message_reply_get_type" c:symbol-prefix="script_message_reply">
-      <doc xml:space="preserve">A reply for a script message received.
-If no reply has been sent by the user, an automatically generated reply with
-undefined value with be sent.</doc>
-      <method name="ref" c:identifier="webkit_script_message_reply_ref" version="2.40">
-        <doc xml:space="preserve">Atomically increments the reference count of @script_message_reply by one.</doc>
-        <return-value transfer-ownership="full">
-          <doc xml:space="preserve">the @script_message_reply passed in.</doc>
-          <type name="ScriptMessageReply" c:type="WebKitScriptMessageReply*"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="script_message_reply" transfer-ownership="none">
-            <doc xml:space="preserve">A #WebKitScriptMessageReply</doc>
-            <type name="ScriptMessageReply" c:type="WebKitScriptMessageReply*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
-      <method name="return_error_message" c:identifier="webkit_script_message_reply_return_error_message" version="2.40">
-        <doc xml:space="preserve">Reply to a script message with an error message.</doc>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="script_message_reply" transfer-ownership="none">
-            <doc xml:space="preserve">A #WebKitScriptMessageReply</doc>
-            <type name="ScriptMessageReply" c:type="WebKitScriptMessageReply*"/>
-          </instance-parameter>
-          <parameter name="error_message" transfer-ownership="none">
-            <doc xml:space="preserve">An error message to return as specified by the user's script message</doc>
-            <type name="utf8" c:type="const char*"/>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="return_value" c:identifier="webkit_script_message_reply_return_value" version="2.40">
-        <doc xml:space="preserve">Reply to a script message with a value.
-
-This function can be called twice for passing the reply value in.</doc>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="script_message_reply" transfer-ownership="none">
-            <doc xml:space="preserve">A #WebKitScriptMessageReply</doc>
-            <type name="ScriptMessageReply" c:type="WebKitScriptMessageReply*"/>
-          </instance-parameter>
-          <parameter name="reply_value" transfer-ownership="none">
-            <doc xml:space="preserve">Reply value of the provided script message</doc>
-            <type name="JavaScriptCore.Value" c:type="JSCValue*"/>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="unref" c:identifier="webkit_script_message_reply_unref" version="2.40">
-        <doc xml:space="preserve">Atomically decrements the reference count of @script_message_reply by one.
-
-If the reference count drops to 0, all the memory allocated by the
-#WebKitScriptMessageReply is released. This function is MT-safe and may
-be called from any thread.</doc>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="script_message_reply" transfer-ownership="none">
-            <doc xml:space="preserve">A #WebKitScriptMessageReply</doc>
-            <type name="ScriptMessageReply" c:type="WebKitScriptMessageReply*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
-    </record>
     <class name="SecurityManager" c:symbol-prefix="security_manager" c:type="WebKitSecurityManager" parent="GObject.Object" glib:type-name="WebKitSecurityManager" glib:get-type="webkit_security_manager_get_type" glib:type-struct="SecurityManagerClass">
       <doc xml:space="preserve">Controls security settings in a #WebKitWebContext.
 
@@ -10348,10 +10224,10 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_enable_frame_flattening" c:identifier="webkit_settings_get_enable_frame_flattening" glib:get-property="enable-frame-flattening" deprecated="1" deprecated-version="2.38">
-        <doc xml:space="preserve">Frame flattening is no longer supported. This function returns %FALSE.</doc>
+      <method name="get_enable_frame_flattening" c:identifier="webkit_settings_get_enable_frame_flattening" glib:get-property="enable-frame-flattening" deprecated="1" deprecated-version="2.38.">
+        <doc xml:space="preserve">Get the #WebKitSettings:enable-frame-flattening property.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">%FALSE</doc>
+          <doc xml:space="preserve">%TRUE If frame flattening is enabled or %FALSE otherwise.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
@@ -11186,8 +11062,8 @@ otherwise.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_enable_frame_flattening" c:identifier="webkit_settings_set_enable_frame_flattening" glib:set-property="enable-frame-flattening" deprecated="1" deprecated-version="2.38">
-        <doc xml:space="preserve">Frame flattening is no longer supported. This function does nothing.</doc>
+      <method name="set_enable_frame_flattening" c:identifier="webkit_settings_set_enable_frame_flattening" glib:set-property="enable-frame-flattening" deprecated="1" deprecated-version="2.38.">
+        <doc xml:space="preserve">Set the #WebKitSettings:enable-frame-flattening property.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -12006,7 +11882,9 @@ See https://www.w3.org/TR/encrypted-media/</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="enable-frame-flattening" deprecated="1" deprecated-version="2.38" writable="1" construct="1" transfer-ownership="none" setter="set_enable_frame_flattening" getter="get_enable_frame_flattening">
-        <doc xml:space="preserve">Frame flattening is no longer supported. This property does nothing.</doc>
+        <doc xml:space="preserve">Whether to enable the frame flattening. With this setting each subframe is expanded
+to its contents, which will flatten all the frames to become one scrollable page.
+On touch devices scrollable subframes on a page can result in a confusing user experience.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="enable-fullscreen" writable="1" construct="1" transfer-ownership="none" setter="set_enable_fullscreen" getter="get_enable_fullscreen">
@@ -12189,15 +12067,15 @@ reflective XSS attacks on vulnerable web sites.</doc>
       </property>
       <property name="hardware-acceleration-policy" version="2.16" writable="1" construct="1" transfer-ownership="none" setter="set_hardware_acceleration_policy" getter="get_hardware_acceleration_policy">
         <doc xml:space="preserve">The #WebKitHardwareAccelerationPolicy to decide how to enable and disable
-hardware acceleration. The value %WEBKIT_HARDWARE_ACCELERATION_POLICY_ON_DEMAND
-enables hardware acceleration only when the web content requests it.
+hardware acceleration. The default value %WEBKIT_HARDWARE_ACCELERATION_POLICY_ON_DEMAND
+enables the hardware acceleration when the web contents request it.
 It's possible to enforce hardware acceleration to be always enabled
-by using %WEBKIT_HARDWARE_ACCELERATION_POLICY_ALWAYS, or to disable it
+by using %WEBKIT_HARDWARE_ACCELERATION_POLICY_ALWAYS. And it's also possible to disable it
 completely using %WEBKIT_HARDWARE_ACCELERATION_POLICY_NEVER. Note that disabling hardware
 acceleration might cause some websites to not render correctly or consume more CPU.
 
 Note that changing this setting might not be possible if hardware acceleration is not
-supported by the hardware or the system. In that case, you can get the value to know the
+supported by the hardware or the system. In that case you can get the value to know the
 actual policy being used, but changing the setting will not have any effect.</doc>
         <type name="HardwareAccelerationPolicy"/>
       </property>
@@ -13719,42 +13597,6 @@ name has been already registered before.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="register_script_message_handler_with_reply" c:identifier="webkit_user_content_manager_register_script_message_handler_with_reply" version="2.40">
-        <doc xml:space="preserve">Registers a new user script message handler in script world with name @world_name.
-
-Different from webkit_user_content_manager_register_script_message_handler(),
-when using this function to register the handler, the connected signal is
-script-message-with-reply-received, and a reply provided by the user is expected.
-Otherwise, the user will receive a default undefined value.
-
-If %NULL is passed as the @world_name, the default world will be used.
-See webkit_user_content_manager_register_script_message_handler() for full description.
-
-Registering a script message handler will fail if the requested
-name has been already registered before.
-
-The registered handler can be unregistered by using
-#webkit_user_content_manager_unregister_script_message_handler() and
-#webkit_user_content_manager_unregister_script_message_handler_in_world().</doc>
-        <return-value transfer-ownership="none">
-          <doc xml:space="preserve">%TRUE if message handler was registered successfully, or %FALSE otherwise.</doc>
-          <type name="gboolean" c:type="gboolean"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="manager" transfer-ownership="none">
-            <doc xml:space="preserve">A #WebKitUserContentManager</doc>
-            <type name="UserContentManager" c:type="WebKitUserContentManager*"/>
-          </instance-parameter>
-          <parameter name="name" transfer-ownership="none">
-            <doc xml:space="preserve">Name of the script message channel
-@world_name (nullable): the name of a #WebKitScriptWorld</doc>
-            <type name="utf8" c:type="const char*"/>
-          </parameter>
-          <parameter name="world_name" transfer-ownership="none">
-            <type name="utf8" c:type="const char*"/>
-          </parameter>
-        </parameters>
-      </method>
       <method name="remove_all_filters" c:identifier="webkit_user_content_manager_remove_all_filters" version="2.24">
         <doc xml:space="preserve">Removes all content filters from the given #WebKitUserContentManager.</doc>
         <return-value transfer-ownership="none">
@@ -13935,35 +13777,6 @@ webkit_user_content_manager_register_script_message_handler()</doc>
           <parameter name="js_result" transfer-ownership="none">
             <doc xml:space="preserve">the #WebKitJavascriptResult holding the value received from the JavaScript world.</doc>
             <type name="JavascriptResult"/>
-          </parameter>
-        </parameters>
-      </glib:signal>
-      <glib:signal name="script-message-with-reply-received" when="last" detailed="1" version="2.40">
-        <doc xml:space="preserve">This signal is emitted when JavaScript in a web view calls
-&lt;code&gt;window.webkit.messageHandlers.&lt;name&gt;.postMessage()&lt;/code&gt;, after registering
-&lt;code&gt;&lt;name&gt;&lt;/code&gt; using
-webkit_user_content_manager_register_script_message_handler_with_reply()
-
-The given @reply can be used to send a return value with
-webkit_script_message_reply_return_value() or an error message with
-webkit_script_message_reply_return_error_message(). If none of them are
-called, an automatic reply with an undefined value will be sent.
-
-It is possible to handle the reply asynchronously, by simply calling
-g_object_ref() on the @reply and returning %TRUE.</doc>
-        <return-value transfer-ownership="none">
-          <doc xml:space="preserve">%TRUE to stop other handlers from being invoked for the event.
-   %FALSE to propagate the event further.</doc>
-          <type name="gboolean" c:type="gboolean"/>
-        </return-value>
-        <parameters>
-          <parameter name="js_result" transfer-ownership="none">
-            <doc xml:space="preserve">the #WebKitJavascriptResult holding the value received from the JavaScript world.</doc>
-            <type name="JavascriptResult"/>
-          </parameter>
-          <parameter name="reply" transfer-ownership="none">
-            <doc xml:space="preserve">the #WebKitScriptMessageReply to send the reply to the script message.</doc>
-            <type name="ScriptMessageReply"/>
           </parameter>
         </parameters>
       </glib:signal>
@@ -16377,12 +16190,10 @@ is emitted before this one.</doc>
           <type name="none" c:type="void"/>
         </return-value>
       </glib:signal>
-      <glib:signal name="received-data" when="last" deprecated="1" deprecated-version="2.40">
+      <glib:signal name="received-data" when="last">
         <doc xml:space="preserve">This signal is emitted after response is received,
 every time new data has been received. It's
-useful to know the progress of the resource load operation.
-
-This is signal is deprecated since version 2.40 and it's never emitted.</doc>
+useful to know the progress of the resource load operation.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -16851,14 +16662,11 @@ in the view by the user content manager.</doc>
           <instance-parameter name="web_view" transfer-ownership="none">
             <type name="WebView" c:type="WebKitWebView*"/>
           </instance-parameter>
-          <parameter name="menu" transfer-ownership="none">
-            <type name="OptionMenu" c:type="WebKitOptionMenu*"/>
-          </parameter>
-          <parameter name="event" transfer-ownership="none">
-            <type name="Gdk.Event" c:type="GdkEvent*"/>
-          </parameter>
           <parameter name="rectangle" transfer-ownership="none">
             <type name="Gdk.Rectangle" c:type="GdkRectangle*"/>
+          </parameter>
+          <parameter name="menu" transfer-ownership="none">
+            <type name="OptionMenu" c:type="WebKitOptionMenu*"/>
           </parameter>
         </parameters>
       </virtual-method>
@@ -18948,8 +18756,21 @@ or build its own context menu.
 &lt;/para&gt;&lt;/listitem&gt;
 &lt;/itemizedlist&gt;
 
-The @event parameter is now deprecated. Use webkit_context_menu_get_event() to get the
-#GdkEvent that triggered the context menu.
+The @event is expected to be one of the following types:
+&lt;itemizedlist&gt;
+&lt;listitem&gt;&lt;para&gt;
+a #GdkEventButton of type %GDK_BUTTON_PRESS when the context menu
+was triggered with mouse.
+&lt;/para&gt;&lt;/listitem&gt;
+&lt;listitem&gt;&lt;para&gt;
+a #GdkEventKey of type %GDK_KEY_PRESS if the keyboard was used to show
+the menu.
+&lt;/para&gt;&lt;/listitem&gt;
+&lt;listitem&gt;&lt;para&gt;
+a generic #GdkEvent of type %GDK_NOTHING when the #GtkWidget::popup-menu
+signal was used to show the context menu.
+&lt;/para&gt;&lt;/listitem&gt;
+&lt;/itemizedlist&gt;
 
 If the signal handler returns %FALSE the context menu represented by @context_menu
 will be shown, if it return %TRUE the context menu will not be shown.
@@ -18967,7 +18788,7 @@ during the signal emission.</doc>
             <type name="ContextMenu"/>
           </parameter>
           <parameter name="event" transfer-ownership="none">
-            <doc xml:space="preserve">the #GdkEvent that triggered the context menu. Deprecated 2.40.</doc>
+            <doc xml:space="preserve">the #GdkEvent that triggered the context menu</doc>
             <type name="Gdk.Event"/>
           </parameter>
           <parameter name="hit_test_result" transfer-ownership="none">
@@ -19490,9 +19311,6 @@ menu. If this was triggered by a user interaction, like a mouse click,
 @event parameter provides the #GdkEvent.
 To handle this signal asynchronously you should keep a ref of the @menu.
 
-The @event parameter is now deprecated. Use webkit_option_menu_get_event() to get the
-#GdkEvent that triggered the dropdown menu.
-
 The default signal handler will pop up a #GtkMenu.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE to stop other handlers from being invoked for the event.
@@ -19505,7 +19323,7 @@ The default signal handler will pop up a #GtkMenu.</doc>
             <type name="OptionMenu"/>
           </parameter>
           <parameter name="event" transfer-ownership="none">
-            <doc xml:space="preserve">the #GdkEvent that triggered the menu, or %NULL. Deprecated 2.40</doc>
+            <doc xml:space="preserve">the #GdkEvent that triggered the menu, or %NULL</doc>
             <type name="Gdk.Event"/>
           </parameter>
           <parameter name="rectangle" transfer-ownership="none">
@@ -19580,6 +19398,7 @@ to @reason.</doc>
       </glib:signal>
     </class>
     <class name="WebViewBase" c:symbol-prefix="web_view_base" c:type="WebKitWebViewBase" parent="Gtk.Container" glib:type-name="WebKitWebViewBase" glib:get-type="webkit_web_view_base_get_type" glib:type-struct="WebViewBaseClass">
+      <doc xml:space="preserve">Internal base class.</doc>
       <implements name="Atk.ImplementorIface"/>
       <implements name="Gtk.Buildable"/>
       <field name="parentInstance">
@@ -20002,14 +19821,11 @@ to @reason.</doc>
             <parameter name="web_view" transfer-ownership="none">
               <type name="WebView" c:type="WebKitWebView*"/>
             </parameter>
-            <parameter name="menu" transfer-ownership="none">
-              <type name="OptionMenu" c:type="WebKitOptionMenu*"/>
-            </parameter>
-            <parameter name="event" transfer-ownership="none">
-              <type name="Gdk.Event" c:type="GdkEvent*"/>
-            </parameter>
             <parameter name="rectangle" transfer-ownership="none">
               <type name="Gdk.Rectangle" c:type="GdkRectangle*"/>
+            </parameter>
+            <parameter name="menu" transfer-ownership="none">
+              <type name="OptionMenu" c:type="WebKitOptionMenu*"/>
             </parameter>
           </parameters>
         </callback>
@@ -20295,23 +20111,33 @@ it is denied by default.</doc>
     <class name="WebsiteDataManager" c:symbol-prefix="website_data_manager" c:type="WebKitWebsiteDataManager" version="2.10" parent="GObject.Object" glib:type-name="WebKitWebsiteDataManager" glib:get-type="webkit_website_data_manager_get_type" glib:type-struct="WebsiteDataManagerClass">
       <doc xml:space="preserve">Manages data stored locally by web sites.
 
+WebKitWebsiteDataManager allows you to manage the data that websites
+can store in the client file system like databases or caches.
 You can use WebKitWebsiteDataManager to configure the local directories
-where website data will be stored. Use #WebKitWebsiteDataManager:base-data-directory
-and #WebKitWebsiteDataManager:base-cache-directory set a common base directory for all
-website data and caches. The newly created WebKitWebsiteDataManager must be passed as
-a construct property to a #WebKitWebContext; you can use webkit_web_context_new_with_website_data_manager()
+where the Website data will be stored, by creating a new manager with
+webkit_website_data_manager_new() passing the values you want to set.
+You can set all the possible configuration values or only some of them,
+a default value will be used automatically for the configuration options
+not provided. #WebKitWebsiteDataManager:base-data-directory and
+#WebKitWebsiteDataManager:base-cache-directory are two special properties
+that can be used to set a common base directory for all Website data and
+caches. It's possible to provide both, a base directory and a specific value,
+but in that case, the specific value takes precedence over the base directory.
+The newly created WebKitWebsiteDataManager must be passed as a construct property
+to a #WebKitWebContext, you can use webkit_web_context_new_with_website_data_manager()
 to create a new #WebKitWebContext with a WebKitWebsiteDataManager.
-If you don't want to set any specific configuration, you don't need to create
-a WebKitWebsiteDataManager: the #WebKitWebContext will create a WebKitWebsiteDataManager
-with the default configuration. To get the WebKitWebsiteDataManager of a #WebKitWebContext,
+In case you don't want to set any specific configuration, you don't need to create
+a WebKitWebsiteDataManager, the #WebKitWebContext will create a WebKitWebsiteDataManager
+with the default configuration. To get the WebKitWebsiteDataManager of a #WebKitWebContext
 you can use webkit_web_context_get_website_data_manager().
 
-A WebKitWebsiteDataManager can also be ephemeral, in which case all the directory configuration
+A WebKitWebsiteDataManager can also be ephemeral and then all the directories configuration
 is not needed because website data will never persist. You can create an ephemeral WebKitWebsiteDataManager
-with webkit_website_data_manager_new_ephemeral() and pass the ephemeral WebKitWebsiteDataManager to
-a #WebKitWebContext, or simply use webkit_web_context_new_ephemeral().
+with webkit_website_data_manager_new_ephemeral(). Then you can pass an ephemeral WebKitWebsiteDataManager to
+a #WebKitWebContext to make it ephemeral or use webkit_web_context_new_ephemeral() and the WebKitWebsiteDataManager
+will be automatically created by the #WebKitWebContext.
 
-WebKitWebsiteDataManager can also be used to fetch website data, remove data
+WebKitWebsiteDataManager can also be used to fetch websites data, remove data
 stored by particular websites, or clear data for all websites modified since a given
 period of time.</doc>
       <constructor name="new" c:identifier="webkit_website_data_manager_new" version="2.10" introspectable="0">
@@ -20478,7 +20304,7 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
       <method name="get_base_cache_directory" c:identifier="webkit_website_data_manager_get_base_cache_directory" glib:get-property="base-cache-directory" version="2.10">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:base-cache-directory property.</doc>
         <return-value transfer-ownership="none" nullable="1">
-          <doc xml:space="preserve">the base directory for caches, or %NULL if
+          <doc xml:space="preserve">the base directory for Website cache, or %NULL if
    #WebKitWebsiteDataManager:base-cache-directory was not provided or @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
@@ -20492,7 +20318,7 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
       <method name="get_base_data_directory" c:identifier="webkit_website_data_manager_get_base_data_directory" glib:get-property="base-data-directory" version="2.10">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:base-data-directory property.</doc>
         <return-value transfer-ownership="none" nullable="1">
-          <doc xml:space="preserve">the base directory for website data, or %NULL if
+          <doc xml:space="preserve">the base directory for Website data, or %NULL if
    #WebKitWebsiteDataManager:base-data-directory was not provided or @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
@@ -20516,9 +20342,8 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_disk_cache_directory" c:identifier="webkit_website_data_manager_get_disk_cache_directory" glib:get-property="disk-cache-directory" version="2.10" deprecated="1" deprecated-version="2.40">
+      <method name="get_disk_cache_directory" c:identifier="webkit_website_data_manager_get_disk_cache_directory" glib:get-property="disk-cache-directory" version="2.10">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:disk-cache-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_cache_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where HTTP disk cache is stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20530,9 +20355,8 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_dom_cache_directory" c:identifier="webkit_website_data_manager_get_dom_cache_directory" glib:get-property="dom-cache-directory" version="2.30" deprecated="1" deprecated-version="2.40">
+      <method name="get_dom_cache_directory" c:identifier="webkit_website_data_manager_get_dom_cache_directory" glib:get-property="dom-cache-directory" version="2.30">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:dom-cache-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_cache_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where DOM cache is stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20544,9 +20368,8 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_hsts_cache_directory" c:identifier="webkit_website_data_manager_get_hsts_cache_directory" glib:get-property="hsts-cache-directory" version="2.26" deprecated="1" deprecated-version="2.40">
+      <method name="get_hsts_cache_directory" c:identifier="webkit_website_data_manager_get_hsts_cache_directory" glib:get-property="hsts-cache-directory" version="2.26">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:hsts-cache-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_cache_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where the HSTS cache is stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20558,9 +20381,8 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_indexeddb_directory" c:identifier="webkit_website_data_manager_get_indexeddb_directory" glib:get-property="indexeddb-directory" version="2.10" deprecated="1" deprecated-version="2.40">
+      <method name="get_indexeddb_directory" c:identifier="webkit_website_data_manager_get_indexeddb_directory" glib:get-property="indexeddb-directory" version="2.10">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:indexeddb-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_data_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where IndexedDB databases are stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20572,9 +20394,8 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_itp_directory" c:identifier="webkit_website_data_manager_get_itp_directory" glib:get-property="itp-directory" version="2.30" deprecated="1" deprecated-version="2.40">
+      <method name="get_itp_directory" c:identifier="webkit_website_data_manager_get_itp_directory" glib:get-property="itp-directory" version="2.30">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:itp-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_data_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where Intelligent Tracking Prevention data is stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20650,9 +20471,8 @@ webkit_website_data_manager_get_itp_summary_finish() to get the result of the op
           </parameter>
         </parameters>
       </method>
-      <method name="get_local_storage_directory" c:identifier="webkit_website_data_manager_get_local_storage_directory" glib:get-property="local-storage-directory" version="2.10" deprecated="1" deprecated-version="2.40">
+      <method name="get_local_storage_directory" c:identifier="webkit_website_data_manager_get_local_storage_directory" glib:get-property="local-storage-directory" version="2.10">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:local-storage-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_data_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where local storage data is stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20664,9 +20484,8 @@ webkit_website_data_manager_get_itp_summary_finish() to get the result of the op
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_offline_application_cache_directory" c:identifier="webkit_website_data_manager_get_offline_application_cache_directory" glib:get-property="offline-application-cache-directory" version="2.10" deprecated="1" deprecated-version="2.40">
+      <method name="get_offline_application_cache_directory" c:identifier="webkit_website_data_manager_get_offline_application_cache_directory" glib:get-property="offline-application-cache-directory" version="2.10">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:offline-application-cache-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_cache_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where offline web application cache is stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20693,9 +20512,8 @@ See also webkit_website_data_manager_set_persistent_credential_storage_enabled()
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_service_worker_registrations_directory" c:identifier="webkit_website_data_manager_get_service_worker_registrations_directory" glib:get-property="service-worker-registrations-directory" version="2.30" deprecated="1" deprecated-version="2.40">
+      <method name="get_service_worker_registrations_directory" c:identifier="webkit_website_data_manager_get_service_worker_registrations_directory" glib:get-property="service-worker-registrations-directory" version="2.30">
         <doc xml:space="preserve">Get the #WebKitWebsiteDataManager:service-worker-registrations-directory property.</doc>
-        <doc-deprecated xml:space="preserve">, use webkit_website_data_manager_get_base_data_directory() instead.</doc-deprecated>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the directory where service worker registrations are stored or %NULL if @manager is ephemeral.</doc>
           <type name="utf8" c:type="const gchar*"/>
@@ -20892,31 +20710,29 @@ credentials from persistent storage.</doc>
         </parameters>
       </method>
       <property name="base-cache-directory" version="2.10" writable="1" construct-only="1" transfer-ownership="none" getter="get_base_cache_directory">
-        <doc xml:space="preserve">The base directory for caches. If %NULL, a default location will be used.</doc>
+        <doc xml:space="preserve">The base directory for Website cache. This is used as a base directory
+for any Website cache when no specific cache directory has been provided.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="base-data-directory" version="2.10" writable="1" construct-only="1" transfer-ownership="none" getter="get_base_data_directory">
-        <doc xml:space="preserve">The base directory for website data. If %NULL, a default location will be used.</doc>
+        <doc xml:space="preserve">The base directory for Website data. This is used as a base directory
+for any Website data when no specific data directory has been provided.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="disk-cache-directory" version="2.10" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_disk_cache_directory">
+      <property name="disk-cache-directory" version="2.10" writable="1" construct-only="1" transfer-ownership="none" getter="get_disk_cache_directory">
         <doc xml:space="preserve">The directory where HTTP disk cache will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-cache-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="dom-cache-directory" version="2.30" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_dom_cache_directory">
+      <property name="dom-cache-directory" version="2.30" writable="1" construct-only="1" transfer-ownership="none" getter="get_dom_cache_directory">
         <doc xml:space="preserve">The directory where DOM cache will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-cache-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="hsts-cache-directory" version="2.26" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_hsts_cache_directory">
+      <property name="hsts-cache-directory" version="2.26" writable="1" construct-only="1" transfer-ownership="none" getter="get_hsts_cache_directory">
         <doc xml:space="preserve">The directory where the HTTP Strict-Transport-Security (HSTS) cache will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-cache-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="indexeddb-directory" version="2.10" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_indexeddb_directory">
+      <property name="indexeddb-directory" version="2.10" writable="1" construct-only="1" transfer-ownership="none" getter="get_indexeddb_directory">
         <doc xml:space="preserve">The directory where IndexedDB databases will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-data-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="is-ephemeral" version="2.16" writable="1" construct-only="1" transfer-ownership="none">
@@ -20926,24 +20742,20 @@ storage. Note that if you create an ephemeral #WebKitWebsiteDataManager all othe
 parameters to configure data directories will be ignored.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="itp-directory" version="2.30" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_itp_directory">
+      <property name="itp-directory" version="2.30" writable="1" construct-only="1" transfer-ownership="none" getter="get_itp_directory">
         <doc xml:space="preserve">The directory where Intelligent Tracking Prevention (ITP) data will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-data-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="local-storage-directory" version="2.10" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_local_storage_directory">
+      <property name="local-storage-directory" version="2.10" writable="1" construct-only="1" transfer-ownership="none" getter="get_local_storage_directory">
         <doc xml:space="preserve">The directory where local storage data will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-data-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="offline-application-cache-directory" version="2.10" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_offline_application_cache_directory">
+      <property name="offline-application-cache-directory" version="2.10" writable="1" construct-only="1" transfer-ownership="none" getter="get_offline_application_cache_directory">
         <doc xml:space="preserve">The directory where offline web application cache will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-cache-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="service-worker-registrations-directory" version="2.30" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_service_worker_registrations_directory">
+      <property name="service-worker-registrations-directory" version="2.30" writable="1" construct-only="1" transfer-ownership="none" getter="get_service_worker_registrations_directory">
         <doc xml:space="preserve">The directory where service workers registrations will be stored.</doc>
-        <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-data-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="websql-directory" version="2.10" deprecated="1" deprecated-version="2.24." writable="1" construct-only="1" transfer-ownership="none" getter="get_websql_directory">
