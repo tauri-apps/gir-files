@@ -6686,23 +6686,23 @@ you can remove any code that attempts to handle it.</doc>
     </enumeration>
     <record name="JavascriptResult" c:type="WebKitJavascriptResult" opaque="1" glib:type-name="WebKitJavascriptResult" glib:get-type="webkit_javascript_result_get_type" c:symbol-prefix="javascript_result">
       <doc xml:space="preserve">Result of JavaScript evaluation in a web view.</doc>
-      <method name="get_global_context" c:identifier="webkit_javascript_result_get_global_context" introspectable="0" deprecated="1" deprecated-version="2.22">
-        <doc xml:space="preserve">Get the global Javascript context.
+<!--       <method name="get_global_context" c:identifier="webkit_javascript_result_get_global_context" introspectable="0" deprecated="1" deprecated-version="2.22"> -->
+<!--         <doc xml:space="preserve">Get the global Javascript context. -->
 
-Get the global Javascript context that should be used with the
-&lt;function&gt;JSValueRef&lt;/function&gt; returned by webkit_javascript_result_get_value().</doc>
-        <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated>
-        <return-value>
-          <doc xml:space="preserve">the &lt;function&gt;JSGlobalContextRef&lt;/function&gt; for the #WebKitJavascriptResult</doc>
-          <type c:type="JSGlobalContextRef"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="js_result" transfer-ownership="none">
-            <doc xml:space="preserve">a #WebKitJavascriptResult</doc>
-            <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
+<!-- Get the global Javascript context that should be used with the -->
+<!-- &lt;function&gt;JSValueRef&lt;/function&gt; returned by webkit_javascript_result_get_value().</doc> -->
+<!--         <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated> -->
+<!--         <return-value> -->
+<!--           <doc xml:space="preserve">the &lt;function&gt;JSGlobalContextRef&lt;/function&gt; for the #WebKitJavascriptResult</doc> -->
+<!--           <type c:type="JSGlobalContextRef"/> -->
+<!--         </return-value> -->
+<!--         <parameters> -->
+<!--           <instance-parameter name="js_result" transfer-ownership="none"> -->
+<!--             <doc xml:space="preserve">a #WebKitJavascriptResult</doc> -->
+<!--             <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/> -->
+<!--           </instance-parameter> -->
+<!--         </parameters> -->
+<!--       </method> -->
       <method name="get_js_value" c:identifier="webkit_javascript_result_get_js_value" version="2.22">
         <doc xml:space="preserve">Get the #JSCValue of @js_result.</doc>
         <return-value transfer-ownership="none">
@@ -6716,23 +6716,23 @@ Get the global Javascript context that should be used with the
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_value" c:identifier="webkit_javascript_result_get_value" introspectable="0" deprecated="1" deprecated-version="2.22">
-        <doc xml:space="preserve">Get the value of @js_result.
+<!--       <method name="get_value" c:identifier="webkit_javascript_result_get_value" introspectable="0" deprecated="1" deprecated-version="2.22"> -->
+<!--         <doc xml:space="preserve">Get the value of @js_result. -->
 
-You should use the &lt;function&gt;JSGlobalContextRef&lt;/function&gt;
-returned by webkit_javascript_result_get_global_context() to use the &lt;function&gt;JSValueRef&lt;/function&gt;.</doc>
-        <doc-deprecated xml:space="preserve">Use webkit_javascript_result_get_js_value() instead.</doc-deprecated>
-        <return-value>
-          <doc xml:space="preserve">the &lt;function&gt;JSValueRef&lt;/function&gt; of the #WebKitJavascriptResult</doc>
-          <type c:type="JSValueRef"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="js_result" transfer-ownership="none">
-            <doc xml:space="preserve">a #WebKitJavascriptResult</doc>
-            <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
+<!-- You should use the &lt;function&gt;JSGlobalContextRef&lt;/function&gt; -->
+<!-- returned by webkit_javascript_result_get_global_context() to use the &lt;function&gt;JSValueRef&lt;/function&gt;.</doc> -->
+<!--         <doc-deprecated xml:space="preserve">Use webkit_javascript_result_get_js_value() instead.</doc-deprecated> -->
+<!--         <return-value> -->
+<!--           <doc xml:space="preserve">the &lt;function&gt;JSValueRef&lt;/function&gt; of the #WebKitJavascriptResult</doc> -->
+<!--           <type c:type="JSValueRef"/> -->
+<!--         </return-value> -->
+<!--         <parameters> -->
+<!--           <instance-parameter name="js_result" transfer-ownership="none"> -->
+<!--             <doc xml:space="preserve">a #WebKitJavascriptResult</doc> -->
+<!--             <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/> -->
+<!--           </instance-parameter> -->
+<!--         </parameters> -->
+<!--       </method> -->
       <method name="ref" c:identifier="webkit_javascript_result_ref">
         <doc xml:space="preserve">Atomically increments the reference count of @js_result by one.
 
@@ -17707,24 +17707,24 @@ Get the #WebKitInputMethodContext currently in use by @web_view, or %NULL if no 
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_javascript_global_context" c:identifier="webkit_web_view_get_javascript_global_context" introspectable="0" deprecated="1" deprecated-version="2.22">
-        <doc xml:space="preserve">Get the global JavaScript context.
+<!--       <method name="get_javascript_global_context" c:identifier="webkit_web_view_get_javascript_global_context" introspectable="0" deprecated="1" deprecated-version="2.22"> -->
+<!--         <doc xml:space="preserve">Get the global JavaScript context. -->
 
-Get the global JavaScript context used by @web_view to deserialize the
-result values of scripts executed with webkit_web_view_run_javascript().</doc>
-        <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated>
-        <return-value>
-          <doc xml:space="preserve">the JSGlobalContextRef used by @web_view to deserialize
-   the result values of scripts.</doc>
-          <type c:type="JSGlobalContextRef"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="web_view" transfer-ownership="none">
-            <doc xml:space="preserve">a #WebKitWebView</doc>
-            <type name="WebView" c:type="WebKitWebView*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
+<!-- Get the global JavaScript context used by @web_view to deserialize the -->
+<!-- result values of scripts executed with webkit_web_view_run_javascript().</doc> -->
+<!--         <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated> -->
+<!--         <return-value> -->
+<!--           <doc xml:space="preserve">the JSGlobalContextRef used by @web_view to deserialize -->
+<!--    the result values of scripts.</doc> -->
+<!--           <type c:type="JSGlobalContextRef"/> -->
+<!--         </return-value> -->
+<!--         <parameters> -->
+<!--           <instance-parameter name="web_view" transfer-ownership="none"> -->
+<!--             <doc xml:space="preserve">a #WebKitWebView</doc> -->
+<!--             <type name="WebView" c:type="WebKitWebView*"/> -->
+<!--           </instance-parameter> -->
+<!--         </parameters> -->
+<!--       </method> -->
       <method name="get_main_resource" c:identifier="webkit_web_view_get_main_resource">
         <doc xml:space="preserve">Return the main resource of @web_view.</doc>
         <return-value transfer-ownership="none">
