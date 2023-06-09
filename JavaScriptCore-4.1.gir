@@ -438,7 +438,7 @@ with jsc_value_new_object() that receives the copy as the instance parameter.</d
         <doc xml:space="preserve">The #JSCContext in which the class was registered.</doc>
         <type name="Context"/>
       </property>
-      <property name="name" writable="1" construct-only="1" transfer-ownership="none" getter="get_name">
+      <property name="name" writable="1" construct-only="1" transfer-ownership="none" getter="get_name" default-value="NULL">
         <doc xml:space="preserve">The name of the class.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
@@ -446,8 +446,14 @@ with jsc_value_new_object() that receives the copy as the instance parameter.</d
         <doc xml:space="preserve">The parent class or %NULL in case of final classes.</doc>
         <type name="Class"/>
       </property>
+      <field name="parent">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+      <field name="priv">
+        <type name="ClassPrivate" c:type="JSCClassPrivate*"/>
+      </field>
     </class>
-    <record name="ClassClass" c:type="JSCClassClass" disguised="1" glib:is-gtype-struct-for="Class"/>
+    <record name="ClassClass" c:type="JSCClassClass" disguised="1" opaque="1" glib:is-gtype-struct-for="Class"/>
     <callback name="ClassDeletePropertyFunction" c:type="JSCClassDeletePropertyFunction">
       <doc xml:space="preserve">The type of delete_property in #JSCClassVTable. This is only required when you need to handle
 external properties not added to the prototype.</doc>
@@ -553,6 +559,7 @@ external properties not added to the prototype.</doc>
         </parameter>
       </parameters>
     </callback>
+    <record name="ClassPrivate" c:type="JSCClassPrivate" disguised="1" opaque="1"/>
     <callback name="ClassSetPropertyFunction" c:type="JSCClassSetPropertyFunction">
       <doc xml:space="preserve">The type of set_property in #JSCClassVTable. This is only required when you need to handle
 external properties not added to the prototype.</doc>
@@ -1085,7 +1092,7 @@ The created #JSCException can be retrieved with jsc_context_get_exception().</do
       <field name="parent">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
-      <field name="priv" readable="0" private="1">
+      <field name="priv">
         <type name="ContextPrivate" c:type="JSCContextPrivate*"/>
       </field>
     </class>
@@ -1122,7 +1129,21 @@ The created #JSCException can be retrieved with jsc_context_get_exception().</do
         </callback>
       </field>
     </record>
-    <record name="ContextPrivate" c:type="JSCContextPrivate" disguised="1"/>
+    <record name="ContextPrivate" c:type="JSCContextPrivate" disguised="1" opaque="1"/>
+    <function-macro name="DECLARE_FINAL_TYPE" c:identifier="JSC_DECLARE_FINAL_TYPE" introspectable="0">
+      <parameters>
+        <parameter name="ModuleObjName">
+        </parameter>
+        <parameter name="module_obj_name">
+        </parameter>
+        <parameter name="MODULE">
+        </parameter>
+        <parameter name="OBJ_NAME">
+        </parameter>
+        <parameter name="ParentName">
+        </parameter>
+      </parameters>
+    </function-macro>
     <function-macro name="EXCEPTION" c:identifier="JSC_EXCEPTION" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -1387,7 +1408,7 @@ source URI, line, column and backtrace, and formatted to be printed.</doc>
       <field name="parent">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
-      <field name="priv" readable="0" private="1">
+      <field name="priv">
         <type name="ExceptionPrivate" c:type="JSCExceptionPrivate*"/>
       </field>
     </class>
@@ -1444,7 +1465,7 @@ source URI, line, column and backtrace, and formatted to be printed.</doc>
         </parameter>
       </parameters>
     </callback>
-    <record name="ExceptionPrivate" c:type="JSCExceptionPrivate" disguised="1"/>
+    <record name="ExceptionPrivate" c:type="JSCExceptionPrivate" disguised="1" opaque="1"/>
     <function-macro name="IS_CLASS" c:identifier="JSC_IS_CLASS" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -1531,13 +1552,13 @@ application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="1" c:type="JSC_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="2" c:type="JSC_MICRO_VERSION">
       <doc xml:space="preserve">Like jsc_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="38" c:type="JSC_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="40" c:type="JSC_MINOR_VERSION">
       <doc xml:space="preserve">Like jsc_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -1760,7 +1781,7 @@ JSCValue *value = jsc_value_new_array_buffer (context, bytes, 100, g_free, bytes
             <doc xml:space="preserve">Size in bytes of the memory region.</doc>
             <type name="gsize" c:type="gsize"/>
           </parameter>
-          <parameter name="destroy_notify" transfer-ownership="none" nullable="1" allow-none="1" scope="async">
+          <parameter name="destroy_notify" transfer-ownership="none" nullable="1" allow-none="1" scope="async" closure="4">
             <doc xml:space="preserve">destroy notifier for @user_data.</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
@@ -2488,7 +2509,7 @@ first parameter. Use jsc_class_add_property() if you want to add property access
             <doc xml:space="preserve">the #GType of the property</doc>
             <type name="GType" c:type="GType"/>
           </parameter>
-          <parameter name="getter" transfer-ownership="none" nullable="1" allow-none="1" scope="async">
+          <parameter name="getter" transfer-ownership="none" nullable="1" allow-none="1" scope="async" closure="5">
             <doc xml:space="preserve">a #GCallback to be called to get the property value</doc>
             <type name="GObject.Callback" c:type="GCallback"/>
           </parameter>
@@ -2936,7 +2957,7 @@ jsc_value_array_buffer_get_data() for details.</doc>
       <field name="parent">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
-      <field name="priv" readable="0" private="1">
+      <field name="priv">
         <type name="ValuePrivate" c:type="JSCValuePrivate*"/>
       </field>
     </class>
@@ -2973,7 +2994,7 @@ jsc_value_array_buffer_get_data() for details.</doc>
         </callback>
       </field>
     </record>
-    <record name="ValuePrivate" c:type="JSCValuePrivate" disguised="1"/>
+    <record name="ValuePrivate" c:type="JSCValuePrivate" disguised="1" opaque="1"/>
     <bitfield name="ValuePropertyFlags" c:type="JSCValuePropertyFlags">
       <doc xml:space="preserve">Flags used when defining properties with jsc_value_object_define_property_data() and
 jsc_value_object_define_property_accessor().</doc>
@@ -3007,7 +3028,7 @@ instance to every JSCContext constructor.</doc>
       <field name="parent">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
-      <field name="priv" readable="0" private="1">
+      <field name="priv">
         <type name="VirtualMachinePrivate" c:type="JSCVirtualMachinePrivate*"/>
       </field>
     </class>
@@ -3044,7 +3065,7 @@ instance to every JSCContext constructor.</doc>
         </callback>
       </field>
     </record>
-    <record name="VirtualMachinePrivate" c:type="JSCVirtualMachinePrivate" disguised="1"/>
+    <record name="VirtualMachinePrivate" c:type="JSCVirtualMachinePrivate" disguised="1" opaque="1"/>
     <function-macro name="WEAK_VALUE" c:identifier="JSC_WEAK_VALUE" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -3100,7 +3121,7 @@ collected and without referencing the #JSCContext either.</doc>
       <field name="parent">
         <type name="GObject.Object" c:type="GObject"/>
       </field>
-      <field name="priv" readable="0" private="1">
+      <field name="priv">
         <type name="WeakValuePrivate" c:type="JSCWeakValuePrivate*"/>
       </field>
       <glib:signal name="cleared" when="last">
@@ -3143,7 +3164,7 @@ collected and without referencing the #JSCContext either.</doc>
         </callback>
       </field>
     </record>
-    <record name="WeakValuePrivate" c:type="JSCWeakValuePrivate" disguised="1"/>
+    <record name="WeakValuePrivate" c:type="JSCWeakValuePrivate" disguised="1" opaque="1"/>
     <function name="get_major_version" c:identifier="jsc_get_major_version">
       <doc xml:space="preserve">Returns the major version number of the JavaScriptCore library.
 (e.g. in JavaScriptCore version 1.8.3 this is 1.)

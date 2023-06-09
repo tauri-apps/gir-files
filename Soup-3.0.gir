@@ -458,32 +458,32 @@ As with [ctor@Auth.new], this is normally only used by [class@Session].</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="authority" writable="1" transfer-ownership="none" getter="get_authority">
+      <property name="authority" writable="1" transfer-ownership="none" getter="get_authority" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_auth_get_authority"/>
         <doc xml:space="preserve">The authority (host:port) being authenticated to.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="is-authenticated" transfer-ownership="none" getter="is_authenticated">
+      <property name="is-authenticated" transfer-ownership="none" getter="is_authenticated" default-value="FALSE">
         <attribute name="org.gtk.Property.get" value="soup_auth_is_authenticated"/>
         <doc xml:space="preserve">Whether or not the auth has been authenticated.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="is-cancelled" transfer-ownership="none" getter="is_cancelled">
+      <property name="is-cancelled" transfer-ownership="none" getter="is_cancelled" default-value="FALSE">
         <attribute name="org.gtk.Property.get" value="soup_auth_is_cancelled"/>
         <doc xml:space="preserve">Whether or not the auth has been cancelled.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="is-for-proxy" writable="1" transfer-ownership="none">
+      <property name="is-for-proxy" writable="1" transfer-ownership="none" default-value="FALSE">
         <attribute name="org.gtk.Property.get" value="soup_auth_is_for_proxy"/>
         <doc xml:space="preserve">Whether or not the auth is for a proxy server.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="realm" writable="1" transfer-ownership="none" getter="get_realm">
+      <property name="realm" writable="1" transfer-ownership="none" getter="get_realm" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_auth_get_realm"/>
         <doc xml:space="preserve">The authentication realm.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="scheme-name" transfer-ownership="none" getter="get_scheme_name">
+      <property name="scheme-name" transfer-ownership="none" getter="get_scheme_name" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_auth_get_scheme_name"/>
         <doc xml:space="preserve">The authentication scheme name.</doc>
         <type name="utf8" c:type="gchar*"/>
@@ -1000,11 +1000,11 @@ should do.</doc>
         <doc xml:space="preserve">The data to pass to the [callback@AuthDomainGenericAuthCallback].</doc>
         <type name="gpointer" c:type="gpointer"/>
       </property>
-      <property name="proxy" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="proxy" writable="1" construct-only="1" transfer-ownership="none" default-value="FALSE">
         <doc xml:space="preserve">Whether or not this is a proxy auth domain.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="realm" writable="1" construct-only="1" transfer-ownership="none" getter="get_realm">
+      <property name="realm" writable="1" construct-only="1" transfer-ownership="none" getter="get_realm" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_auth_domain_get_realm"/>
         <doc xml:space="preserve">The realm of this auth domain.</doc>
         <type name="utf8" c:type="gchar*"/>
@@ -1678,11 +1678,11 @@ This is not thread safe and must be called only from the thread that created the
           </parameter>
         </parameters>
       </method>
-      <property name="cache-dir" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="cache-dir" writable="1" construct-only="1" transfer-ownership="none" default-value="NULL">
         <doc xml:space="preserve">The directory to store the cache files.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="cache-type" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="cache-type" writable="1" construct-only="1" transfer-ownership="none" default-value="SOUP_CACHE_SINGLE_USER">
         <doc xml:space="preserve">Whether the cache is private or shared.</doc>
         <type name="CacheType"/>
       </property>
@@ -1828,7 +1828,7 @@ response headers.</doc>
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
     </record>
-    <record name="Cookie" c:type="SoupCookie" glib:type-name="SoupCookie" glib:get-type="soup_cookie_get_type" c:symbol-prefix="cookie">
+    <record name="Cookie" c:type="SoupCookie" opaque="1" glib:type-name="SoupCookie" glib:get-type="soup_cookie_get_type" c:symbol-prefix="cookie">
       <doc xml:space="preserve">Implements HTTP cookies, as described by
 [RFC 6265](http://tools.ietf.org/html/rfc6265.txt).
 
@@ -1871,7 +1871,10 @@ lifetime in seconds. You can use the constants
 %SOUP_COOKIE_MAX_AGE_ONE_WEEK and %SOUP_COOKIE_MAX_AGE_ONE_YEAR (or
 multiples thereof) to calculate this value. (If you really care
 about setting the exact time that the cookie will expire, use
-[method@Cookie.set_expires].)</doc>
+[method@Cookie.set_expires].)
+
+As of version 3.4.0 the default value of a cookie's same-site-policy
+is %SOUP_SAME_SITE_POLICY_LAX.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a new #SoupCookie.</doc>
           <type name="Cookie" c:type="SoupCookie*"/>
@@ -2296,7 +2299,10 @@ be defaulted from @origin. If @origin is %NULL, path will default
 to "/", but domain will be left as %NULL. Note that this is not a
 valid state for a #SoupCookie, and you will need to fill in some
 appropriate string for the domain if you want to actually make use
-of the cookie.</doc>
+of the cookie.
+
+As of version 3.4.0 the default value of a cookie's same-site-policy
+is %SOUP_SAME_SITE_POLICY_LAX.</doc>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve">a new #SoupCookie, or %NULL if it could
   not be parsed, or contained an illegal "domain" attribute for a
@@ -2715,13 +2721,13 @@ in case such a security policy is set in the @jar.</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="accept-policy" writable="1" transfer-ownership="none" setter="set_accept_policy" getter="get_accept_policy">
+      <property name="accept-policy" writable="1" transfer-ownership="none" setter="set_accept_policy" getter="get_accept_policy" default-value="SOUP_COOKIE_JAR_ACCEPT_ALWAYS">
         <attribute name="org.gtk.Property.get" value="soup_cookie_jar_get_accept_policy"/>
         <attribute name="org.gtk.Property.set" value="soup_cookie_jar_set_accept_policy"/>
         <doc xml:space="preserve">The policy the jar should follow to accept or reject cookies.</doc>
         <type name="CookieJarAcceptPolicy"/>
       </property>
-      <property name="read-only" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="read-only" writable="1" construct-only="1" transfer-ownership="none" default-value="FALSE">
         <doc xml:space="preserve">Whether or not the cookie jar is read-only.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
@@ -2878,7 +2884,7 @@ session, and changes made to it will be lost when the jar is destroyed.)</doc>
           </parameter>
         </parameters>
       </constructor>
-      <property name="filename" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="filename" writable="1" construct-only="1" transfer-ownership="none" default-value="NULL">
         <doc xml:space="preserve">Cookie-storage filename.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
@@ -2917,7 +2923,7 @@ session, and changes made to it will be lost when the jar is destroyed.)</doc>
           </parameter>
         </parameters>
       </constructor>
-      <property name="filename" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="filename" writable="1" construct-only="1" transfer-ownership="none" default-value="NULL">
         <doc xml:space="preserve">Cookie-storage filename.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
@@ -2946,6 +2952,14 @@ You should use `SOUP_DEPRECATED_FOR_IN_*` in order to handle versioning.</doc>
       </parameters>
     </function-macro>
     <function-macro name="DEPRECATED_IN_3_2_FOR" c:identifier="SOUP_DEPRECATED_IN_3_2_FOR" introspectable="0">
+      <doc xml:space="preserve">A macro used to indicate a symbol was deprecated in this version with a replacement.</doc>
+      <parameters>
+        <parameter name="f">
+          <doc xml:space="preserve">The recommended replacement function.</doc>
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="DEPRECATED_IN_3_4_FOR" c:identifier="SOUP_DEPRECATED_IN_3_4_FOR" introspectable="0">
       <doc xml:space="preserve">A macro used to indicate a symbol was deprecated in this version with a replacement.</doc>
       <parameters>
         <parameter name="f">
@@ -3334,7 +3348,7 @@ and initialized. Changes to the policies during the lifetime of a
           </parameter>
         </parameters>
       </constructor>
-      <property name="filename" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="filename" writable="1" construct-only="1" transfer-ownership="none" default-value="NULL">
         <doc xml:space="preserve">The filename of the SQLite database where HSTS policies are stored.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
@@ -3344,7 +3358,7 @@ and initialized. Changes to the policies during the lifetime of a
         <type name="HSTSEnforcerClass" c:type="SoupHSTSEnforcerClass"/>
       </field>
     </record>
-    <record name="HSTSPolicy" c:type="SoupHSTSPolicy" glib:type-name="SoupHSTSPolicy" glib:get-type="soup_hsts_policy_get_type" c:symbol-prefix="hsts_policy">
+    <record name="HSTSPolicy" c:type="SoupHSTSPolicy" opaque="1" glib:type-name="SoupHSTSPolicy" glib:get-type="soup_hsts_policy_get_type" c:symbol-prefix="hsts_policy">
       <doc xml:space="preserve">#SoupHSTSPolicy implements HTTP policies, as described by
 [RFC 6797](http://tools.ietf.org/html/rfc6797).
 
@@ -3801,11 +3815,11 @@ the level passed to [ctor@Logger.new].)</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="level" writable="1" transfer-ownership="none">
+      <property name="level" writable="1" transfer-ownership="none" default-value="SOUP_LOGGER_LOG_MINIMAL">
         <doc xml:space="preserve">The level of logging output.</doc>
         <type name="LoggerLogLevel"/>
       </property>
-      <property name="max-body-size" writable="1" construct="1" transfer-ownership="none" setter="set_max_body_size" getter="get_max_body_size">
+      <property name="max-body-size" writable="1" construct="1" transfer-ownership="none" setter="set_max_body_size" getter="get_max_body_size" default-value="-1">
         <attribute name="org.gtk.Property.get" value="soup_logger_get_max_body_size"/>
         <attribute name="org.gtk.Property.set" value="soup_logger_set_max_body_size"/>
         <doc xml:space="preserve">If [property@Logger:level] is %SOUP_LOGGER_LOG_BODY, this gives
@@ -3914,7 +3928,7 @@ application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="2" c:type="SOUP_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="4" c:type="SOUP_MINOR_VERSION">
       <doc xml:space="preserve">Like [func@get_minor_version], but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -4207,6 +4221,19 @@ a connection yet.</doc>
         <parameters>
           <instance-parameter name="msg" transfer-ownership="none">
             <doc xml:space="preserve">a #SoupMessage</doc>
+            <type name="Message" c:type="SoupMessage*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_force_http1" c:identifier="soup_message_get_force_http1" version="3.4">
+        <doc xml:space="preserve">Returns whether HTTP/1 version is currently demanded for the @msg send.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE, when HTTP/1 is demanded, %FALSE otherwise.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="msg" transfer-ownership="none">
+            <doc xml:space="preserve">The #SoupMessage</doc>
             <type name="Message" c:type="SoupMessage*"/>
           </instance-parameter>
         </parameters>
@@ -4573,6 +4600,25 @@ For details of when and how this is used refer to the documentation for
           </parameter>
         </parameters>
       </method>
+      <method name="set_force_http1" c:identifier="soup_message_set_force_http1" version="3.4">
+        <doc xml:space="preserve">Sets whether HTTP/1 version should be used when sending this message.
+Some connections can still override it, if needed.
+
+Note the value is unset after the message send is finished.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="msg" transfer-ownership="none">
+            <doc xml:space="preserve">The #SoupMessage</doc>
+            <type name="Message" c:type="SoupMessage*"/>
+          </instance-parameter>
+          <parameter name="value" transfer-ownership="none">
+            <doc xml:space="preserve">value to set</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_is_options_ping" c:identifier="soup_message_set_is_options_ping" glib:set-property="is-options-ping">
         <doc xml:space="preserve">Set whether @msg is intended to be used to send `OPTIONS *` to a server.
 
@@ -4801,18 +4847,18 @@ the [class@Gio.TlsPassword] has already been updated.</doc>
 queued.</doc>
         <type name="GLib.Uri"/>
       </property>
-      <property name="flags" writable="1" transfer-ownership="none" setter="set_flags" getter="get_flags">
+      <property name="flags" writable="1" transfer-ownership="none" setter="set_flags" getter="get_flags" default-value="0">
         <attribute name="org.gtk.Property.get" value="soup_message_get_flags"/>
         <attribute name="org.gtk.Property.set" value="soup_message_set_flags"/>
         <doc xml:space="preserve">Various message options.</doc>
         <type name="MessageFlags"/>
       </property>
-      <property name="http-version" transfer-ownership="none" getter="get_http_version">
+      <property name="http-version" transfer-ownership="none" getter="get_http_version" default-value="SOUP_HTTP_1_1">
         <attribute name="org.gtk.Property.get" value="soup_message_get_http_version"/>
         <doc xml:space="preserve">The HTTP protocol version to use.</doc>
         <type name="HTTPVersion"/>
       </property>
-      <property name="is-options-ping" writable="1" transfer-ownership="none" setter="set_is_options_ping" getter="get_is_options_ping">
+      <property name="is-options-ping" writable="1" transfer-ownership="none" setter="set_is_options_ping" getter="get_is_options_ping" default-value="FALSE">
         <attribute name="org.gtk.Property.get" value="soup_message_get_is_options_ping"/>
         <attribute name="org.gtk.Property.set" value="soup_message_set_is_options_ping"/>
         <doc xml:space="preserve">Whether the message is an OPTIONS ping.
@@ -4823,26 +4869,26 @@ path of [property@Message:uri] will be ignored and
 [property@Message:method] set to %SOUP_METHOD_OPTIONS.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="is-top-level-navigation" writable="1" transfer-ownership="none" setter="set_is_top_level_navigation" getter="get_is_top_level_navigation">
+      <property name="is-top-level-navigation" writable="1" transfer-ownership="none" setter="set_is_top_level_navigation" getter="get_is_top_level_navigation" default-value="FALSE">
         <attribute name="org.gtk.Property.get" value="soup_message_get_is_top_level_navigation"/>
         <attribute name="org.gtk.Property.set" value="soup_message_set_is_top_level_navigation"/>
         <doc xml:space="preserve">Set when the message is navigating between top level domains.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="method" writable="1" transfer-ownership="none" setter="set_method" getter="get_method">
+      <property name="method" writable="1" transfer-ownership="none" setter="set_method" getter="get_method" default-value="GET">
         <attribute name="org.gtk.Property.get" value="soup_message_get_method"/>
         <attribute name="org.gtk.Property.set" value="soup_message_set_method"/>
         <doc xml:space="preserve">The message's HTTP method.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="priority" writable="1" transfer-ownership="none" setter="set_priority" getter="get_priority">
+      <property name="priority" writable="1" transfer-ownership="none" setter="set_priority" getter="get_priority" default-value="SOUP_MESSAGE_PRIORITY_NORMAL">
         <attribute name="org.gtk.Property.get" value="soup_message_get_priority"/>
         <attribute name="org.gtk.Property.set" value="soup_message_set_priority"/>
         <doc xml:space="preserve">Sets the priority of the #SoupMessage. See
 [method@Message.set_priority] for further details.</doc>
         <type name="MessagePriority"/>
       </property>
-      <property name="reason-phrase" transfer-ownership="none" getter="get_reason_phrase">
+      <property name="reason-phrase" transfer-ownership="none" getter="get_reason_phrase" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_message_get_reason_phrase"/>
         <doc xml:space="preserve">The HTTP response reason phrase.</doc>
         <type name="utf8" c:type="gchar*"/>
@@ -4869,11 +4915,11 @@ with the message.</doc>
         <doc xml:space="preserve">Site used to compare cookies against. Used for SameSite cookie support.</doc>
         <type name="GLib.Uri"/>
       </property>
-      <property name="status-code" transfer-ownership="none">
+      <property name="status-code" transfer-ownership="none" default-value="0">
         <doc xml:space="preserve">The HTTP response status code.</doc>
         <type name="guint" c:type="guint"/>
       </property>
-      <property name="tls-ciphersuite-name" transfer-ownership="none" getter="get_tls_ciphersuite_name">
+      <property name="tls-ciphersuite-name" transfer-ownership="none" getter="get_tls_ciphersuite_name" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_message_get_tls_ciphersuite_name"/>
         <doc xml:space="preserve">The Name of TLS ciphersuite negotiated for this message connection.</doc>
         <type name="utf8" c:type="gchar*"/>
@@ -4883,12 +4929,12 @@ with the message.</doc>
         <doc xml:space="preserve">The peer's [class@Gio.TlsCertificate] associated with the message.</doc>
         <type name="Gio.TlsCertificate"/>
       </property>
-      <property name="tls-peer-certificate-errors" transfer-ownership="none" getter="get_tls_peer_certificate_errors">
+      <property name="tls-peer-certificate-errors" transfer-ownership="none" getter="get_tls_peer_certificate_errors" default-value="G_TLS_CERTIFICATE_NO_FLAGS">
         <attribute name="org.gtk.Property.get" value="soup_message_get_tls_peer_certificate_errors"/>
         <doc xml:space="preserve">The verification errors on [property@Message:tls-peer-certificate].</doc>
         <type name="Gio.TlsCertificateFlags"/>
       </property>
-      <property name="tls-protocol-version" transfer-ownership="none" getter="get_tls_protocol_version">
+      <property name="tls-protocol-version" transfer-ownership="none" getter="get_tls_protocol_version" default-value="G_TLS_PROTOCOL_VERSION_UNKNOWN">
         <attribute name="org.gtk.Property.get" value="soup_message_get_tls_protocol_version"/>
         <doc xml:space="preserve">The TLS protocol version negotiated for the message connection.</doc>
         <type name="Gio.TlsProtocolVersion"/>
@@ -4991,6 +5037,19 @@ immediately after [signal@Message::got-headers], and @type is
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
+      </glib:signal>
+      <glib:signal name="got-body-data" when="first" version="3.4">
+        <doc xml:space="preserve">Emitted after reading a portion of the message
+body from the network.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <parameter name="chunk_size" transfer-ownership="none">
+            <doc xml:space="preserve">the number of bytes read</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
       </glib:signal>
       <glib:signal name="got-headers" when="first">
         <doc xml:space="preserve">Emitted after receiving the Status-Line and response headers.
@@ -5491,7 +5550,7 @@ behavior.</doc>
         <doc xml:space="preserve">Metrics will be collected for this message.</doc>
       </member>
     </bitfield>
-    <record name="MessageHeaders" c:type="SoupMessageHeaders" glib:type-name="SoupMessageHeaders" glib:get-type="soup_message_headers_get_type" c:symbol-prefix="message_headers">
+    <record name="MessageHeaders" c:type="SoupMessageHeaders" opaque="1" glib:type-name="SoupMessageHeaders" glib:get-type="soup_message_headers_get_type" c:symbol-prefix="message_headers">
       <doc xml:space="preserve">The HTTP message headers associated with a request or response.</doc>
       <constructor name="new" c:identifier="soup_message_headers_new">
         <doc xml:space="preserve">Creates a #SoupMessageHeaders.
@@ -6298,7 +6357,7 @@ behaviors.</doc>
         <doc xml:space="preserve">multipart body part headers</doc>
       </member>
     </enumeration>
-    <record name="MessageMetrics" c:type="SoupMessageMetrics" glib:type-name="SoupMessageMetrics" glib:get-type="soup_message_metrics_get_type" c:symbol-prefix="message_metrics">
+    <record name="MessageMetrics" c:type="SoupMessageMetrics" opaque="1" glib:type-name="SoupMessageMetrics" glib:get-type="soup_message_metrics_get_type" c:symbol-prefix="message_metrics">
       <doc xml:space="preserve">Contains metrics collected while loading a [class@Message] either from the
 network or the disk cache.
 
@@ -6310,7 +6369,7 @@ fetch start event and finish with response end. All other events are optional.
 An event can be 0 because it hasn't happened yet, because it's optional or
 because the load failed before the event reached.
 
-Size metrics are expressed in bytes and aree updated while the [class@Message] is
+Size metrics are expressed in bytes and are updated while the [class@Message] is
 being loaded. You can connect to different [class@Message] signals to get the
 final result of every value.</doc>
       <method name="copy" c:identifier="soup_message_metrics_copy">
@@ -6620,7 +6679,7 @@ to process it before any other message with lower priority.</doc>
   attended.</doc>
       </member>
     </enumeration>
-    <record name="Multipart" c:type="SoupMultipart" glib:type-name="SoupMultipart" glib:get-type="soup_multipart_get_type" c:symbol-prefix="multipart">
+    <record name="Multipart" c:type="SoupMultipart" opaque="1" glib:type-name="SoupMultipart" glib:get-type="soup_multipart_get_type" c:symbol-prefix="multipart">
       <doc xml:space="preserve">Represents a multipart HTTP message body, parsed according to the
 syntax of RFC 2046.
 
@@ -6685,11 +6744,11 @@ Uses "Content-Disposition: form-data", as per the HTML forms specification.</doc
             <doc xml:space="preserve">the name of the control associated with this file</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
-          <parameter name="filename" transfer-ownership="none">
+          <parameter name="filename" transfer-ownership="none" nullable="1" allow-none="1">
             <doc xml:space="preserve">the name of the file, or %NULL if not known</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
-          <parameter name="content_type" transfer-ownership="none">
+          <parameter name="content_type" transfer-ownership="none" nullable="1" allow-none="1">
             <doc xml:space="preserve">the MIME type of the file, or %NULL if not known</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
@@ -7855,12 +7914,12 @@ signal.</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="raw-paths" writable="1" construct-only="1" transfer-ownership="none">
+      <property name="raw-paths" writable="1" construct-only="1" transfer-ownership="none" default-value="FALSE">
         <doc xml:space="preserve">If %TRUE, percent-encoding in the Request-URI path will not be
 automatically decoded.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="server-header" writable="1" construct="1" transfer-ownership="none">
+      <property name="server-header" writable="1" construct="1" transfer-ownership="none" default-value="NULL">
         <doc xml:space="preserve">Server header.
 
 If non-%NULL, the value to use for the "Server" header on
@@ -7888,7 +7947,7 @@ whitespace, #SoupServer will append its own product token (eg,
 `libsoup/2.3.2`) to the end of the header for you.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="tls-auth-mode" writable="1" construct="1" transfer-ownership="none" setter="set_tls_auth_mode" getter="get_tls_auth_mode">
+      <property name="tls-auth-mode" writable="1" construct="1" transfer-ownership="none" setter="set_tls_auth_mode" getter="get_tls_auth_mode" default-value="G_TLS_AUTHENTICATION_NONE">
         <attribute name="org.gtk.Property.get" value="soup_server_get_tls_auth_mode"/>
         <attribute name="org.gtk.Property.set" value="soup_server_set_tls_auth_mode"/>
         <doc xml:space="preserve">A [enum@Gio.TlsAuthenticationMode] for SSL/TLS client authentication.</doc>
@@ -8535,7 +8594,7 @@ return to the main loop.</doc>
         <doc xml:space="preserve">The peer's #GTlsCertificate associated with the message</doc>
         <type name="Gio.TlsCertificate"/>
       </property>
-      <property name="tls-peer-certificate-errors" version="3.2" transfer-ownership="none" getter="get_tls_peer_certificate_errors">
+      <property name="tls-peer-certificate-errors" version="3.2" transfer-ownership="none" getter="get_tls_peer_certificate_errors" default-value="G_TLS_CERTIFICATE_NO_FLAGS">
         <doc xml:space="preserve">The verification errors on #SoupServerMessage:tls-peer-certificate</doc>
         <type name="Gio.TlsCertificateFlags"/>
       </property>
@@ -9311,6 +9370,98 @@ If successful, returns a [struct@GLib.Bytes] with the response body.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="send_and_splice" c:identifier="soup_session_send_and_splice" version="3.4" throws="1">
+        <doc xml:space="preserve">Synchronously sends @msg and splices the response body stream into @out_stream.
+
+See [method@Session.send] for more details on the general semantics.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #gssize containing the size of the data spliced, or -1 if an error occurred.</doc>
+          <type name="gssize" c:type="gssize"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="session" transfer-ownership="none">
+            <doc xml:space="preserve">a #SoupSession</doc>
+            <type name="Session" c:type="SoupSession*"/>
+          </instance-parameter>
+          <parameter name="msg" transfer-ownership="none">
+            <doc xml:space="preserve">a #SoupMessage</doc>
+            <type name="Message" c:type="SoupMessage*"/>
+          </parameter>
+          <parameter name="out_stream" transfer-ownership="none">
+            <doc xml:space="preserve">a #GOutputStream</doc>
+            <type name="Gio.OutputStream" c:type="GOutputStream*"/>
+          </parameter>
+          <parameter name="flags" transfer-ownership="none">
+            <doc xml:space="preserve">a set of #GOutputStreamSpliceFlags</doc>
+            <type name="Gio.OutputStreamSpliceFlags" c:type="GOutputStreamSpliceFlags"/>
+          </parameter>
+          <parameter name="cancellable" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">a #GCancellable</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="send_and_splice_async" c:identifier="soup_session_send_and_splice_async" version="3.4">
+        <doc xml:space="preserve">Asynchronously sends @msg and splices the response body stream into @out_stream.
+When @callback is called, then either @msg has been sent and its response body
+spliced, or else an error has occurred.
+
+See [method@Session.send] for more details on the general semantics.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="session" transfer-ownership="none">
+            <doc xml:space="preserve">a #SoupSession</doc>
+            <type name="Session" c:type="SoupSession*"/>
+          </instance-parameter>
+          <parameter name="msg" transfer-ownership="none">
+            <doc xml:space="preserve">a #SoupMessage</doc>
+            <type name="Message" c:type="SoupMessage*"/>
+          </parameter>
+          <parameter name="out_stream" transfer-ownership="none">
+            <doc xml:space="preserve">a #GOutputStream</doc>
+            <type name="Gio.OutputStream" c:type="GOutputStream*"/>
+          </parameter>
+          <parameter name="flags" transfer-ownership="none">
+            <doc xml:space="preserve">a set of #GOutputStreamSpliceFlags</doc>
+            <type name="Gio.OutputStreamSpliceFlags" c:type="GOutputStreamSpliceFlags"/>
+          </parameter>
+          <parameter name="io_priority" transfer-ownership="none">
+            <doc xml:space="preserve">the I/O priority of the request</doc>
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="cancellable" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">a #GCancellable</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback" transfer-ownership="none" nullable="1" allow-none="1" scope="async" closure="6">
+            <doc xml:space="preserve">the callback to invoke</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">data for @callback</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="send_and_splice_finish" c:identifier="soup_session_send_and_splice_finish" version="3.4" throws="1">
+        <doc xml:space="preserve">Gets the response to a [method@Session.send_and_splice_async].</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #gssize containing the size of the data spliced, or -1 if an error occurred.</doc>
+          <type name="gssize" c:type="gssize"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="session" transfer-ownership="none">
+            <doc xml:space="preserve">a #SoupSession</doc>
+            <type name="Session" c:type="SoupSession*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">the #GAsyncResult passed to your callback</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="send_async" c:identifier="soup_session_send_async">
         <doc xml:space="preserve">Asynchronously sends @msg and waits for the beginning of a response.
 
@@ -9619,7 +9770,7 @@ communicate with the server.</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="accept-language" writable="1" transfer-ownership="none" setter="set_accept_language" getter="get_accept_language">
+      <property name="accept-language" writable="1" transfer-ownership="none" setter="set_accept_language" getter="get_accept_language" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_session_get_accept_language"/>
         <attribute name="org.gtk.Property.set" value="soup_session_set_accept_language"/>
         <doc xml:space="preserve">If non-%NULL, the value to use for the "Accept-Language" header
@@ -9628,7 +9779,7 @@ on [class@Message]s sent from this session.
 Setting this will disable [property@Session:accept-language-auto].</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="accept-language-auto" writable="1" transfer-ownership="none" setter="set_accept_language_auto" getter="get_accept_language_auto">
+      <property name="accept-language-auto" writable="1" transfer-ownership="none" setter="set_accept_language_auto" getter="get_accept_language_auto" default-value="FALSE">
         <attribute name="org.gtk.Property.get" value="soup_session_get_accept_language_auto"/>
         <attribute name="org.gtk.Property.set" value="soup_session_set_accept_language_auto"/>
         <doc xml:space="preserve">If %TRUE, #SoupSession will automatically set the string
@@ -9639,7 +9790,7 @@ Setting this will override any previous value of
 [property@Session:accept-language].</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="idle-timeout" writable="1" transfer-ownership="none" setter="set_idle_timeout" getter="get_idle_timeout">
+      <property name="idle-timeout" writable="1" transfer-ownership="none" setter="set_idle_timeout" getter="get_idle_timeout" default-value="60">
         <attribute name="org.gtk.Property.get" value="soup_session_get_idle_timeout"/>
         <attribute name="org.gtk.Property.set" value="soup_session_set_idle_timeout"/>
         <doc xml:space="preserve">Connection lifetime (in seconds) when idle. Any connection
@@ -9661,12 +9812,12 @@ Use this property if you want for instance to bind the
 local socket to a specific IP address.</doc>
         <type name="Gio.InetSocketAddress"/>
       </property>
-      <property name="max-conns" writable="1" construct-only="1" transfer-ownership="none" getter="get_max_conns">
+      <property name="max-conns" writable="1" construct-only="1" transfer-ownership="none" getter="get_max_conns" default-value="10">
         <attribute name="org.gtk.Property.get" value="soup_session_get_max_conns"/>
         <doc xml:space="preserve">The maximum number of connections that the session can open at once.</doc>
         <type name="gint" c:type="gint"/>
       </property>
-      <property name="max-conns-per-host" writable="1" construct-only="1" transfer-ownership="none" getter="get_max_conns_per_host">
+      <property name="max-conns-per-host" writable="1" construct-only="1" transfer-ownership="none" getter="get_max_conns_per_host" default-value="2">
         <attribute name="org.gtk.Property.get" value="soup_session_get_max_conns_per_host"/>
         <doc xml:space="preserve">The maximum number of connections that the session can open at once
 to a given host.</doc>
@@ -9695,7 +9846,7 @@ this is a local service that uses HTTP over UNIX-domain sockets, in that case
 a [class@Gio.UnixSocketAddress] can be passed to this function.</doc>
         <type name="Gio.SocketConnectable"/>
       </property>
-      <property name="timeout" writable="1" transfer-ownership="none" setter="set_timeout" getter="get_timeout">
+      <property name="timeout" writable="1" transfer-ownership="none" setter="set_timeout" getter="get_timeout" default-value="0">
         <attribute name="org.gtk.Property.get" value="soup_session_get_timeout"/>
         <attribute name="org.gtk.Property.set" value="soup_session_set_timeout"/>
         <doc xml:space="preserve">The timeout (in seconds) for socket I/O operations
@@ -9732,7 +9883,7 @@ used. See [method@Gio.TlsBackend.get_default_database].</doc>
 This can be used to provide client-side certificates, for example.</doc>
         <type name="Gio.TlsInteraction"/>
       </property>
-      <property name="user-agent" writable="1" transfer-ownership="none" setter="set_user_agent" getter="get_user_agent">
+      <property name="user-agent" writable="1" transfer-ownership="none" setter="set_user_agent" getter="get_user_agent" default-value="NULL">
         <attribute name="org.gtk.Property.get" value="soup_session_get_user_agent"/>
         <attribute name="org.gtk.Property.set" value="soup_session_set_user_agent"/>
         <doc xml:space="preserve">User-Agent string.
@@ -9961,7 +10112,7 @@ by the application. (Eg, [class@Logger], [class@CookieJar].)
 
 See [method@Session.add_feature], etc, to add a feature to a session.</doc>
     </interface>
-    <record name="SessionFeatureInterface" c:type="SoupSessionFeatureInterface" disguised="1" glib:is-gtype-struct-for="SessionFeature">
+    <record name="SessionFeatureInterface" c:type="SoupSessionFeatureInterface" disguised="1" opaque="1" glib:is-gtype-struct-for="SessionFeature">
       <doc xml:space="preserve">The interface implemented by [iface@SessionFeature]s.</doc>
     </record>
     <enumeration name="Status" glib:type-name="SoupStatus" glib:get-type="soup_status_get_type" c:type="SoupStatus">
@@ -10675,7 +10826,7 @@ It does not limit the outgoing packet size.</doc>
           </parameter>
         </parameters>
       </method>
-      <property name="connection-type" writable="1" construct-only="1" transfer-ownership="none" getter="get_connection_type">
+      <property name="connection-type" writable="1" construct-only="1" transfer-ownership="none" getter="get_connection_type" default-value="SOUP_WEBSOCKET_CONNECTION_UNKNOWN">
         <doc xml:space="preserve">The type of connection (client/server).</doc>
         <type name="WebsocketConnectionType"/>
       </property>
@@ -10690,29 +10841,29 @@ over.
 The input and output streams must be pollable streams.</doc>
         <type name="Gio.IOStream"/>
       </property>
-      <property name="keepalive-interval" writable="1" construct="1" transfer-ownership="none" setter="set_keepalive_interval" getter="get_keepalive_interval">
+      <property name="keepalive-interval" writable="1" construct="1" transfer-ownership="none" setter="set_keepalive_interval" getter="get_keepalive_interval" default-value="0">
         <doc xml:space="preserve">Interval in seconds on when to send a ping message which will
 serve as a keepalive message.
 
 If set to 0 the keepalive message is disabled.</doc>
         <type name="guint" c:type="guint"/>
       </property>
-      <property name="max-incoming-payload-size" writable="1" construct="1" transfer-ownership="none" setter="set_max_incoming_payload_size" getter="get_max_incoming_payload_size">
+      <property name="max-incoming-payload-size" writable="1" construct="1" transfer-ownership="none" setter="set_max_incoming_payload_size" getter="get_max_incoming_payload_size" default-value="131072">
         <doc xml:space="preserve">The maximum payload size for incoming packets.
 
 The protocol expects or 0 to not limit it.</doc>
         <type name="guint64" c:type="guint64"/>
       </property>
-      <property name="origin" writable="1" construct-only="1" transfer-ownership="none" getter="get_origin">
+      <property name="origin" writable="1" construct-only="1" transfer-ownership="none" getter="get_origin" default-value="NULL">
         <doc xml:space="preserve">The client's Origin.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="protocol" writable="1" construct-only="1" transfer-ownership="none" getter="get_protocol">
+      <property name="protocol" writable="1" construct-only="1" transfer-ownership="none" getter="get_protocol" default-value="NULL">
         <doc xml:space="preserve">The chosen protocol, or %NULL if a protocol was not agreed
 upon.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="state" transfer-ownership="none" getter="get_state">
+      <property name="state" transfer-ownership="none" getter="get_state" default-value="SOUP_WEBSOCKET_STATE_OPEN">
         <doc xml:space="preserve">The current state of the WebSocket.</doc>
         <type name="WebsocketState"/>
       </property>
@@ -11264,7 +11415,10 @@ be defaulted from @origin. If @origin is %NULL, path will default
 to "/", but domain will be left as %NULL. Note that this is not a
 valid state for a #SoupCookie, and you will need to fill in some
 appropriate string for the domain if you want to actually make use
-of the cookie.</doc>
+of the cookie.
+
+As of version 3.4.0 the default value of a cookie's same-site-policy
+is %SOUP_SAME_SITE_POLICY_LAX.</doc>
       <return-value transfer-ownership="full" nullable="1">
         <doc xml:space="preserve">a new #SoupCookie, or %NULL if it could
   not be parsed, or contained an illegal "domain" attribute for a
@@ -11721,7 +11875,7 @@ If @value is %NULL, this will just append @name to @string.</doc>
           <doc xml:space="preserve">a parameter name</doc>
           <type name="utf8" c:type="const char*"/>
         </parameter>
-        <parameter name="value" transfer-ownership="none">
+        <parameter name="value" transfer-ownership="none" nullable="1" allow-none="1">
           <doc xml:space="preserve">a parameter value, or %NULL</doc>
           <type name="utf8" c:type="const char*"/>
         </parameter>
@@ -12159,7 +12313,12 @@ format).</doc>
       </parameters>
     </function>
     <function name="uri_copy" c:identifier="soup_uri_copy" introspectable="0">
-      <doc xml:space="preserve">Return a copy of @uri with the given components updated.</doc>
+      <doc xml:space="preserve">As of 3.4.0 this will detect the default ports of HTTP(s) and WS(S)
+URIs when copying and set it to the default port of the new scheme.
+So for example copying `http://localhost:80` while changing the scheme to https
+will result in `https://localhost:443`.
+
+Return a copy of @uri with the given components updated.</doc>
       <return-value transfer-ownership="full">
         <doc xml:space="preserve">a new #GUri</doc>
         <type name="GLib.Uri" c:type="GUri*"/>

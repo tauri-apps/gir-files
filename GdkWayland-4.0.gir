@@ -221,7 +221,7 @@ This is most notably implemented for devices of type
         </parameters>
       </method>
     </class>
-    <record name="WaylandDeviceClass" c:type="GdkWaylandDeviceClass" disguised="1" glib:is-gtype-struct-for="WaylandDevice"/>
+    <record name="WaylandDeviceClass" c:type="GdkWaylandDeviceClass" disguised="1" opaque="1" glib:is-gtype-struct-for="WaylandDevice"/>
     <class name="WaylandDisplay" c:symbol-prefix="wayland_display" c:type="GdkWaylandDisplay" parent="Gdk.Display" glib:type-name="GdkWaylandDisplay" glib:get-type="gdk_wayland_display_get_type" glib:type-struct="WaylandDisplayClass">
       <doc xml:space="preserve">The Wayland implementation of `GdkDisplay`.
 
@@ -245,7 +245,7 @@ with [method@GdkWayland.WaylandDisplay.query_registry].</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_startup_notification_id" c:identifier="gdk_wayland_display_get_startup_notification_id">
+      <method name="get_startup_notification_id" c:identifier="gdk_wayland_display_get_startup_notification_id" deprecated="1" deprecated-version="4.10.">
         <doc xml:space="preserve">Gets the startup notification ID for a Wayland display, or %NULL
 if no ID has been defined.</doc>
         <return-value transfer-ownership="none" nullable="1">
@@ -323,7 +323,7 @@ if no ID has been defined.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_startup_notification_id" c:identifier="gdk_wayland_display_set_startup_notification_id">
+      <method name="set_startup_notification_id" c:identifier="gdk_wayland_display_set_startup_notification_id" deprecated="1" deprecated-version="4.10.">
         <doc xml:space="preserve">Sets the startup notification ID for a display.
 
 This is usually taken from the value of the `DESKTOP_STARTUP_ID`
@@ -333,6 +333,7 @@ being launched using exec()) it can come from other sources.
 The startup ID is also what is used to signal that the startup is
 complete (for example, when opening a window or when calling
 [method@Gdk.Display.notify_startup_complete]).</doc>
+        <doc-deprecated xml:space="preserve">Use [method@Gdk.Toplevel.set_startup_id]</doc-deprecated>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -348,11 +349,11 @@ complete (for example, when opening a window or when calling
         </parameters>
       </method>
     </class>
-    <record name="WaylandDisplayClass" c:type="GdkWaylandDisplayClass" disguised="1" glib:is-gtype-struct-for="WaylandDisplay"/>
+    <record name="WaylandDisplayClass" c:type="GdkWaylandDisplayClass" disguised="1" opaque="1" glib:is-gtype-struct-for="WaylandDisplay"/>
     <class name="WaylandGLContext" c:symbol-prefix="wayland_gl_context" c:type="GdkWaylandGLContext" parent="Gdk.GLContext" glib:type-name="GdkWaylandGLContext" glib:get-type="gdk_wayland_gl_context_get_type" glib:type-struct="WaylandGLContextClass">
       <doc xml:space="preserve">The Wayland implementation of `GdkGLContext`.</doc>
     </class>
-    <record name="WaylandGLContextClass" c:type="GdkWaylandGLContextClass" disguised="1" glib:is-gtype-struct-for="WaylandGLContext"/>
+    <record name="WaylandGLContextClass" c:type="GdkWaylandGLContextClass" disguised="1" opaque="1" glib:is-gtype-struct-for="WaylandGLContext"/>
     <class name="WaylandMonitor" c:symbol-prefix="wayland_monitor" c:type="GdkWaylandMonitor" parent="Gdk.Monitor" glib:type-name="GdkWaylandMonitor" glib:get-type="gdk_wayland_monitor_get_type" glib:type-struct="WaylandMonitorClass">
       <doc xml:space="preserve">The Wayland implementation of `GdkMonitor`.
 
@@ -373,7 +374,7 @@ offers access to the Wayland `wl_output` object with
         </parameters>
       </method>
     </class>
-    <record name="WaylandMonitorClass" c:type="GdkWaylandMonitorClass" disguised="1" glib:is-gtype-struct-for="WaylandMonitor"/>
+    <record name="WaylandMonitorClass" c:type="GdkWaylandMonitorClass" disguised="1" opaque="1" glib:is-gtype-struct-for="WaylandMonitor"/>
     <class name="WaylandPopup" c:symbol-prefix="wayland_popup" c:type="GdkWaylandPopup" parent="WaylandSurface" glib:type-name="GdkWaylandPopup" glib:get-type="gdk_wayland_popup_get_type">
       <doc xml:space="preserve">The Wayland implementation of `GdkPopup`.</doc>
       <implements name="Gdk.Popup"/>
@@ -398,7 +399,7 @@ provides access to the Wayland `wl_seat` object with
         </parameters>
       </method>
     </class>
-    <record name="WaylandSeatClass" c:type="GdkWaylandSeatClass" disguised="1" glib:is-gtype-struct-for="WaylandSeat"/>
+    <record name="WaylandSeatClass" c:type="GdkWaylandSeatClass" disguised="1" opaque="1" glib:is-gtype-struct-for="WaylandSeat"/>
     <class name="WaylandSurface" c:symbol-prefix="wayland_surface" c:type="GdkWaylandSurface" parent="Gdk.Surface" glib:type-name="GdkWaylandSurface" glib:get-type="gdk_wayland_surface_get_type">
       <doc xml:space="preserve">The Wayland implementation of `GdkSurface`.
 

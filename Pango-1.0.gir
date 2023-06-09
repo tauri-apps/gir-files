@@ -311,7 +311,7 @@ an integer or enumeration value.</doc>
         <type name="gint" c:type="int"/>
       </field>
     </record>
-    <record name="AttrIterator" c:type="PangoAttrIterator" glib:type-name="PangoAttrIterator" glib:get-type="pango_attr_iterator_get_type" c:symbol-prefix="attr_iterator">
+    <record name="AttrIterator" c:type="PangoAttrIterator" opaque="1" glib:type-name="PangoAttrIterator" glib:get-type="pango_attr_iterator_get_type" c:symbol-prefix="attr_iterator">
       <doc xml:space="preserve">A `PangoAttrIterator` is used to iterate through a `PangoAttrList`.
 
 A new iterator is created with [method@Pango.AttrList.get_iterator].
@@ -495,7 +495,7 @@ are languages.</doc>
         </parameters>
       </function>
     </record>
-    <record name="AttrList" c:type="PangoAttrList" glib:type-name="PangoAttrList" glib:get-type="pango_attr_list_get_type" c:symbol-prefix="attr_list">
+    <record name="AttrList" c:type="PangoAttrList" opaque="1" glib:type-name="PangoAttrList" glib:get-type="pango_attr_list_get_type" c:symbol-prefix="attr_list">
       <doc xml:space="preserve">A `PangoAttrList` represents a list of attributes that apply to a section
 of text.
 
@@ -742,12 +742,38 @@ This mode is useful for merging two lists of attributes together.</doc>
       <method name="to_string" c:identifier="pango_attr_list_to_string" version="1.50">
         <doc xml:space="preserve">Serializes a `PangoAttrList` to a string.
 
-No guarantees are made about the format of the string,
-it may change between Pango versions.
+In the resulting string, serialized attributes are separated by newlines or commas.
+Individual attributes are serialized to a string of the form
 
-The intended use of this function is testing and
-debugging. The format is not meant as a permanent
-storage format.</doc>
+  START END TYPE VALUE
+
+Where START and END are the indices (with -1 being accepted in place
+of MAXUINT), TYPE is the nickname of the attribute value type, e.g.
+_weight_ or _stretch_, and the value is serialized according to its type:
+
+- enum values as nick or numeric value
+- boolean values as _true_ or _false_
+- integers and floats as numbers
+- strings as string, optionally quoted
+- font features as quoted string
+- PangoLanguage as string
+- PangoFontDescription as serialized by [method@Pango.FontDescription.to_string], quoted
+- PangoColor as serialized by [method@Pango.Color.to_string]
+
+Examples:
+
+```
+0 10 foreground red, 5 15 weight bold, 0 200 font-desc "Sans 10"
+```
+
+```
+0 -1 weight 700
+0 100 family Times
+```
+
+To parse the returned value, use [func@Pango.AttrList.from_string].
+
+Note that shape attributes can not be serialized.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a newly allocated string</doc>
           <type name="utf8" c:type="char*"/>
@@ -1708,7 +1734,7 @@ See [method@Pango.Context.set_base_gravity].</doc>
       </method>
       <method name="get_font_description" c:identifier="pango_context_get_font_description">
         <doc xml:space="preserve">Retrieve the default font description for the context.</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">a pointer to the context's default font
   description. This value must not be modified or freed.</doc>
           <type name="FontDescription" c:type="PangoFontDescription*"/>
@@ -1722,9 +1748,10 @@ See [method@Pango.Context.set_base_gravity].</doc>
       </method>
       <method name="get_font_map" c:identifier="pango_context_get_font_map" version="1.6">
         <doc xml:space="preserve">Gets the `PangoFontMap` used to look up fonts for this context.</doc>
-        <return-value transfer-ownership="none">
-          <doc xml:space="preserve">the font map for the `PangoContext`.
-  This value is owned by Pango and should not be unreferenced.</doc>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve">the font map for the.
+  `PangoContext` This value is owned by Pango and should not be
+  unreferenced.</doc>
           <type name="FontMap" c:type="PangoFontMap*"/>
         </return-value>
         <parameters>
@@ -1769,7 +1796,7 @@ See [method@Pango.Context.set_gravity_hint] for details.</doc>
       </method>
       <method name="get_language" c:identifier="pango_context_get_language">
         <doc xml:space="preserve">Retrieves the global language tag for the context.</doc>
-        <return-value transfer-ownership="full">
+        <return-value transfer-ownership="none">
           <doc xml:space="preserve">the global language tag.</doc>
           <type name="Language" c:type="PangoLanguage*"/>
         </return-value>
@@ -1786,9 +1813,10 @@ rendering with this context.
 
 See [method@Pango.Context.set_matrix].</doc>
         <return-value transfer-ownership="none" nullable="1">
-          <doc xml:space="preserve">the matrix, or %NULL if no matrix has
-  been set (which is the same as the identity matrix). The returned
-  matrix is owned by Pango and must not be modified or freed.</doc>
+          <doc xml:space="preserve">the matrix, or %NULL if no
+  matrix has been set (which is the same as the identity matrix).
+  The returned matrix is owned by Pango and must not be modified
+  or freed.</doc>
           <type name="Matrix" c:type="const PangoMatrix*"/>
         </return-value>
         <parameters>
@@ -1989,7 +2017,7 @@ The base gravity is used in laying vertical text out.</doc>
             <doc xml:space="preserve">a `PangoContext`</doc>
             <type name="Context" c:type="PangoContext*"/>
           </instance-parameter>
-          <parameter name="desc" transfer-ownership="none">
+          <parameter name="desc" transfer-ownership="none" nullable="1" allow-none="1">
             <doc xml:space="preserve">the new pango font description</doc>
             <type name="FontDescription" c:type="const PangoFontDescription*"/>
           </parameter>
@@ -2010,7 +2038,7 @@ suitable font map.</doc>
             <doc xml:space="preserve">a `PangoContext`</doc>
             <type name="Context" c:type="PangoContext*"/>
           </instance-parameter>
-          <parameter name="font_map" transfer-ownership="none">
+          <parameter name="font_map" transfer-ownership="none" nullable="1" allow-none="1">
             <doc xml:space="preserve">the `PangoFontMap` to set.</doc>
             <type name="FontMap" c:type="PangoFontMap*"/>
           </parameter>
@@ -2050,7 +2078,7 @@ can be found using [func@Pango.Language.get_default].</doc>
             <doc xml:space="preserve">a `PangoContext`</doc>
             <type name="Context" c:type="PangoContext*"/>
           </instance-parameter>
-          <parameter name="language" transfer-ownership="none">
+          <parameter name="language" transfer-ownership="none" nullable="1" allow-none="1">
             <doc xml:space="preserve">the new language tag.</doc>
             <type name="Language" c:type="PangoLanguage*"/>
           </parameter>
@@ -2105,7 +2133,7 @@ compatible with previous Pango behavior.</doc>
         </parameters>
       </method>
     </class>
-    <record name="ContextClass" c:type="PangoContextClass" disguised="1" glib:is-gtype-struct-for="Context"/>
+    <record name="ContextClass" c:type="PangoContextClass" disguised="1" opaque="1" glib:is-gtype-struct-for="Context"/>
     <class name="Coverage" c:symbol-prefix="coverage" c:type="PangoCoverage" parent="GObject.Object" glib:type-name="PangoCoverage" glib:get-type="pango_coverage_get_type">
       <doc xml:space="preserve">A `PangoCoverage` structure is a map from Unicode characters
 to [enum@Pango.CoverageLevel] values.
@@ -3092,7 +3120,7 @@ To recreate a font from its serialized form, use [func@Pango.Font.deserialize].<
         </callback>
       </field>
     </record>
-    <record name="FontDescription" c:type="PangoFontDescription" glib:type-name="PangoFontDescription" glib:get-type="pango_font_description_get_type" c:symbol-prefix="font_description">
+    <record name="FontDescription" c:type="PangoFontDescription" opaque="1" glib:type-name="PangoFontDescription" glib:get-type="pango_font_description_get_type" c:symbol-prefix="font_description">
       <doc xml:space="preserve">A `PangoFontDescription` describes a font in an implementation-independent
 manner.
 
@@ -3102,8 +3130,8 @@ a font to load.</doc>
       <constructor name="new" c:identifier="pango_font_description_new">
         <doc xml:space="preserve">Creates a new font description structure with all fields unset.</doc>
         <return-value transfer-ownership="full">
-          <doc xml:space="preserve">the newly allocated `PangoFontDescription`, which
-  should be freed using [method@Pango.FontDescription.free].</doc>
+          <doc xml:space="preserve">the newly allocated `PangoFontDescription`,
+  which should be freed using [method@Pango.FontDescription.free].</doc>
           <type name="FontDescription" c:type="PangoFontDescription*"/>
         </return-value>
       </constructor>
@@ -3214,8 +3242,8 @@ result in identical fonts being loaded, but still compare %FALSE.)</doc>
 
 See [method@Pango.FontDescription.set_family].</doc>
         <return-value transfer-ownership="none" nullable="1">
-          <doc xml:space="preserve">the family name field for the font
-  description, or %NULL if not previously set. This has the same
+          <doc xml:space="preserve">the family name field for the
+  font description, or %NULL if not previously set. This has the same
   life-time as the font description itself and should not be freed.</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -3717,7 +3745,7 @@ The filename is identical to the result from calling
 [method@Pango.FontDescription.to_string], but with underscores
 instead of characters that are untypical in filenames, and in
 lower case only.</doc>
-        <return-value transfer-ownership="full">
+        <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve">a new string that must be freed with g_free().</doc>
           <type name="utf8" c:type="char*"/>
         </return-value>
@@ -4364,7 +4392,7 @@ for enumerating faces.</doc>
         <doc xml:space="preserve">The type of items contained in this list.</doc>
         <type name="GType" c:type="GType"/>
       </property>
-      <property name="n-items" transfer-ownership="none">
+      <property name="n-items" transfer-ownership="none" default-value="0">
         <doc xml:space="preserve">The number of items contained in this list.</doc>
         <type name="guint" c:type="guint"/>
       </property>
@@ -4794,7 +4822,7 @@ a font matching @desc.</doc>
         <doc xml:space="preserve">The type of items contained in this list.</doc>
         <type name="GType" c:type="GType"/>
       </property>
-      <property name="n-items" transfer-ownership="none">
+      <property name="n-items" transfer-ownership="none" default-value="0">
         <doc xml:space="preserve">The number of items contained in this list.</doc>
         <type name="guint" c:type="guint"/>
       </property>
@@ -5520,7 +5548,7 @@ The fontset takes ownership of @font.</doc>
         </parameters>
       </method>
     </class>
-    <record name="FontsetSimpleClass" c:type="PangoFontsetSimpleClass" disguised="1" glib:is-gtype-struct-for="FontsetSimple"/>
+    <record name="FontsetSimpleClass" c:type="PangoFontsetSimpleClass" disguised="1" opaque="1" glib:is-gtype-struct-for="FontsetSimple"/>
     <function-macro name="GET_UNKNOWN_GLYPH" c:identifier="PANGO_GET_UNKNOWN_GLYPH" introspectable="0">
       <doc xml:space="preserve">The way this unknown glyphs are rendered is backend specific. For example,
 a box with the hexadecimal Unicode code-point of the character written in it
@@ -5791,9 +5819,9 @@ assigned to each item, you can't create a zero-length item).
 
 This function is similar in function to pango_item_split() (and uses
 it internally.)</doc>
-        <return-value transfer-ownership="full">
-          <doc xml:space="preserve">the newly allocated item representing text before
-  @split_index, which should be freed
+        <return-value transfer-ownership="full" nullable="1">
+          <doc xml:space="preserve">the newly allocated item
+  representing text before @split_index, which should be freed
   with pango_glyph_item_free().</doc>
           <type name="GlyphItem" c:type="PangoGlyphItem*"/>
         </return-value>
@@ -6737,7 +6765,7 @@ the right of the glyph origin.</doc>
         </parameter>
       </parameters>
     </function-macro>
-    <record name="Language" c:type="PangoLanguage" glib:type-name="PangoLanguage" glib:get-type="pango_language_get_type" c:symbol-prefix="language">
+    <record name="Language" c:type="PangoLanguage" opaque="1" glib:type-name="PangoLanguage" glib:get-type="pango_language_get_type" c:symbol-prefix="language">
       <doc xml:space="preserve">The `PangoLanguage` structure is used to
 represent a language.
 
@@ -6813,9 +6841,8 @@ may have more values. Callers need to handle unknown values.</doc>
             <doc xml:space="preserve">a `PangoLanguage`</doc>
             <type name="Language" c:type="PangoLanguage*"/>
           </instance-parameter>
-          <parameter name="num_scripts" direction="out" caller-allocates="1" transfer-ownership="full" optional="1" allow-none="1">
-            <doc xml:space="preserve">location to
-  return number of scripts</doc>
+          <parameter name="num_scripts" direction="out" caller-allocates="0" transfer-ownership="full" optional="1" allow-none="1">
+            <doc xml:space="preserve">location to return number of scripts</doc>
             <type name="gint" c:type="int*"/>
           </parameter>
         </parameters>
@@ -6967,7 +6994,9 @@ languages returned by this function.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">a %NULL-terminated array
   of `PangoLanguage`*</doc>
-          <type name="Language" c:type="PangoLanguage**"/>
+          <array c:type="PangoLanguage**">
+            <type name="Language" c:type="PangoLanguage*"/>
+          </array>
         </return-value>
       </function>
     </record>
@@ -7830,7 +7859,7 @@ The X position is measured from the left edge of the line.</doc>
         <doc xml:space="preserve">Converts from an index within a `PangoLayout` to the onscreen position
 corresponding to the grapheme at that index.
 
-The return value is represented as rectangle. Note that `pos-&gt;x` is
+The returns is represented as rectangle. Note that `pos-&gt;x` is
 always the leading edge of the grapheme and `pos-&gt;x + pos-&gt;width` the
 trailing edge of the grapheme. If the directionality of the grapheme
 is right-to-left, then `pos-&gt;width` will be negative.</doc>
@@ -8310,7 +8339,7 @@ literal @accel_marker character.</doc>
             <doc xml:space="preserve">marker for accelerators in the text</doc>
             <type name="gunichar" c:type="gunichar"/>
           </parameter>
-          <parameter name="accel_char" direction="out" caller-allocates="1" transfer-ownership="none" optional="1" allow-none="1">
+          <parameter name="accel_char" direction="out" caller-allocates="0" transfer-ownership="full" optional="1" allow-none="1">
             <doc xml:space="preserve">return location
   for first located accelerator</doc>
             <type name="gunichar" c:type="gunichar*"/>
@@ -8543,7 +8572,7 @@ the X or Y positions were not inside the layout, then the function returns
         </parameters>
       </method>
     </class>
-    <record name="LayoutClass" c:type="PangoLayoutClass" disguised="1" glib:is-gtype-struct-for="Layout"/>
+    <record name="LayoutClass" c:type="PangoLayoutClass" disguised="1" opaque="1" glib:is-gtype-struct-for="Layout"/>
     <enumeration name="LayoutDeserializeError" version="1.50" glib:type-name="PangoLayoutDeserializeError" glib:get-type="pango_layout_deserialize_error_get_type" c:type="PangoLayoutDeserializeError" glib:error-domain="pango-layout-deserialize-error-quark">
       <doc xml:space="preserve">Errors that can be returned by [func@Pango.Layout.deserialize].</doc>
       <member name="invalid" value="0" c:identifier="PANGO_LAYOUT_DESERIALIZE_INVALID" glib:nick="invalid" glib:name="PANGO_LAYOUT_DESERIALIZE_INVALID">
@@ -8575,7 +8604,7 @@ New members may be added to this enumeration over time.</doc>
   from the serialization to the `PangoContext`</doc>
       </member>
     </bitfield>
-    <record name="LayoutIter" c:type="PangoLayoutIter" glib:type-name="PangoLayoutIter" glib:get-type="pango_layout_iter_get_type" c:symbol-prefix="layout_iter">
+    <record name="LayoutIter" c:type="PangoLayoutIter" opaque="1" glib:type-name="PangoLayoutIter" glib:get-type="pango_layout_iter_get_type" c:symbol-prefix="layout_iter">
       <doc xml:space="preserve">A `PangoLayoutIter` can be used to iterate over the visual
 extents of a `PangoLayout`.
 
@@ -8700,7 +8729,7 @@ layout, if on the %NULL run (see [method@Pango.LayoutIter.get_run]).</doc>
       </method>
       <method name="get_layout" c:identifier="pango_layout_iter_get_layout" version="1.20">
         <doc xml:space="preserve">Gets the layout associated with a `PangoLayoutIter`.</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the layout associated with @iter</doc>
           <type name="Layout" c:type="PangoLayout*"/>
         </return-value>
@@ -8737,7 +8766,7 @@ layout, if on the %NULL run (see [method@Pango.LayoutIter.get_run]).</doc>
 Use the faster [method@Pango.LayoutIter.get_line_readonly] if
 you do not plan to modify the contents of the line (glyphs,
 glyph widths, etc.).</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the current line</doc>
           <type name="LayoutLine" c:type="PangoLayoutLine*"/>
         </return-value>
@@ -8779,7 +8808,7 @@ as the extents returned from [method@Pango.LayoutLine.get_extents].</doc>
 This is a faster alternative to [method@Pango.LayoutIter.get_line],
 but the user is not expected to modify the contents of the line
 (glyphs, glyph widths, etc.).</doc>
-        <return-value transfer-ownership="none">
+        <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve">the current line, that should not be
   modified</doc>
           <type name="LayoutLine" c:type="PangoLayoutLine*"/>
@@ -9201,7 +9230,7 @@ layout, not with respect to the line.</doc>
       </method>
       <method name="ref" c:identifier="pango_layout_line_ref" version="1.10">
         <doc xml:space="preserve">Increase the reference count of a `PangoLayoutLine` by one.</doc>
-        <return-value transfer-ownership="full">
+        <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve">the line passed in.</doc>
           <type name="LayoutLine" c:type="PangoLayoutLine*"/>
         </return-value>
@@ -10949,7 +10978,7 @@ and must be implemented:
         </callback>
       </field>
     </record>
-    <record name="RendererPrivate" c:type="PangoRendererPrivate" disguised="1"/>
+    <record name="RendererPrivate" c:type="PangoRendererPrivate" disguised="1" opaque="1"/>
     <constant name="SCALE" value="1024" c:type="PANGO_SCALE">
       <doc xml:space="preserve">The scale between dimensions used for Pango distances and device units.
 
@@ -11395,7 +11424,7 @@ context language is not feasible.</doc>
         </parameters>
       </function>
     </enumeration>
-    <record name="ScriptIter" c:type="PangoScriptIter" glib:type-name="PangoScriptIter" glib:get-type="pango_script_iter_get_type" c:symbol-prefix="script_iter">
+    <record name="ScriptIter" c:type="PangoScriptIter" opaque="1" glib:type-name="PangoScriptIter" glib:get-type="pango_script_iter_get_type" c:symbol-prefix="script_iter">
       <doc xml:space="preserve">A `PangoScriptIter` is used to iterate through a string
 and identify ranges in different scripts.</doc>
       <constructor name="new" c:identifier="pango_script_iter_new" version="1.4">
@@ -11576,7 +11605,7 @@ position.</doc>
   space is filled), the rest to the right. Since: 1.50</doc>
       </member>
     </enumeration>
-    <record name="TabArray" c:type="PangoTabArray" glib:type-name="PangoTabArray" glib:get-type="pango_tab_array_get_type" c:symbol-prefix="tab_array">
+    <record name="TabArray" c:type="PangoTabArray" opaque="1" glib:type-name="PangoTabArray" glib:get-type="pango_tab_array_get_type" c:symbol-prefix="tab_array">
       <doc xml:space="preserve">A `PangoTabArray` contains an array of tab stops.
 
 `PangoTabArray` can be used to set tab stops in a `PangoLayout`.
@@ -12024,7 +12053,7 @@ Two encoded version numbers can be compared as integers.</doc>
       <doc xml:space="preserve">The major component of the version of Pango available at compile-time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="VERSION_MICRO" value="11" c:type="PANGO_VERSION_MICRO">
+    <constant name="VERSION_MICRO" value="14" c:type="PANGO_VERSION_MICRO">
       <doc xml:space="preserve">The micro component of the version of Pango available at compile-time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
@@ -12032,7 +12061,7 @@ Two encoded version numbers can be compared as integers.</doc>
       <doc xml:space="preserve">The minor component of the version of Pango available at compile-time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="VERSION_STRING" value="1.50.11" c:type="PANGO_VERSION_STRING">
+    <constant name="VERSION_STRING" value="1.50.14" c:type="PANGO_VERSION_STRING">
       <doc xml:space="preserve">A string literal containing the version of Pango available at compile-time.</doc>
       <type name="utf8" c:type="gchar*"/>
     </constant>
@@ -13502,7 +13531,9 @@ languages returned by this function.</doc>
       <return-value transfer-ownership="none" nullable="1">
         <doc xml:space="preserve">a %NULL-terminated array
   of `PangoLanguage`*</doc>
-        <type name="Language" c:type="PangoLanguage**"/>
+        <array c:type="PangoLanguage**">
+          <type name="Language" c:type="PangoLanguage*"/>
+        </array>
       </return-value>
     </function>
     <function name="layout_deserialize_error_quark" c:identifier="pango_layout_deserialize_error_quark" moved-to="LayoutDeserializeError.quark">

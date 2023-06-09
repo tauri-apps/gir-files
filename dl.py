@@ -11,7 +11,7 @@ GIR_FILES=[
 "libxml2-2.0", "Pango-1.0",
 "PangoCairo-1.0", "PangoFc-1.0",
 "PangoFT2-1.0", "PangoOT-1.0",
-"PangoXft-1.0", "Vulkan-1.0",
+"Vulkan-1.0",
 "win32-1.0", "xfixes-4.0",
 "xft-2.0", "xlib-2.0", "xrandr-1.3",
 "WebKit2-4.1", "JavaScriptCore-4.1", "Soup-3.0"
