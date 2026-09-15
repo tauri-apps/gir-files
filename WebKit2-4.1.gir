@@ -610,6 +610,13 @@ or tab shouldn't be focused.</doc>
           <type name="WebView"/>
         </return-value>
       </glib:signal>
+      <glib:signal name="will-close" when="last" version="2.46">
+        <doc xml:space="preserve">This signal is emitted when the given automation session is about to finish.
+It allows clients to perform any cleanup tasks before the session is destroyed.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+      </glib:signal>
     </class>
     <record name="AutomationSessionClass" c:type="WebKitAutomationSessionClass" glib:is-gtype-struct-for="AutomationSession">
       <field name="parent_class">
@@ -1024,6 +1031,24 @@ See also webkit_back_forward_list_item_get_original_uri().</doc>
         </parameter>
       </parameters>
     </function-macro>
+    <function-macro name="CLIPBOARD_PERMISSION_REQUEST" c:identifier="WEBKIT_CLIPBOARD_PERMISSION_REQUEST" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="CLIPBOARD_PERMISSION_REQUEST_CLASS" c:identifier="WEBKIT_CLIPBOARD_PERMISSION_REQUEST_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="CLIPBOARD_PERMISSION_REQUEST_GET_CLASS" c:identifier="WEBKIT_CLIPBOARD_PERMISSION_REQUEST_GET_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
     <function-macro name="COLOR_CHOOSER_REQUEST" c:identifier="WEBKIT_COLOR_CHOOSER_REQUEST" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -1114,6 +1139,29 @@ See also webkit_back_forward_list_item_get_original_uri().</doc>
   designer. WebKit will cache a moderate number of resources.</doc>
       </member>
     </enumeration>
+    <class name="ClipboardPermissionRequest" c:symbol-prefix="clipboard_permission_request" c:type="WebKitClipboardPermissionRequest" version="2.42" parent="GObject.Object" glib:type-name="WebKitClipboardPermissionRequest" glib:get-type="webkit_clipboard_permission_request_get_type" glib:type-struct="ClipboardPermissionRequestClass">
+      <doc xml:space="preserve">A permission request for reading clipboard contents.
+
+WebKitClipboardPermissionRequest represents a request for
+permission to decide whether WebKit can access the clipboard to read
+its contents through the Async Clipboard API.
+
+When a WebKitClipboardPermissionRequest is not handled by the user,
+it is denied by default.</doc>
+      <implements name="PermissionRequest"/>
+      <field name="parent">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+      <field name="priv">
+        <type name="ClipboardPermissionRequestPrivate" c:type="WebKitClipboardPermissionRequestPrivate*"/>
+      </field>
+    </class>
+    <record name="ClipboardPermissionRequestClass" c:type="WebKitClipboardPermissionRequestClass" glib:is-gtype-struct-for="ClipboardPermissionRequest">
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <record name="ClipboardPermissionRequestPrivate" c:type="WebKitClipboardPermissionRequestPrivate" disguised="1" opaque="1"/>
     <class name="ColorChooserRequest" c:symbol-prefix="color_chooser_request" c:type="WebKitColorChooserRequest" parent="GObject.Object" glib:type-name="WebKitColorChooserRequest" glib:get-type="webkit_color_chooser_request_get_type" glib:type-struct="ColorChooserRequestClass">
       <doc xml:space="preserve">A request to open a color chooser.
 
@@ -1390,6 +1438,30 @@ a generic #GdkEvent of type %GDK_NOTHING when the #GtkWidget::popup-menu signal 
             <doc xml:space="preserve">a #WebKitContextMenu</doc>
             <type name="ContextMenu" c:type="WebKitContextMenu*"/>
           </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_position" c:identifier="webkit_context_menu_get_position" version="2.52">
+        <doc xml:space="preserve">Gets the position in view coordinates where the context menu was triggered.
+
+This function only returns valid coordinates when called for a #WebKitContextMenu
+passed to #WebKitWebView::context-menu signal.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE if valid position coordinates are available, %FALSE otherwise</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="menu" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitContextMenu</doc>
+            <type name="ContextMenu" c:type="WebKitContextMenu*"/>
+          </instance-parameter>
+          <parameter name="x" direction="out" caller-allocates="0" transfer-ownership="full" optional="1" allow-none="1">
+            <doc xml:space="preserve">return location for the x coordinate</doc>
+            <type name="gint" c:type="gint*"/>
+          </parameter>
+          <parameter name="y" direction="out" caller-allocates="0" transfer-ownership="full" optional="1" allow-none="1">
+            <doc xml:space="preserve">return location for the y coordinate</doc>
+            <type name="gint" c:type="gint*"/>
+          </parameter>
         </parameters>
       </method>
       <method name="get_user_data" c:identifier="webkit_context_menu_get_user_data" version="2.8">
@@ -1863,6 +1935,21 @@ Stock actions have a predefined label, this method can be used to create a
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_gaction_target" c:identifier="webkit_context_menu_item_get_gaction_target" version="2.52">
+        <doc xml:space="preserve">Gets the target #GVariant associated with @item.</doc>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve">the target #GVariant of the #WebKitContextMenuItem,
+   or %NULL if @item was not created with webkit_context_menu_item_new_from_gaction()
+   or if no target was specified.</doc>
+          <type name="GLib.Variant" c:type="GVariant*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="item" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitContextMenuItem</doc>
+            <type name="ContextMenuItem" c:type="WebKitContextMenuItem*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_stock_action" c:identifier="webkit_context_menu_item_get_stock_action">
         <doc xml:space="preserve">Gets the #WebKitContextMenuAction of @item.
 
@@ -1887,6 +1974,19 @@ will be returned.</doc>
           <doc xml:space="preserve">the #WebKitContextMenu representing the submenu of
    @item or %NULL if @item doesn't have a submenu.</doc>
           <type name="ContextMenu" c:type="WebKitContextMenu*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="item" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitContextMenuItem</doc>
+            <type name="ContextMenuItem" c:type="WebKitContextMenuItem*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_title" c:identifier="webkit_context_menu_item_get_title" version="2.52">
+        <doc xml:space="preserve">Gets the title of @item.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the title of @item, or %NULL if @item is a separator.</doc>
+          <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="item" transfer-ownership="none">
@@ -1989,7 +2089,7 @@ You can get it from a #WebKitWebsiteDataManager with
 webkit_website_data_manager_get_cookie_manager(), and use it to set where to
 store cookies with webkit_cookie_manager_set_persistent_storage(),
 or to set the acceptance policy, with webkit_cookie_manager_get_accept_policy().</doc>
-      <method name="add_cookie" c:identifier="webkit_cookie_manager_add_cookie" version="2.20">
+      <method name="add_cookie" c:identifier="webkit_cookie_manager_add_cookie" version="2.20" glib:finish-func="add_cookie_finish">
         <doc xml:space="preserve">Asynchronously add a #SoupCookie to the underlying storage.
 
 When the operation is finished, @callback will be called. You can then call
@@ -2050,7 +2150,7 @@ webkit_cookie_manager_add_cookie_finish() to get the result of the operation.</d
           </instance-parameter>
         </parameters>
       </method>
-      <method name="delete_cookie" c:identifier="webkit_cookie_manager_delete_cookie" version="2.20">
+      <method name="delete_cookie" c:identifier="webkit_cookie_manager_delete_cookie" version="2.20" glib:finish-func="delete_cookie_finish">
         <doc xml:space="preserve">Asynchronously delete a #SoupCookie from the current session.
 
 When the operation is finished, @callback will be called. You can then call
@@ -2115,7 +2215,7 @@ webkit_cookie_manager_delete_cookie_finish() to get the result of the operation.
           </parameter>
         </parameters>
       </method>
-      <method name="get_accept_policy" c:identifier="webkit_cookie_manager_get_accept_policy">
+      <method name="get_accept_policy" c:identifier="webkit_cookie_manager_get_accept_policy" glib:finish-func="get_accept_policy_finish">
         <doc xml:space="preserve">Asynchronously get the cookie acceptance policy of @cookie_manager.
 
 Note that when policy was set to %WEBKIT_COOKIE_POLICY_ACCEPT_NO_THIRD_PARTY and
@@ -2163,7 +2263,56 @@ webkit_cookie_manager_get_accept_policy_finish() to get the result of the operat
           </parameter>
         </parameters>
       </method>
-      <method name="get_cookies" c:identifier="webkit_cookie_manager_get_cookies" version="2.20">
+      <method name="get_all_cookies" c:identifier="webkit_cookie_manager_get_all_cookies" version="2.42" glib:finish-func="get_all_cookies_finish">
+        <doc xml:space="preserve">Asynchronously get a list of #SoupCookie from @cookie_manager.
+
+When the operation is finished, @callback will be called. You can then call
+webkit_cookie_manager_get_all_cookies_finish() to get the result of the operation.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="cookie_manager" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitCookieManager</doc>
+            <type name="CookieManager" c:type="WebKitCookieManager*"/>
+          </instance-parameter>
+          <parameter name="cancellable" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">a #GCancellable or %NULL to ignore</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback" transfer-ownership="none" nullable="1" allow-none="1" scope="async" closure="2">
+            <doc xml:space="preserve">(closure user_data): a #GAsyncReadyCallback to call when the request is satisfied</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">the data to pass to callback function</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_all_cookies_finish" c:identifier="webkit_cookie_manager_get_all_cookies_finish" version="2.42" throws="1">
+        <doc xml:space="preserve">Finish an asynchronous operation started with webkit_cookie_manager_get_all_cookies().
+
+The return value is a #GList of #SoupCookie instances which should be released
+with g_list_free_full() and soup_cookie_free().</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">A #GList of #SoupCookie instances.</doc>
+          <type name="GLib.List" c:type="GList*">
+            <type name="Soup.Cookie"/>
+          </type>
+        </return-value>
+        <parameters>
+          <instance-parameter name="cookie_manager" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitCookieManager</doc>
+            <type name="CookieManager" c:type="WebKitCookieManager*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">a #GAsyncResult</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_cookies" c:identifier="webkit_cookie_manager_get_cookies" version="2.20" glib:finish-func="get_cookies_finish">
         <doc xml:space="preserve">Asynchronously get a list of #SoupCookie from @cookie_manager.
 
 Asynchronously get a list of #SoupCookie from @cookie_manager associated with @uri, which
@@ -2200,7 +2349,7 @@ webkit_cookie_manager_get_cookies_finish() to get the result of the operation.</
       <method name="get_cookies_finish" c:identifier="webkit_cookie_manager_get_cookies_finish" version="2.20" throws="1">
         <doc xml:space="preserve">Finish an asynchronous operation started with webkit_cookie_manager_get_cookies().
 
-The return value is a #GSList of #SoupCookie instances which should be released
+The return value is a #GList of #SoupCookie instances which should be released
 with g_list_free_full() and soup_cookie_free().</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">A #GList of #SoupCookie instances.</doc>
@@ -2219,7 +2368,7 @@ with g_list_free_full() and soup_cookie_free().</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="get_domains_with_cookies" c:identifier="webkit_cookie_manager_get_domains_with_cookies" deprecated="1" deprecated-version="2.16">
+      <method name="get_domains_with_cookies" c:identifier="webkit_cookie_manager_get_domains_with_cookies" deprecated="1" deprecated-version="2.16" glib:finish-func="get_domains_with_cookies_finish">
         <doc xml:space="preserve">Asynchronously get the list of domains for which @cookie_manager contains cookies.
 
 When the operation is finished, @callback will be called. You can then call
@@ -2259,6 +2408,56 @@ be released with g_strfreev().</doc>
           <array c:type="gchar**">
             <type name="utf8"/>
           </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="cookie_manager" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitCookieManager</doc>
+            <type name="CookieManager" c:type="WebKitCookieManager*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <doc xml:space="preserve">a #GAsyncResult</doc>
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="replace_cookies" c:identifier="webkit_cookie_manager_replace_cookies" version="2.42" glib:finish-func="replace_cookies_finish">
+        <doc xml:space="preserve">Asynchronously replace all cookies in @cookie_manager with the given list of @cookies.
+
+When the operation is finished, @callback will be called. You can then call
+webkit_cookie_manager_replace_cookies_finish() to get the result of the operation.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="cookie_manager" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitCookieManager</doc>
+            <type name="CookieManager" c:type="WebKitCookieManager*"/>
+          </instance-parameter>
+          <parameter name="cookies" transfer-ownership="none">
+            <doc xml:space="preserve">a #GList of #SoupCookie to be added</doc>
+            <type name="GLib.List" c:type="GList*">
+              <type name="Soup.Cookie"/>
+            </type>
+          </parameter>
+          <parameter name="cancellable" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">a #GCancellable or %NULL to ignore</doc>
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback" transfer-ownership="none" nullable="1" allow-none="1" scope="async" closure="3">
+            <doc xml:space="preserve">(closure user_data): a #GAsyncReadyCallback to call when the request is satisfied</doc>
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">the data to pass to callback function</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="replace_cookies_finish" c:identifier="webkit_cookie_manager_replace_cookies_finish" version="2.42" throws="1">
+        <doc xml:space="preserve">Finish an asynchronous operation started with webkit_cookie_manager_replace_cookies().</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE if the cookies were added or %FALSE in case of error.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="cookie_manager" transfer-ownership="none">
@@ -2603,11 +2802,12 @@ Note that %WEBKIT_CREDENTIAL_PERSISTENCE_PERMANENT is not supported for certific
       </parameters>
     </function-macro>
     <class name="DeviceInfoPermissionRequest" c:symbol-prefix="device_info_permission_request" c:type="WebKitDeviceInfoPermissionRequest" version="2.24" parent="GObject.Object" glib:type-name="WebKitDeviceInfoPermissionRequest" glib:get-type="webkit_device_info_permission_request_get_type" glib:type-struct="DeviceInfoPermissionRequestClass">
-      <doc xml:space="preserve">A permission request for accessing user's audio/video devices.
+      <doc xml:space="preserve">A permission request for enumerating the user's media devices
 
-WebKitUserMediaPermissionRequest represents a request for
+WebKitDeviceInfoPermissionRequest represents a request for
 permission to whether WebKit should be allowed to access the user's
-devices information when requested through the enumerateDevices API.
+devices information when requested through the MediaDevices.enumerateDevices
+API.
 
 When a WebKitDeviceInfoPermissionRequest is not handled by the user,
 it is denied by default.</doc>
@@ -3236,6 +3436,12 @@ See webkit_editor_state_get_typing_attributes() for more information.</doc>
       <field name="priv">
         <type name="EditorStatePrivate" c:type="WebKitEditorStatePrivate*"/>
       </field>
+      <glib:signal name="changed" when="last" version="2.44">
+        <doc xml:space="preserve">Emitted when the #WebKitEdtorState is changed.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+      </glib:signal>
     </class>
     <record name="EditorStateClass" c:type="WebKitEditorStateClass" glib:is-gtype-struct-for="EditorState">
       <field name="parent_class">
@@ -3385,7 +3591,7 @@ the in-memory cache during the current execution.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_favicon" c:identifier="webkit_favicon_database_get_favicon">
+      <method name="get_favicon" c:identifier="webkit_favicon_database_get_favicon" glib:finish-func="get_favicon_finish">
         <doc xml:space="preserve">Asynchronously obtains a favicon image.
 
 Asynchronously obtains an image of the favicon for the
@@ -3538,6 +3744,300 @@ property. See webkit_web_view_get_favicon() for more details.</doc>
       </function>
     </enumeration>
     <record name="FaviconDatabasePrivate" c:type="WebKitFaviconDatabasePrivate" disguised="1" opaque="1"/>
+    <record name="Feature" c:type="WebKitFeature" opaque="1" version="2.42" glib:type-name="WebKitFeature" glib:get-type="webkit_feature_get_type" c:symbol-prefix="feature">
+      <doc xml:space="preserve">Describes a web engine feature that may be toggled at runtime.
+
+The WebKit web engine includes a set of features which may be toggled
+programmatically, each one represented by a #WebKitFeature that provides
+information about it:
+
+- A unique &#x201C;identifier&#x201D;: [method@Feature.get_identifier].
+- A &#x201C;default value&#x201D;, which indicates whether the option is enabled
+  automatically: [method@Feature.get_default_value].
+- Its &#x201C;status&#x201D;, which determines whether it should be considered
+  user-settable and its development stage (see [enum@FeatureStatus]
+  for details): [method@Feature.get_status].
+- A category, which may be used to group features together:
+  [method@Feature.get_category].
+- An optional short &#x201C;name&#x201D; which can be presented to an user:
+  [method@Feature.get_name].
+- An optional longer &#x201C;detailed&#x201D; description:
+  [method@Feature.get_details].
+
+The lists of available features can be obtained with
+[func@Settings.get_all_features], [func@Settings.get_experimental_features],
+and [func@Settings.get_development_features]). As a rule of thumb,
+applications which may want to allow users (i.e. web developers) to test
+WebKit features should use the list of experimental features. Additionally,
+applications might want to expose development features *when targeting
+technically inclined users* for early testing of in-development features
+(i.e. in &#x201C;technology preview&#x201D; or &#x201C;canary&#x201D; builds).
+
+Applications **must not** expose the list of all features to end users
+because they often lack descriptions and control parts of the web engine
+which are either intended to be used during development of WebKit itself,
+or in specific scenarios to tweak how WebKit integrates with the
+application.</doc>
+      <method name="get_category" c:identifier="webkit_feature_get_category" version="2.42">
+        <doc xml:space="preserve">Gets the category of the feature.
+
+Applications which include user interface to toggle features may want
+to use the category to group related features together.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">Feature category.</doc>
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_default_value" c:identifier="webkit_feature_get_default_value" version="2.42">
+        <doc xml:space="preserve">Gets whether the feature is enabled by default.
+
+The default value may be used by applications which include user interface
+to toggle features to restore its settings to their defaults. Note that
+whether a feature is actually enabled must be checked with
+[method@Settings.get_feature_enabled].</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">Whether the feature is enabled by default.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_details" c:identifier="webkit_feature_get_details" version="2.42">
+        <doc xml:space="preserve">Gets a description for the @feature.
+
+The detailed description should be considered an additional clarification
+on the purpose of the feature, to be used as complementary aid to be
+displayed along the feature name returned by [method@Feature.get_name].
+The returned string is suitable to be displayed to end users, but it
+should not be relied upon being localized.
+
+Note that some *features may not* have a detailed description, and @NULL
+is returned in this case.</doc>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve">Feature description.</doc>
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_identifier" c:identifier="webkit_feature_get_identifier" version="2.42">
+        <doc xml:space="preserve">Gets a string that uniquely identifies the @feature.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">The identifier string for the feature.</doc>
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_name" c:identifier="webkit_feature_get_name" version="2.42">
+        <doc xml:space="preserve">Gets a short name for the @feature.
+
+The returned string is suitable to be displayed to end users, but it
+should not be relied upon being localized.
+
+Note that some *features may not* have a short name, and @NULL
+is returned in this case.</doc>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve">Short feature name.</doc>
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_status" c:identifier="webkit_feature_get_status" version="2.42">
+        <doc xml:space="preserve">Gets the status of the feature.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">Feature status.</doc>
+          <type name="FeatureStatus" c:type="WebKitFeatureStatus"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="ref" c:identifier="webkit_feature_ref" version="2.42">
+        <doc xml:space="preserve">Atomically acquires a reference on the given @feature.
+
+This function is MT-safe and may be called from any thread.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">The same @feature with an additional reference.</doc>
+          <type name="Feature" c:type="WebKitFeature*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="unref" c:identifier="webkit_feature_unref" version="2.42">
+        <doc xml:space="preserve">Atomically releases a reference on the given @feature.
+
+If the reference was the last, the resources associated to the
+@feature are freed. This function is MT-safe and may be called from
+any thread.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeature</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+    </record>
+    <record name="FeatureList" c:type="WebKitFeatureList" opaque="1" version="2.42" glib:type-name="WebKitFeatureList" glib:get-type="webkit_feature_list_get_type" c:symbol-prefix="feature_list">
+      <doc xml:space="preserve">Contains a set of toggle-able web engine features.
+
+The list supports passing around a set of [struct@Feature] objects and
+iterating over them:
+
+```c
+g_autoptr(WebKitFeatureList) list = webkit_settings_get_experimental_features();
+for (gsize i = 0; i &lt; webkit_feature_list_get_length(list): i++) {
+    WebKitFeature *feature = webkit_feature_list_get(list, i);
+    // Do something with "feature".
+}
+```
+
+Lists of features can be obtained with
+[func@Settings.get_experimental_features],
+[func@Settings.get_development_features], and
+[func@Settings.get_all_features].</doc>
+      <method name="get" c:identifier="webkit_feature_list_get" version="2.42">
+        <doc xml:space="preserve">Gets a feature given its index.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">The feature at @index.</doc>
+          <type name="Feature" c:type="WebKitFeature*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature_list" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeatureList</doc>
+            <type name="FeatureList" c:type="WebKitFeatureList*"/>
+          </instance-parameter>
+          <parameter name="index" transfer-ownership="none">
+            <doc xml:space="preserve">index of the feature</doc>
+            <type name="gsize" c:type="gsize"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_length" c:identifier="webkit_feature_list_get_length">
+        <doc xml:space="preserve">Gets the number of elements in the feature list.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">number of elements.
+
+Since 2.42</doc>
+          <type name="gsize" c:type="gsize"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature_list" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeatureList</doc>
+            <type name="FeatureList" c:type="WebKitFeatureList*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="ref" c:identifier="webkit_feature_list_ref" version="2.42">
+        <doc xml:space="preserve">Atomically acquires a reference on the given @feature_list.
+
+This function is MT-safe and may be called from any thread.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">The same @feature_list with an additional reference.</doc>
+          <type name="FeatureList" c:type="WebKitFeatureList*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature_list" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeatureList</doc>
+            <type name="FeatureList" c:type="WebKitFeatureList*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="unref" c:identifier="webkit_feature_list_unref" version="2.42">
+        <doc xml:space="preserve">Atomically releases a reference on the given @feature_list.
+
+If the reference was the last, the resources associated to the
+@feature_list are freed. This function is MT-safe and may be called
+from any thread.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="feature_list" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitFeatureList</doc>
+            <type name="FeatureList" c:type="WebKitFeatureList*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+    </record>
+    <enumeration name="FeatureStatus" version="2.42" glib:type-name="WebKitFeatureStatus" glib:get-type="webkit_feature_status_get_type" c:type="WebKitFeatureStatus">
+      <doc xml:space="preserve">Describes the status of a [struct@WebKitFeature].
+
+The status for a given feature can be obtained with
+[id@webkit_feature_get_status].</doc>
+      <member name="embedder" value="0" c:identifier="WEBKIT_FEATURE_STATUS_EMBEDDER" glib:nick="embedder" glib:name="WEBKIT_FEATURE_STATUS_EMBEDDER">
+        <doc xml:space="preserve">Feature that adjust behaviour for
+  specific application needs. The feature is not part of a Web platform
+  feature, not a mature feature intended to be always on.</doc>
+      </member>
+      <member name="unstable" value="1" c:identifier="WEBKIT_FEATURE_STATUS_UNSTABLE" glib:nick="unstable" glib:name="WEBKIT_FEATURE_STATUS_UNSTABLE">
+        <doc xml:space="preserve">Feature in development. The feature
+  may be unfinished, and there are no guarantees about its safety and
+  stability.</doc>
+      </member>
+      <member name="internal" value="2" c:identifier="WEBKIT_FEATURE_STATUS_INTERNAL" glib:nick="internal" glib:name="WEBKIT_FEATURE_STATUS_INTERNAL">
+        <doc xml:space="preserve">Feature for debugging the WebKit engine.
+  The feature is not generally useful for user or web developers, and
+  always disabled by default.</doc>
+      </member>
+      <member name="developer" value="3" c:identifier="WEBKIT_FEATURE_STATUS_DEVELOPER" glib:nick="developer" glib:name="WEBKIT_FEATURE_STATUS_DEVELOPER">
+        <doc xml:space="preserve">Feature for web developers. The feature
+  is not generally useful for end users, and always disabled by default.</doc>
+      </member>
+      <member name="testable" value="4" c:identifier="WEBKIT_FEATURE_STATUS_TESTABLE" glib:nick="testable" glib:name="WEBKIT_FEATURE_STATUS_TESTABLE">
+        <doc xml:space="preserve">Feature in active development and
+  complete enough for testing. The feature may not be yet ready to
+  ship and is disabled by default.</doc>
+      </member>
+      <member name="preview" value="5" c:identifier="WEBKIT_FEATURE_STATUS_PREVIEW" glib:nick="preview" glib:name="WEBKIT_FEATURE_STATUS_PREVIEW">
+        <doc xml:space="preserve">Feature ready to be tested by users.
+  The feature is disabled by default, but may be enabled by applications
+  automatically e.g. in their &#x201C;technology preview&#x201D; or &#x201C;beta&#x201D; versions.</doc>
+      </member>
+      <member name="stable" value="6" c:identifier="WEBKIT_FEATURE_STATUS_STABLE" glib:nick="stable" glib:name="WEBKIT_FEATURE_STATUS_STABLE">
+        <doc xml:space="preserve">Feature ready for general use. The
+  feature is enabled by default, but it may still be toggled to support
+  debugging and testing.</doc>
+      </member>
+      <member name="mature" value="7" c:identifier="WEBKIT_FEATURE_STATUS_MATURE" glib:nick="mature" glib:name="WEBKIT_FEATURE_STATUS_MATURE">
+        <doc xml:space="preserve">Feature in general use. The feature is
+  always enabled and in general there should be no user-facing interface
+  to toggle it.</doc>
+      </member>
+    </enumeration>
     <class name="FileChooserRequest" c:symbol-prefix="file_chooser_request" c:type="WebKitFileChooserRequest" parent="GObject.Object" glib:type-name="WebKitFileChooserRequest" glib:get-type="webkit_file_chooser_request_get_type" glib:type-struct="FileChooserRequestClass">
       <doc xml:space="preserve">A request to open a file chooser.
 
@@ -4974,6 +5474,18 @@ is present in #WebKitHitTestResult:context</doc>
         </parameter>
       </parameters>
     </function-macro>
+    <function-macro name="IS_CLIPBOARD_PERMISSION_REQUEST" c:identifier="WEBKIT_IS_CLIPBOARD_PERMISSION_REQUEST" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="IS_CLIPBOARD_PERMISSION_REQUEST_CLASS" c:identifier="WEBKIT_IS_CLIPBOARD_PERMISSION_REQUEST_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
     <function-macro name="IS_COLOR_CHOOSER_REQUEST" c:identifier="WEBKIT_IS_COLOR_CHOOSER_REQUEST" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -5527,6 +6039,18 @@ is present in #WebKitHitTestResult:context</doc>
       </parameters>
     </function-macro>
     <function-macro name="IS_WINDOW_PROPERTIES_CLASS" c:identifier="WEBKIT_IS_WINDOW_PROPERTIES_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="IS_XR_PERMISSION_REQUEST" c:identifier="WEBKIT_IS_XR_PERMISSION_REQUEST" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="IS_XR_PERMISSION_REQUEST_CLASS" c:identifier="WEBKIT_IS_XR_PERMISSION_REQUEST_CLASS" introspectable="0">
       <parameters>
         <parameter name="klass">
         </parameter>
@@ -6287,6 +6811,8 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="set_enable_preedit">
+        <doc xml:space="preserve">Called via webkit_input_method_context_set_enable_preedit() to
+  control the use of the preedit string.</doc>
         <callback name="set_enable_preedit">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6304,6 +6830,11 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="get_preedit">
+        <doc xml:space="preserve">Called via webkit_input_method_context_get_preedit() to
+  retrieve the text currently being preedited for display at the cursor
+  position. Any input method which composes complex characters or any
+  other compositions from multiple sequential key presses should override
+  this method to provide feedback.</doc>
         <callback name="get_preedit">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6331,6 +6862,14 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="filter_key_event">
+        <doc xml:space="preserve">Called via webkit_input_method_context_filter_key_event() on every
+  key press or release event. Every non-trivial input method needs to
+  override this in order to implement the mapping from key events to text.
+  A return value of %TRUE indicates to the caller that the event was
+  consumed by the input method. In that case, the #WebKitInputMethodContext::committed
+  signal should be emitted upon completion of a key sequence to pass the
+  resulting text back to the editable element. Alternatively, %FALSE may be
+  returned to indicate that the event wasn&#x2019;t handled by the input method.</doc>
         <callback name="filter_key_event">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">%TRUE if the key event was handled, or %FALSE otherwise</doc>
@@ -6349,6 +6888,8 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="notify_focus_in">
+        <doc xml:space="preserve">Called via webkit_input_method_context_notify_focus_in() when
+  an editable element of the #WebKitWebView has gained focus.</doc>
         <callback name="notify_focus_in">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6362,6 +6903,8 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="notify_focus_out">
+        <doc xml:space="preserve">Called via webkit_input_method_context_notify_focus_out() when
+  an editable element of the #WebKitWebView has lost focus.</doc>
         <callback name="notify_focus_out">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6375,6 +6918,9 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="notify_cursor_area">
+        <doc xml:space="preserve">Called via webkit_input_method_context_notify_cursor_area()
+  to inform the input method of the current cursor location relative to
+  the client window.</doc>
         <callback name="notify_cursor_area">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6404,6 +6950,9 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="notify_surrounding">
+        <doc xml:space="preserve">Called via webkit_input_method_context_notify_surrounding() to
+  update the context surrounding the cursor. The provided text should not include
+  the preedit string.</doc>
         <callback name="notify_surrounding">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6433,6 +6982,9 @@ webkit_input_method_context_get_preedit() returns the empty string.</doc>
         </callback>
       </field>
       <field name="reset">
+        <doc xml:space="preserve">Called via webkit_input_method_context_reset() to signal a change that
+  requires a reset. An input method that implements preediting
+  should override this method to clear the preedit state on reset.</doc>
         <callback name="reset">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6591,9 +7143,10 @@ for the underline too.</doc>
         <doc xml:space="preserve">Editable element expects a password</doc>
       </member>
     </enumeration>
-    <enumeration name="InsecureContentEvent" glib:type-name="WebKitInsecureContentEvent" glib:get-type="webkit_insecure_content_event_get_type" c:type="WebKitInsecureContentEvent">
-      <doc xml:space="preserve">Enum values used to denote the different events which can trigger
-the detection of insecure content.</doc>
+    <enumeration name="InsecureContentEvent" deprecated="1" deprecated-version="2.46" glib:type-name="WebKitInsecureContentEvent" glib:get-type="webkit_insecure_content_event_get_type" c:type="WebKitInsecureContentEvent">
+      <doc xml:space="preserve">Enum values previously used to denote the different events which can trigger
+the detection of insecure content. Since 2.46, WebKit generally no longer
+loads insecure content in secure contexts.</doc>
       <member name="run" value="0" c:identifier="WEBKIT_INSECURE_CONTENT_RUN" glib:nick="run" glib:name="WEBKIT_INSECURE_CONTENT_RUN">
         <doc xml:space="preserve">Insecure content has been detected by
 trying to execute any kind of logic (e.g. a script) from an
@@ -6686,23 +7239,23 @@ you can remove any code that attempts to handle it.</doc>
     </enumeration>
     <record name="JavascriptResult" c:type="WebKitJavascriptResult" opaque="1" glib:type-name="WebKitJavascriptResult" glib:get-type="webkit_javascript_result_get_type" c:symbol-prefix="javascript_result">
       <doc xml:space="preserve">Result of JavaScript evaluation in a web view.</doc>
-<!--       <method name="get_global_context" c:identifier="webkit_javascript_result_get_global_context" introspectable="0" deprecated="1" deprecated-version="2.22"> -->
-<!--         <doc xml:space="preserve">Get the global Javascript context. -->
+      <method name="get_global_context" c:identifier="webkit_javascript_result_get_global_context" introspectable="0" deprecated="1" deprecated-version="2.22">
+        <doc xml:space="preserve">Get the global Javascript context.
 
-<!-- Get the global Javascript context that should be used with the -->
-<!-- &lt;function&gt;JSValueRef&lt;/function&gt; returned by webkit_javascript_result_get_value().</doc> -->
-<!--         <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated> -->
-<!--         <return-value> -->
-<!--           <doc xml:space="preserve">the &lt;function&gt;JSGlobalContextRef&lt;/function&gt; for the #WebKitJavascriptResult</doc> -->
-<!--           <type c:type="JSGlobalContextRef"/> -->
-<!--         </return-value> -->
-<!--         <parameters> -->
-<!--           <instance-parameter name="js_result" transfer-ownership="none"> -->
-<!--             <doc xml:space="preserve">a #WebKitJavascriptResult</doc> -->
-<!--             <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/> -->
-<!--           </instance-parameter> -->
-<!--         </parameters> -->
-<!--       </method> -->
+Get the global Javascript context that should be used with the
+&lt;function&gt;JSValueRef&lt;/function&gt; returned by webkit_javascript_result_get_value().</doc>
+        <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated>
+        <return-value>
+          <doc xml:space="preserve">the &lt;function&gt;JSGlobalContextRef&lt;/function&gt; for the #WebKitJavascriptResult</doc>
+          <type c:type="JSGlobalContextRef"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="js_result" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitJavascriptResult</doc>
+            <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_js_value" c:identifier="webkit_javascript_result_get_js_value" version="2.22">
         <doc xml:space="preserve">Get the #JSCValue of @js_result.</doc>
         <return-value transfer-ownership="none">
@@ -6716,23 +7269,23 @@ you can remove any code that attempts to handle it.</doc>
           </instance-parameter>
         </parameters>
       </method>
-<!--       <method name="get_value" c:identifier="webkit_javascript_result_get_value" introspectable="0" deprecated="1" deprecated-version="2.22"> -->
-<!--         <doc xml:space="preserve">Get the value of @js_result. -->
+      <method name="get_value" c:identifier="webkit_javascript_result_get_value" introspectable="0" deprecated="1" deprecated-version="2.22">
+        <doc xml:space="preserve">Get the value of @js_result.
 
-<!-- You should use the &lt;function&gt;JSGlobalContextRef&lt;/function&gt; -->
-<!-- returned by webkit_javascript_result_get_global_context() to use the &lt;function&gt;JSValueRef&lt;/function&gt;.</doc> -->
-<!--         <doc-deprecated xml:space="preserve">Use webkit_javascript_result_get_js_value() instead.</doc-deprecated> -->
-<!--         <return-value> -->
-<!--           <doc xml:space="preserve">the &lt;function&gt;JSValueRef&lt;/function&gt; of the #WebKitJavascriptResult</doc> -->
-<!--           <type c:type="JSValueRef"/> -->
-<!--         </return-value> -->
-<!--         <parameters> -->
-<!--           <instance-parameter name="js_result" transfer-ownership="none"> -->
-<!--             <doc xml:space="preserve">a #WebKitJavascriptResult</doc> -->
-<!--             <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/> -->
-<!--           </instance-parameter> -->
-<!--         </parameters> -->
-<!--       </method> -->
+You should use the &lt;function&gt;JSGlobalContextRef&lt;/function&gt;
+returned by webkit_javascript_result_get_global_context() to use the &lt;function&gt;JSValueRef&lt;/function&gt;.</doc>
+        <doc-deprecated xml:space="preserve">Use webkit_javascript_result_get_js_value() instead.</doc-deprecated>
+        <return-value>
+          <doc xml:space="preserve">the &lt;function&gt;JSValueRef&lt;/function&gt; of the #WebKitJavascriptResult</doc>
+          <type c:type="JSValueRef"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="js_result" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitJavascriptResult</doc>
+            <type name="JavascriptResult" c:type="WebKitJavascriptResult*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="ref" c:identifier="webkit_javascript_result_ref">
         <doc xml:space="preserve">Atomically increments the reference count of @js_result by one.
 
@@ -6814,13 +7367,13 @@ against at application run time.</doc>
         </parameter>
       </parameters>
     </function-macro>
-    <constant name="MICRO_VERSION" value="2" c:type="WEBKIT_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="3" c:type="WEBKIT_MICRO_VERSION">
       <doc xml:space="preserve">Like webkit_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="40" c:type="WEBKIT_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="52" c:type="WEBKIT_MINOR_VERSION">
       <doc xml:space="preserve">Like webkit_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -7614,7 +8167,7 @@ navigation.</doc>
       <doc xml:space="preserve">Configures network proxies.
 
 WebKitNetworkProxySettings can be used to provide a custom proxy configuration
-to a #WebKitWebContext. You need to call webkit_web_context_set_network_proxy_settings()
+to a #WebKitWebsiteDataManager. You need to call webkit_website_data_manager_set_network_proxy_settings()
 with %WEBKIT_NETWORK_PROXY_MODE_CUSTOM and a WebKitNetworkProxySettings.</doc>
       <constructor name="new" c:identifier="webkit_network_proxy_settings_new" version="2.16">
         <doc xml:space="preserve">Create a new #WebKitNetworkProxySettings with the given @default_proxy_uri and @ignore_hosts.
@@ -9140,7 +9693,12 @@ webkit_print_operation_set_page_setup(), the default options will be used
 and the print job will be sent to the default printer.
 The #WebKitPrintOperation::finished signal is emitted when the printing
 operation finishes. If an error occurs while printing the signal
-#WebKitPrintOperation::failed is emitted before #WebKitPrintOperation::finished.</doc>
+#WebKitPrintOperation::failed is emitted before #WebKitPrintOperation::finished.
+
+If the app is running in a sandbox, this function only works if printing to
+a file that is in a location accessible to the sandbox, usually acquired
+through the File Chooser portal. This function will not work for physical
+printers when running in a sandbox.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -10228,8 +10786,7 @@ It must be manually attached to a #WebKitWebView.</doc>
       <function name="font_size_to_pixels" c:identifier="webkit_settings_font_size_to_pixels" version="2.20">
         <doc xml:space="preserve">Convert @points to the equivalent value in pixels.
 
-Convert @points to the equivalent value in pixels, based on the current
-screen DPI. Applications can use this function to convert font size values
+Applications can use this function to convert font size values
 in points to font size values in pixels when setting the font size properties
 of #WebKitSettings.</doc>
         <return-value transfer-ownership="none">
@@ -10246,8 +10803,7 @@ of #WebKitSettings.</doc>
       <function name="font_size_to_points" c:identifier="webkit_settings_font_size_to_points" version="2.20">
         <doc xml:space="preserve">Convert @pixels to the equivalent value in points.
 
-Convert @pixels to the equivalent value in points, based on the current
-screen DPI. Applications can use this function to convert font size values
+Applications can use this function to convert font size values
 in pixels to font size values in points when getting the font size properties
 of #WebKitSettings.</doc>
         <return-value transfer-ownership="none">
@@ -10261,6 +10817,74 @@ of #WebKitSettings.</doc>
           </parameter>
         </parameters>
       </function>
+      <function name="get_all_features" c:identifier="webkit_settings_get_all_features" version="2.42">
+        <doc xml:space="preserve">Gets the list of all available WebKit features.
+
+Features can be toggled with [method@Settings.set_feature_enabled],
+and their current state determined with
+[method@Settings.get_feature_enabled].
+
+Note that most applications should use
+[func@Settings.get_development_features] and
+[func@Settings.get_experimental_features] instead.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">List of all features.</doc>
+          <type name="FeatureList" c:type="WebKitFeatureList*"/>
+        </return-value>
+      </function>
+      <function name="get_development_features" c:identifier="webkit_settings_get_development_features" version="2.42">
+        <doc xml:space="preserve">Gets the list of available development WebKit features.
+
+The returned features are a subset of those returned by
+[func@Settings.get_all_features], and includes those which
+web and WebKit developers might find useful, but in general should
+*not* be exposed to end users; see [enum@FeatureStatus] for
+more details.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">List of development features.</doc>
+          <type name="FeatureList" c:type="WebKitFeatureList*"/>
+        </return-value>
+      </function>
+      <function name="get_experimental_features" c:identifier="webkit_settings_get_experimental_features" version="2.42">
+        <doc xml:space="preserve">Gets the list of available experimental WebKit features.
+
+The returned features are a subset of those returned by
+[func@Settings.get_all_features], and includes those which
+certain applications may want to expose to end users; see
+[enum@FeatureStatus] for more details.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">List of experimental features.</doc>
+          <type name="FeatureList" c:type="WebKitFeatureList*"/>
+        </return-value>
+      </function>
+      <method name="apply_from_key_file" c:identifier="webkit_settings_apply_from_key_file" version="2.46" throws="1">
+        <doc xml:space="preserve">Reads the contents of the given @group_name from the given @key_file and apply the value of
+each key/value to the corresponding property on the @settings.
+
+Value types have to match with the corresponding setting property type and the group keys have to
+match existing setting property names. If those conditions are not met, the function will return
+%FALSE.
+
+Supported value types are strings (unquoted), booleans (0, 1, true, false) and unsigned integers.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE if the settings were correctly applied or %FALSE on error.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+          <parameter name="key_file" transfer-ownership="none">
+            <doc xml:space="preserve">a #GKeyFile</doc>
+            <type name="GLib.KeyFile" c:type="GKeyFile*"/>
+          </parameter>
+          <parameter name="group_name" transfer-ownership="none">
+            <doc xml:space="preserve">Name of the group to read from @key_file</doc>
+            <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_allow_file_access_from_file_urls" c:identifier="webkit_settings_get_allow_file_access_from_file_urls" glib:get-property="allow-file-access-from-file-urls" version="2.10">
         <doc xml:space="preserve">Get the #WebKitSettings:allow-file-access-from-file-urls property.</doc>
         <return-value transfer-ownership="none">
@@ -10418,6 +11042,19 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_enable_2d_canvas_acceleration" c:identifier="webkit_settings_get_enable_2d_canvas_acceleration" glib:get-property="enable-2d-canvas-acceleration" version="2.46">
+        <doc xml:space="preserve">Get the #WebKitSettings:enable-2d-canvas-acceleration property.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE if 2D canvas acceleration is enabled or %FALSE otherwise.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_enable_accelerated_2d_canvas" c:identifier="webkit_settings_get_enable_accelerated_2d_canvas" glib:get-property="enable-accelerated-2d-canvas" version="2.2" deprecated="1" deprecated-version="2.32.">
         <doc xml:space="preserve">Get the #WebKitSettings:enable-accelerated-2d-canvas property.</doc>
         <return-value transfer-ownership="none">
@@ -10470,7 +11107,7 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_enable_dns_prefetching" c:identifier="webkit_settings_get_enable_dns_prefetching" glib:get-property="enable-dns-prefetching">
+      <method name="get_enable_dns_prefetching" c:identifier="webkit_settings_get_enable_dns_prefetching" glib:get-property="enable-dns-prefetching" deprecated="1" deprecated-version="2.48.">
         <doc xml:space="preserve">Get the #WebKitSettings:enable-dns-prefetching property.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE If DNS prefetching is enabled or %FALSE otherwise.</doc>
@@ -10548,7 +11185,7 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_enable_hyperlink_auditing" c:identifier="webkit_settings_get_enable_hyperlink_auditing" glib:get-property="enable-hyperlink-auditing">
+      <method name="get_enable_hyperlink_auditing" c:identifier="webkit_settings_get_enable_hyperlink_auditing" glib:get-property="enable-hyperlink-auditing" deprecated="1" deprecated-version="2.50.">
         <doc xml:space="preserve">Get the #WebKitSettings:enable-hyperlink-auditing property.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE If hyper link auditing is enabled or %FALSE otherwise.</doc>
@@ -10666,10 +11303,10 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_enable_offline_web_application_cache" c:identifier="webkit_settings_get_enable_offline_web_application_cache" glib:get-property="enable-offline-web-application-cache">
+      <method name="get_enable_offline_web_application_cache" c:identifier="webkit_settings_get_enable_offline_web_application_cache" glib:get-property="enable-offline-web-application-cache" deprecated="1" deprecated-version="2.44">
         <doc xml:space="preserve">Get the #WebKitSettings:enable-offline-web-application-cache property.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">%TRUE If HTML5 offline web application cache support is enabled or %FALSE otherwise.</doc>
+          <doc xml:space="preserve">%FALSE.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
@@ -10864,6 +11501,23 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_feature_enabled" c:identifier="webkit_settings_get_feature_enabled" version="2.42">
+        <doc xml:space="preserve">Gets whether a feature is enabled.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">Whether the feature is enabled.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+          <parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">the feature to toggle.</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_hardware_acceleration_policy" c:identifier="webkit_settings_get_hardware_acceleration_policy" glib:get-property="hardware-acceleration-policy" version="2.16">
         <doc xml:space="preserve">Get the #WebKitSettings:hardware-acceleration-policy property.</doc>
         <return-value transfer-ownership="none">
@@ -10903,11 +11557,26 @@ otherwise.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_load_icons_ignoring_image_load_setting" c:identifier="webkit_settings_get_load_icons_ignoring_image_load_setting" glib:get-property="load-icons-ignoring-image-load-setting">
-        <doc xml:space="preserve">Get the #WebKitSettings:load-icons-ignoring-image-load-setting property.</doc>
+      <method name="get_load_icons_ignoring_image_load_setting" c:identifier="webkit_settings_get_load_icons_ignoring_image_load_setting" glib:get-property="load-icons-ignoring-image-load-setting" deprecated="1" deprecated-version="2.42">
+        <doc xml:space="preserve">Setting no longer supported. This function returns %FALSE.</doc>
         <return-value transfer-ownership="none">
-          <doc xml:space="preserve">%TRUE If site icon can be loaded irrespective of image loading preference or %FALSE otherwise.</doc>
+          <doc xml:space="preserve">%FALSE</doc>
           <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_math_font_family" c:identifier="webkit_settings_get_math_font_family" glib:get-property="math-font-family">
+        <doc xml:space="preserve">Gets the #WebKitSettings:math-font-family property.</doc>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve">The default font family used to display content marked with math font.
+
+Since 2.52</doc>
+          <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="settings" transfer-ownership="none">
@@ -11039,6 +11708,19 @@ otherwise.</doc>
         <doc xml:space="preserve">Get the #WebKitSettings:user-agent property.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">The current value of the user-agent property.</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_webrtc_udp_ports_range" c:identifier="webkit_settings_get_webrtc_udp_ports_range" glib:get-property="webrtc-udp-ports-range" version="2.48">
+        <doc xml:space="preserve">Get the [property@Settings:webrtc-udp-ports-range] property.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">The WebRTC UDP ports range, or %NULL if un-set.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
@@ -11254,6 +11936,22 @@ otherwise.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="set_enable_2d_canvas_acceleration" c:identifier="webkit_settings_set_enable_2d_canvas_acceleration" glib:set-property="enable-2d-canvas-acceleration" version="2.46">
+        <doc xml:space="preserve">Set the #WebKitSettings:enable-2d-canvas-acceleration property.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+          <parameter name="enabled" transfer-ownership="none">
+            <doc xml:space="preserve">Value to be set</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_enable_accelerated_2d_canvas" c:identifier="webkit_settings_set_enable_accelerated_2d_canvas" glib:set-property="enable-accelerated-2d-canvas" version="2.2" deprecated="1" deprecated-version="2.32.">
         <doc xml:space="preserve">Set the #WebKitSettings:enable-accelerated-2d-canvas property.</doc>
         <return-value transfer-ownership="none">
@@ -11318,7 +12016,7 @@ otherwise.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_enable_dns_prefetching" c:identifier="webkit_settings_set_enable_dns_prefetching" glib:set-property="enable-dns-prefetching">
+      <method name="set_enable_dns_prefetching" c:identifier="webkit_settings_set_enable_dns_prefetching" glib:set-property="enable-dns-prefetching" deprecated="1" deprecated-version="2.48.">
         <doc xml:space="preserve">Set the #WebKitSettings:enable-dns-prefetching property.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -11414,7 +12112,7 @@ otherwise.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_enable_hyperlink_auditing" c:identifier="webkit_settings_set_enable_hyperlink_auditing" glib:set-property="enable-hyperlink-auditing">
+      <method name="set_enable_hyperlink_auditing" c:identifier="webkit_settings_set_enable_hyperlink_auditing" glib:set-property="enable-hyperlink-auditing" deprecated="1" deprecated-version="2.50.">
         <doc xml:space="preserve">Set the #WebKitSettings:enable-hyperlink-auditing property.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -11561,8 +12259,8 @@ Deprecated function that does nothing.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_enable_offline_web_application_cache" c:identifier="webkit_settings_set_enable_offline_web_application_cache" glib:set-property="enable-offline-web-application-cache">
-        <doc xml:space="preserve">Set the #WebKitSettings:enable-offline-web-application-cache property.</doc>
+      <method name="set_enable_offline_web_application_cache" c:identifier="webkit_settings_set_enable_offline_web_application_cache" glib:set-property="enable-offline-web-application-cache" deprecated="1" deprecated-version="2.44">
+        <doc xml:space="preserve">Setting no longer supported. This function does nothing.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -11805,6 +12503,31 @@ Setting this property to %TRUE implies the media-stream web-setting will also be
           </parameter>
         </parameters>
       </method>
+      <method name="set_feature_enabled" c:identifier="webkit_settings_set_feature_enabled" version="2.42">
+        <doc xml:space="preserve">Enables or disables a feature.
+
+The current status of the feature can be determined with
+[id@webkit_settings_get_feature_enabled]. To reset a feature to its
+initial status, pass the value returned by
+[id@webkit_feature_get_default_value] as the @enabled parameter.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+          <parameter name="feature" transfer-ownership="none">
+            <doc xml:space="preserve">the feature to toggle.</doc>
+            <type name="Feature" c:type="WebKitFeature*"/>
+          </parameter>
+          <parameter name="enabled" transfer-ownership="none">
+            <doc xml:space="preserve">whether the feature will be enabled.</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_hardware_acceleration_policy" c:identifier="webkit_settings_set_hardware_acceleration_policy" glib:set-property="hardware-acceleration-policy" version="2.16">
         <doc xml:space="preserve">Set the #WebKitSettings:hardware-acceleration-policy property.</doc>
         <return-value transfer-ownership="none">
@@ -11853,8 +12576,8 @@ Setting this property to %TRUE implies the media-stream web-setting will also be
           </parameter>
         </parameters>
       </method>
-      <method name="set_load_icons_ignoring_image_load_setting" c:identifier="webkit_settings_set_load_icons_ignoring_image_load_setting" glib:set-property="load-icons-ignoring-image-load-setting">
-        <doc xml:space="preserve">Set the #WebKitSettings:load-icons-ignoring-image-load-setting property.</doc>
+      <method name="set_load_icons_ignoring_image_load_setting" c:identifier="webkit_settings_set_load_icons_ignoring_image_load_setting" glib:set-property="load-icons-ignoring-image-load-setting" deprecated="1" deprecated-version="2.42">
+        <doc xml:space="preserve">Setting no longer supported. This function does nothing.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -11866,6 +12589,24 @@ Setting this property to %TRUE implies the media-stream web-setting will also be
           <parameter name="enabled" transfer-ownership="none">
             <doc xml:space="preserve">Value to be set</doc>
             <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_math_font_family" c:identifier="webkit_settings_set_math_font_family" glib:set-property="math-font-family">
+        <doc xml:space="preserve">Set the #WebKitSettings:math-font-family property.
+
+Since 2.52</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+          <parameter name="math_font_family" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">the new default math font family</doc>
+            <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
       </method>
@@ -12053,6 +12794,22 @@ the version is given, the default engine version is used with the given applicat
           </parameter>
         </parameters>
       </method>
+      <method name="set_webrtc_udp_ports_range" c:identifier="webkit_settings_set_webrtc_udp_ports_range" glib:set-property="webrtc-udp-ports-range" version="2.48">
+        <doc xml:space="preserve">Set the [property@Settings:webrtc-udp-ports-range] property.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="settings" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitSettings</doc>
+            <type name="Settings" c:type="WebKitSettings*"/>
+          </instance-parameter>
+          <parameter name="udp_port_range" transfer-ownership="none">
+            <doc xml:space="preserve">Value to be set</doc>
+            <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_zoom_text_only" c:identifier="webkit_settings_set_zoom_text_only" glib:set-property="zoom-text-only">
         <doc xml:space="preserve">Set the #WebKitSettings:zoom-text-only property.</doc>
         <return-value transfer-ownership="none">
@@ -12145,6 +12902,13 @@ with accelerated compositing. This is useful for debugging issues related
 to web content that is composited with the GPU.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
+      <property name="enable-2d-canvas-acceleration" version="2.46" writable="1" construct="1" transfer-ownership="none" setter="set_enable_2d_canvas_acceleration" getter="get_enable_2d_canvas_acceleration" default-value="TRUE">
+        <doc xml:space="preserve">Enable or disable 2D canvas acceleration.
+If this setting is enabled, the 2D canvas will be accelerated even if Skia CPU
+is used for rendering. However, the canvas can be unaccelerated even when this setting
+is enabled, for other reasons like its size or when willReadFrequently property is used.</doc>
+        <type name="gboolean" c:type="gboolean"/>
+      </property>
       <property name="enable-accelerated-2d-canvas" version="2.2" deprecated="1" deprecated-version="2.32." writable="1" construct="1" transfer-ownership="none" setter="set_enable_accelerated_2d_canvas" getter="get_enable_accelerated_2d_canvas" default-value="FALSE">
         <doc xml:space="preserve">Enable or disable accelerated 2D canvas. Accelerated 2D canvas is only available
 if WebKit was compiled with a version of Cairo including the unstable CairoGL API.
@@ -12164,7 +12928,7 @@ using hardware accelerated drawing operations.</doc>
         <doc xml:space="preserve">Determines whether or not developer tools, such as the Web Inspector, are enabled.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="enable-dns-prefetching" writable="1" construct="1" transfer-ownership="none" setter="set_enable_dns_prefetching" getter="get_enable_dns_prefetching" default-value="FALSE">
+      <property name="enable-dns-prefetching" deprecated="1" deprecated-version="2.48" writable="1" construct="1" transfer-ownership="none" setter="set_enable_dns_prefetching" getter="get_enable_dns_prefetching" default-value="FALSE">
         <doc xml:space="preserve">Determines whether or not to prefetch domain names. DNS prefetching attempts
 to resolve domain names before a user tries to follow a link.</doc>
         <type name="gboolean" c:type="gboolean"/>
@@ -12201,7 +12965,7 @@ HTML5 local storage specification is available at
 http://dev.w3.org/html5/webstorage/.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="enable-hyperlink-auditing" writable="1" construct="1" transfer-ownership="none" setter="set_enable_hyperlink_auditing" getter="get_enable_hyperlink_auditing" default-value="TRUE">
+      <property name="enable-hyperlink-auditing" deprecated="1" deprecated-version="2.50" writable="1" construct="1" transfer-ownership="none" setter="set_enable_hyperlink_auditing" getter="get_enable_hyperlink_auditing" default-value="TRUE">
         <doc xml:space="preserve">Determines whether or not hyperlink auditing is enabled.
 
 The hyperlink auditing specification is available at
@@ -12228,7 +12992,7 @@ default. Disabling it means `&lt;audio&gt;`, `&lt;track&gt;` and `&lt;video&gt;`
 playback support disabled.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="enable-media-capabilities" version="2.22" writable="1" construct="1" transfer-ownership="none" setter="set_enable_media_capabilities" getter="get_enable_media_capabilities" default-value="FALSE">
+      <property name="enable-media-capabilities" version="2.22" writable="1" construct="1" transfer-ownership="none" setter="set_enable_media_capabilities" getter="get_enable_media_capabilities" default-value="TRUE">
         <doc xml:space="preserve">Enable or disable support for MediaCapabilities on pages. This
 specification intends to provide APIs to allow websites to make an optimal
 decision when picking media content for the user. The APIs will expose
@@ -12239,7 +13003,7 @@ display.
 See also https://wicg.github.io/media-capabilities/</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="enable-media-stream" version="2.4" writable="1" construct="1" transfer-ownership="none" setter="set_enable_media_stream" getter="get_enable_media_stream" default-value="FALSE">
+      <property name="enable-media-stream" version="2.4" writable="1" construct="1" transfer-ownership="none" setter="set_enable_media_stream" getter="get_enable_media_stream" default-value="TRUE">
         <doc xml:space="preserve">Enable or disable support for MediaStream on pages. MediaStream
 is an experimental proposal for allowing web pages to access
 audio and video devices for capture.
@@ -12261,13 +13025,8 @@ Microphone and Camera devices to be used as MediaStream
 sources.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="enable-offline-web-application-cache" writable="1" construct="1" transfer-ownership="none" setter="set_enable_offline_web_application_cache" getter="get_enable_offline_web_application_cache" default-value="TRUE">
-        <doc xml:space="preserve">Whether to enable HTML5 offline web application cache support. Offline
-web application cache allows web applications to run even when
-the user is not connected to the network.
-
-HTML5 offline web application specification is available at
-http://dev.w3.org/html5/spec/offline.html.</doc>
+      <property name="enable-offline-web-application-cache" deprecated="1" deprecated-version="2.44" writable="1" construct="1" transfer-ownership="none" setter="set_enable_offline_web_application_cache" getter="get_enable_offline_web_application_cache" default-value="FALSE">
+        <doc xml:space="preserve">Unsupported setting. This property does nothing.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="enable-page-cache" writable="1" construct="1" transfer-ownership="none" setter="set_enable_page_cache" getter="get_enable_page_cache" default-value="TRUE">
@@ -12380,10 +13139,13 @@ set to %TRUE, document.execCommand() allows cut, copy and paste commands.</doc>
 intervention.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
-      <property name="load-icons-ignoring-image-load-setting" writable="1" construct="1" transfer-ownership="none" setter="set_load_icons_ignoring_image_load_setting" getter="get_load_icons_ignoring_image_load_setting" default-value="FALSE">
-        <doc xml:space="preserve">Determines whether a site can load favicons irrespective
-of the value of #WebKitSettings:auto-load-images.</doc>
+      <property name="load-icons-ignoring-image-load-setting" deprecated="1" deprecated-version="2.42" writable="1" construct="1" transfer-ownership="none" setter="set_load_icons_ignoring_image_load_setting" getter="get_load_icons_ignoring_image_load_setting" default-value="FALSE">
+        <doc xml:space="preserve">Unsupported setting. This property does nothing.</doc>
         <type name="gboolean" c:type="gboolean"/>
+      </property>
+      <property name="math-font-family" version="2.52" writable="1" construct="1" transfer-ownership="none" setter="set_math_font_family" getter="get_math_font_family" default-value="NULL">
+        <doc xml:space="preserve">The font family used as the default for content using a math font.</doc>
+        <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="media-content-types-requiring-hardware-support" version="2.30" writable="1" construct="1" transfer-ownership="none" setter="set_media_content_types_requiring_hardware_support" getter="get_media_content_types_requiring_hardware_support" default-value="NULL">
         <doc xml:space="preserve">List of media content types requiring hardware support, split by semicolons (:).
@@ -12439,6 +13201,16 @@ webkit_settings_set_user_agent_with_application_details() instead.
 
 If this property is set to the empty string or %NULL, it will revert to the standard
 user-agent.</doc>
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="webrtc-udp-ports-range" version="2.48" writable="1" construct="1" transfer-ownership="none" setter="set_webrtc_udp_ports_range" getter="get_webrtc_udp_ports_range" default-value="NULL">
+        <doc xml:space="preserve">Allow customization of the WebRTC UDP ports range.
+
+In some constrained environments where a firewall blocks UDP network traffic excepted on a
+specific port range, this settings can be used to give hints to the WebRTC backend regarding
+which ports to allocate. The format is min-port:max-port, so for instance 20000:30000. The
+default empty string value means the OS will use no hints from the WebRTC backend. Using 0
+for one of the values is allowed and means the value is unspecified.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="zoom-text-only" writable="1" construct="1" transfer-ownership="none" setter="set_zoom_text_only" getter="get_zoom_text_only" default-value="FALSE">
@@ -13415,7 +14187,7 @@ The path must point to a local filesystem, and will be created if needed.</doc>
           </parameter>
         </parameters>
       </constructor>
-      <method name="fetch_identifiers" c:identifier="webkit_user_content_filter_store_fetch_identifiers" version="2.24">
+      <method name="fetch_identifiers" c:identifier="webkit_user_content_filter_store_fetch_identifiers" version="2.24" glib:finish-func="fetch_identifiers_finish">
         <doc xml:space="preserve">Asynchronously retrieve a list of the identifiers for all the stored filters.
 
 When the operation is finished, @callback will be invoked, which then can use
@@ -13478,7 +14250,7 @@ started with webkit_user_content_filter_store_fetch_identifiers().</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="load" c:identifier="webkit_user_content_filter_store_load" version="2.24">
+      <method name="load" c:identifier="webkit_user_content_filter_store_load" version="2.24" glib:finish-func="load_finish">
         <doc xml:space="preserve">Asynchronously load a content filter given its @identifier.
 
 The filter must have been
@@ -13530,7 +14302,7 @@ webkit_user_content_filter_store_load().</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="remove" c:identifier="webkit_user_content_filter_store_remove" version="2.24">
+      <method name="remove" c:identifier="webkit_user_content_filter_store_remove" version="2.24" glib:finish-func="remove_finish">
         <doc xml:space="preserve">Asynchronously remove a content filter given its @identifier.
 
 When the operation is finished, @callback will be invoked, which then can use
@@ -13580,7 +14352,7 @@ webkit_user_content_filter_store_remove().</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="save" c:identifier="webkit_user_content_filter_store_save" version="2.24">
+      <method name="save" c:identifier="webkit_user_content_filter_store_save" version="2.24" glib:finish-func="save_finish">
         <doc xml:space="preserve">Asynchronously save a content filter from a set source rule.
 
 Asynchronously save a content filter from a source rule set in the
@@ -13641,7 +14413,7 @@ webkit_user_content_filter_store_save().</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="save_from_file" c:identifier="webkit_user_content_filter_store_save_from_file" version="2.24">
+      <method name="save_from_file" c:identifier="webkit_user_content_filter_store_save_from_file" version="2.24" glib:finish-func="save_from_file_finish">
         <doc xml:space="preserve">Asynchronously save a content filter from the contents of a file.
 
 Asynchronously save a content filter from the contents of a file, which must be
@@ -13927,11 +14699,11 @@ webkit_user_content_manager_unregister_script_message_handler().</doc>
             <type name="UserContentManager" c:type="WebKitUserContentManager*"/>
           </instance-parameter>
           <parameter name="name" transfer-ownership="none">
-            <doc xml:space="preserve">Name of the script message channel
-@world_name (nullable): the name of a #WebKitScriptWorld</doc>
+            <doc xml:space="preserve">Name of the script message channel</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
-          <parameter name="world_name" transfer-ownership="none">
+          <parameter name="world_name" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">the name of a #WebKitScriptWorld</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -14959,9 +15731,8 @@ This is normally used to implement private instances.</doc>
       <method name="add_path_to_sandbox" c:identifier="webkit_web_context_add_path_to_sandbox" version="2.26">
         <doc xml:space="preserve">Adds a path to be mounted in the sandbox.
 
-@path must exist before any web process has been created; otherwise,
-it will be silently ignored. It is a fatal error to add paths after
-a web process has been spawned.
+@path must exist before any web process has been created. It is a fatal error
+to add paths after a web process has been spawned.
 
 Paths under `/sys`, `/proc`, and `/dev` are invalid. Attempting to
 add all of `/` is not valid. Since 2.40, adding the user's entire
@@ -14987,7 +15758,10 @@ See also webkit_web_context_set_sandbox_enabled()</doc>
         </parameters>
       </method>
       <method name="allow_tls_certificate_for_host" c:identifier="webkit_web_context_allow_tls_certificate_for_host" version="2.6">
-        <doc xml:space="preserve">Ignore further TLS errors on the @host for the certificate present in @info.</doc>
+        <doc xml:space="preserve">Ignore further TLS errors on the @host for the certificate present in @info.
+
+If @host is an IPv6 address, it should not be surrounded by brackets. This
+expectation matches g_uri_get_host().</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -15124,7 +15898,7 @@ database associated with @context, or %NULL.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_plugins" c:identifier="webkit_web_context_get_plugins" deprecated="1" deprecated-version="2.32">
+      <method name="get_plugins" c:identifier="webkit_web_context_get_plugins" deprecated="1" deprecated-version="2.32" glib:finish-func="get_plugins_finish">
         <doc xml:space="preserve">Asynchronously get the list of installed plugins.
 
 When the operation is finished, @callback will be called. You can then call
@@ -15274,7 +16048,7 @@ details on the format of the languages in the list.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_use_system_appearance_for_scrollbars" c:identifier="webkit_web_context_get_use_system_appearance_for_scrollbars" glib:get-property="use-system-appearance-for-scrollbars" version="2.30">
+      <method name="get_use_system_appearance_for_scrollbars" c:identifier="webkit_web_context_get_use_system_appearance_for_scrollbars" glib:get-property="use-system-appearance-for-scrollbars" version="2.30" deprecated="1" deprecated-version="2.46">
         <doc xml:space="preserve">Get the #WebKitWebContext:use-system-appearance-for-scrollbars property.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if scrollbars are rendering using the system appearance, or %FALSE otherwise</doc>
@@ -15767,8 +16541,10 @@ in WebKit.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_use_system_appearance_for_scrollbars" c:identifier="webkit_web_context_set_use_system_appearance_for_scrollbars" glib:set-property="use-system-appearance-for-scrollbars" version="2.30">
-        <doc xml:space="preserve">Set the #WebKitWebContext:use-system-appearance-for-scrollbars property.</doc>
+      <method name="set_use_system_appearance_for_scrollbars" c:identifier="webkit_web_context_set_use_system_appearance_for_scrollbars" glib:set-property="use-system-appearance-for-scrollbars" version="2.30" deprecated="1" deprecated-version="2.46">
+        <doc xml:space="preserve">Set the #WebKitWebContext:use-system-appearance-for-scrollbars property.
+
+This is now deprecated and when WebKit is built with Skia this method does nothing.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -15878,7 +16654,7 @@ The expected values for this property are defined in the IANA timezone database.
 wikipedia page for instance, https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
-      <property name="use-system-appearance-for-scrollbars" version="2.30" writable="1" construct="1" transfer-ownership="none" setter="set_use_system_appearance_for_scrollbars" getter="get_use_system_appearance_for_scrollbars" default-value="TRUE">
+      <property name="use-system-appearance-for-scrollbars" version="2.30" deprecated="1" deprecated-version="2.46" writable="1" construct="1" transfer-ownership="none" setter="set_use_system_appearance_for_scrollbars" getter="get_use_system_appearance_for_scrollbars" default-value="FALSE">
         <doc xml:space="preserve">Whether to use system appearance for rendering scrollbars.
 
 This is enabled by default for backwards compatibility, but it's only
@@ -16059,6 +16835,28 @@ You can handle the user message asynchronously by calling g_object_ref() on
       </field>
     </record>
     <record name="WebContextPrivate" c:type="WebKitWebContextPrivate" disguised="1" opaque="1"/>
+    <enumeration name="WebExtensionMatchPatternError" version="2.52" glib:type-name="WebKitWebExtensionMatchPatternError" glib:get-type="webkit_web_extension_match_pattern_error_get_type" c:type="WebKitWebExtensionMatchPatternError" glib:error-domain="WebKitWebExtensionMatchPatternError">
+      <doc xml:space="preserve">Enum values used to denote errors happening when creating a #WebKitWebExtensionMatchPattern</doc>
+      <member name="unknown" value="899" c:identifier="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_UNKNOWN" glib:nick="unknown" glib:name="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_UNKNOWN">
+        <doc xml:space="preserve">An unknown error occured.</doc>
+      </member>
+      <member name="invalid_scheme" value="808" c:identifier="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_INVALID_SCHEME" glib:nick="invalid-scheme" glib:name="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_INVALID_SCHEME">
+        <doc xml:space="preserve">The scheme component was invalid.</doc>
+      </member>
+      <member name="invalid_host" value="809" c:identifier="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_INVALID_HOST" glib:nick="invalid-host" glib:name="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_INVALID_HOST">
+        <doc xml:space="preserve">The host component was invalid.</doc>
+      </member>
+      <member name="invalid_path" value="810" c:identifier="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_INVALID_PATH" glib:nick="invalid-path" glib:name="WEBKIT_WEB_EXTENSION_MATCH_PATTERN_ERROR_INVALID_PATH">
+        <doc xml:space="preserve">The path component was invalid.</doc>
+      </member>
+      <function name="quark" c:identifier="webkit_web_extension_match_pattern_error_quark" version="2.48">
+        <doc xml:space="preserve">Gets the quark for the domain of Web Extension Match Pattern errors.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">web extension match pattern error domain.</doc>
+          <type name="GLib.Quark" c:type="GQuark"/>
+        </return-value>
+      </function>
+    </enumeration>
     <enumeration name="WebExtensionMode" version="2.38" glib:type-name="WebKitWebExtensionMode" glib:get-type="webkit_web_extension_mode_get_type" c:type="WebKitWebExtensionMode">
       <doc xml:space="preserve">Enum values used for setting if a #WebKitWebView is intended for
 WebExtensions.</doc>
@@ -16382,7 +17180,7 @@ You can access the response and the URI for a given
 #WebKitWebResource, using webkit_web_resource_get_uri() and
 webkit_web_resource_get_response(), as well as the raw data, using
 webkit_web_resource_get_data().</doc>
-      <method name="get_data" c:identifier="webkit_web_resource_get_data">
+      <method name="get_data" c:identifier="webkit_web_resource_get_data" glib:finish-func="get_data_finish">
         <doc xml:space="preserve">Asynchronously get the raw data for @resource.
 
 When the operation is finished, @callback will be called. You can then call
@@ -17090,7 +17888,7 @@ in the view by the user content manager.</doc>
           </parameter>
         </parameters>
       </virtual-method>
-      <method name="call_async_javascript_function" c:identifier="webkit_web_view_call_async_javascript_function" version="2.40">
+      <method name="call_async_javascript_function" c:identifier="webkit_web_view_call_async_javascript_function" version="2.40" glib:finish-func="call_async_javascript_function_finish">
         <doc xml:space="preserve">Asynchronously call @body with @arguments in the script world with name @world_name of the main frame current context in @web_view.
 The @arguments values must be one of the following types, or contain only the following GVariant types: number, string and dictionary.
 The result of the operation can be a Promise that will be properly passed to the callback.
@@ -17135,7 +17933,7 @@ web_view_javascript_finished (GObject      *object,
     } else {
         g_warning ("Error running javascript: unexpected return value");
     }
-    webkit_javascript_result_unref (js_result);
+    g_object_unref (value);
 }
 
 static void
@@ -17209,7 +18007,7 @@ web_view_evaluate_promise (WebKitWebView *web_view)
           </parameter>
         </parameters>
       </method>
-      <method name="can_execute_editing_command" c:identifier="webkit_web_view_can_execute_editing_command">
+      <method name="can_execute_editing_command" c:identifier="webkit_web_view_can_execute_editing_command" glib:finish-func="can_execute_editing_command_finish">
         <doc xml:space="preserve">Asynchronously check if it is possible to execute the given editing command.
 
 When the operation is finished, @callback will be called. You can then call
@@ -17318,7 +18116,7 @@ webkit_web_view_can_execute_editing_command_finish() to get the result of the op
           </parameter>
         </parameters>
       </method>
-      <method name="evaluate_javascript" c:identifier="webkit_web_view_evaluate_javascript" version="2.40">
+      <method name="evaluate_javascript" c:identifier="webkit_web_view_evaluate_javascript" version="2.40" glib:finish-func="evaluate_javascript_finish">
         <doc xml:space="preserve">Asynchronously evaluate @script in the script world with name @world_name of the main frame current context in @web_view.
 If @world_name is %NULL, the default world is used. Any value that is not %NULL is a distinct world.
 The @source_uri will be shown in exceptions and doesn't affect the behavior of the script.
@@ -17361,7 +18159,7 @@ web_view_javascript_finished (GObject      *object,
     } else {
         g_warning ("Error running javascript: unexpected return value");
     }
-    webkit_javascript_result_unref (js_result);
+    g_object_unref (value);
 }
 
 static void
@@ -17707,24 +18505,24 @@ Get the #WebKitInputMethodContext currently in use by @web_view, or %NULL if no 
           </instance-parameter>
         </parameters>
       </method>
-<!--       <method name="get_javascript_global_context" c:identifier="webkit_web_view_get_javascript_global_context" introspectable="0" deprecated="1" deprecated-version="2.22"> -->
-<!--         <doc xml:space="preserve">Get the global JavaScript context. -->
+      <method name="get_javascript_global_context" c:identifier="webkit_web_view_get_javascript_global_context" introspectable="0" deprecated="1" deprecated-version="2.22">
+        <doc xml:space="preserve">Get the global JavaScript context.
 
-<!-- Get the global JavaScript context used by @web_view to deserialize the -->
-<!-- result values of scripts executed with webkit_web_view_run_javascript().</doc> -->
-<!--         <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated> -->
-<!--         <return-value> -->
-<!--           <doc xml:space="preserve">the JSGlobalContextRef used by @web_view to deserialize -->
-<!--    the result values of scripts.</doc> -->
-<!--           <type c:type="JSGlobalContextRef"/> -->
-<!--         </return-value> -->
-<!--         <parameters> -->
-<!--           <instance-parameter name="web_view" transfer-ownership="none"> -->
-<!--             <doc xml:space="preserve">a #WebKitWebView</doc> -->
-<!--             <type name="WebView" c:type="WebKitWebView*"/> -->
-<!--           </instance-parameter> -->
-<!--         </parameters> -->
-<!--       </method> -->
+Get the global JavaScript context used by @web_view to deserialize the
+result values of scripts executed with webkit_web_view_run_javascript().</doc>
+        <doc-deprecated xml:space="preserve">Use jsc_value_get_context() instead.</doc-deprecated>
+        <return-value>
+          <doc xml:space="preserve">the JSGlobalContextRef used by @web_view to deserialize
+   the result values of scripts.</doc>
+          <type c:type="JSGlobalContextRef"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="web_view" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitWebView</doc>
+            <type name="WebView" c:type="WebKitWebView*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="get_main_resource" c:identifier="webkit_web_view_get_main_resource">
         <doc xml:space="preserve">Return the main resource of @web_view.</doc>
         <return-value transfer-ownership="none">
@@ -17806,7 +18604,7 @@ the settings of a #WebKitWebView would affect other
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_snapshot" c:identifier="webkit_web_view_get_snapshot">
+      <method name="get_snapshot" c:identifier="webkit_web_view_get_snapshot" glib:finish-func="get_snapshot_finish">
         <doc xml:space="preserve">Asynchronously retrieves a snapshot of @web_view for @region.
 
 @options specifies how the snapshot should be rendered.
@@ -17845,7 +18643,8 @@ operation.</doc>
         </parameters>
       </method>
       <method name="get_snapshot_finish" c:identifier="webkit_web_view_get_snapshot_finish" throws="1">
-        <doc xml:space="preserve">Finishes an asynchronous operation started with webkit_web_view_get_snapshot().</doc>
+        <doc xml:space="preserve">Finishes an asynchronous operation started with webkit_web_view_get_snapshot(), producing
+an image of the snapshot using the BGRA8888 pixel format.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">an image with the retrieved snapshot, or %NULL in case of error.</doc>
           <type name="cairo.Surface" c:type="cairo_surface_t*"/>
@@ -17858,6 +18657,25 @@ operation.</doc>
           <parameter name="result" transfer-ownership="none">
             <doc xml:space="preserve">a #GAsyncResult</doc>
             <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_theme_color" c:identifier="webkit_web_view_get_theme_color" glib:get-property="theme-color" version="2.50">
+        <doc xml:space="preserve">Gets the theme color that is specified by the content in the @web_view.
+If the @web_view doesn't have a theme color it will fill the @rgba
+with transparent black content.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">Whether the currently loaded page defines a theme color.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="web_view" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitWebView</doc>
+            <type name="WebView" c:type="WebKitWebView*"/>
+          </instance-parameter>
+          <parameter name="rgba" direction="out" caller-allocates="1" transfer-ownership="none">
+            <doc xml:space="preserve">a #GdkRGBA to fill in with the theme color</doc>
+            <type name="Gdk.RGBA" c:type="GdkRGBA*"/>
           </parameter>
         </parameters>
       </method>
@@ -18176,6 +18994,24 @@ ephemeral #WebKitWebView:web-context it will also be ephemeral.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="is_immersive_mode_enabled" c:identifier="webkit_web_view_is_immersive_mode_enabled" glib:get-property="is-immersive-mode-enabled" version="2.52">
+        <doc xml:space="preserve">Gets whether @web_view is in immersive mode.
+
+An immersive session is a mode in which the user is presented with a fully immersive XR experience
+(such as VR or AR), typically rendered via a headset.
+
+Note that if WebXR is disabled or OPENXR is not used, this API always returns %FALSE.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">%TRUE if the @web_view is in immersive mode, or %FALSE otherwise.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="web_view" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitWebView</doc>
+            <type name="WebView" c:type="WebKitWebView*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="is_loading" c:identifier="webkit_web_view_is_loading" glib:get-property="is-loading">
         <doc xml:space="preserve">Gets the value of the #WebKitWebView:is-loading property.
 
@@ -18205,6 +19041,25 @@ page is producing sound.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">%TRUE if a page in @web_view is playing audio or %FALSE otherwise.</doc>
           <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="web_view" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitWebView</doc>
+            <type name="WebView" c:type="WebKitWebView*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="leave_immersive_mode" c:identifier="webkit_web_view_leave_immersive_mode" version="2.52">
+        <doc xml:space="preserve">Requests to leave the immersive mode this #WebKitWebView is in.
+
+Users interact with web content to start XR sessions, and can typically
+end the sessions themselves, but applications might need to end a session on their
+own based on application or platform logic.
+
+Note that if WebXR is disabled, or if it is enabled but the @web_view is not in
+immersive mode, this API does nothing. See also webkit_web_view_is_immersive_mode_enabled().</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
         </return-value>
         <parameters>
           <instance-parameter name="web_view" transfer-ownership="none">
@@ -18404,7 +19259,7 @@ using any cached data.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="run_async_javascript_function_in_world" c:identifier="webkit_web_view_run_async_javascript_function_in_world" version="2.38" deprecated="1" deprecated-version="2.40">
+      <method name="run_async_javascript_function_in_world" c:identifier="webkit_web_view_run_async_javascript_function_in_world" version="2.38" deprecated="1" deprecated-version="2.40" glib:finish-func="webkit_web_view_run_javascript_in_world_finish">
         <doc xml:space="preserve">Asynchronously run @body in the script world with name @world_name of the current page context in
 @web_view. If WebKitSettings:enable-javascript is FALSE, this method will do nothing. This API
 differs from webkit_web_view_run_javascript_in_world() in that the JavaScript function can return a
@@ -18473,11 +19328,11 @@ web_view_evaluate_promise (WebKitWebView *web_view)
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
           <parameter name="arguments" transfer-ownership="none">
-            <doc xml:space="preserve">a #GVariant with format `{&amp;sv}` storing the function arguments. Function argument values must be one of the following types, or contain only the following GVariant types: number, string, array, and dictionary.
-@world_name (nullable): the name of a #WebKitScriptWorld, if no name (i.e. %NULL) is provided, the default world is used. Any value that is not %NULL is a distinct world.</doc>
+            <doc xml:space="preserve">a #GVariant with format `{&amp;sv}` storing the function arguments. Function argument values must be one of the following types, or contain only the following GVariant types: number, string, array, and dictionary.</doc>
             <type name="GLib.Variant" c:type="GVariant*"/>
           </parameter>
-          <parameter name="world_name" transfer-ownership="none">
+          <parameter name="world_name" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">the name of a #WebKitScriptWorld, if no name (i.e. %NULL) is provided, the default world is used. Any value that is not %NULL is a distinct world.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="cancellable" transfer-ownership="none" nullable="1" allow-none="1">
@@ -18494,7 +19349,7 @@ web_view_evaluate_promise (WebKitWebView *web_view)
           </parameter>
         </parameters>
       </method>
-      <method name="run_javascript" c:identifier="webkit_web_view_run_javascript" deprecated="1" deprecated-version="2.40">
+      <method name="run_javascript" c:identifier="webkit_web_view_run_javascript" deprecated="1" deprecated-version="2.40" glib:finish-func="run_javascript_finish">
         <doc xml:space="preserve">Asynchronously run @script in the context of the current page in @web_view.
 
 If WebKitSettings:enable-javascript is FALSE, this method will do nothing.
@@ -18592,7 +19447,7 @@ web_view_get_link_url (WebKitWebView *web_view,
           </parameter>
         </parameters>
       </method>
-      <method name="run_javascript_from_gresource" c:identifier="webkit_web_view_run_javascript_from_gresource" deprecated="1" deprecated-version="2.40">
+      <method name="run_javascript_from_gresource" c:identifier="webkit_web_view_run_javascript_from_gresource" deprecated="1" deprecated-version="2.40" glib:finish-func="run_javascript_from_gresource_finish">
         <doc xml:space="preserve">Asynchronously run the script from @resource.
 
 Asynchronously run the script from @resource in the context of the
@@ -18649,7 +19504,7 @@ Check webkit_web_view_run_javascript_finish() for a usage example.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="run_javascript_in_world" c:identifier="webkit_web_view_run_javascript_in_world" version="2.22" deprecated="1" deprecated-version="2.40">
+      <method name="run_javascript_in_world" c:identifier="webkit_web_view_run_javascript_in_world" version="2.22" deprecated="1" deprecated-version="2.40" glib:finish-func="run_javascript_in_world_finish">
         <doc xml:space="preserve">Asynchronously run @script in the script world.
 
 Asynchronously run @script in the script world with name @world_name of the current page context in @web_view.
@@ -18707,7 +19562,7 @@ webkit_web_view_run_javascript_in_world_finish() to get the result of the operat
           </parameter>
         </parameters>
       </method>
-      <method name="save" c:identifier="webkit_web_view_save">
+      <method name="save" c:identifier="webkit_web_view_save" glib:finish-func="save_finish">
         <doc xml:space="preserve">Asynchronously save the current web page.
 
 Asynchronously save the current web page associated to the
@@ -18761,7 +19616,7 @@ operation.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="save_to_file" c:identifier="webkit_web_view_save_to_file">
+      <method name="save_to_file" c:identifier="webkit_web_view_save_to_file" glib:finish-func="save_to_file_finish">
         <doc xml:space="preserve">Asynchronously save the current web page.
 
 Asynchronously save the current web page associated to the
@@ -18818,7 +19673,7 @@ operation.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send_message_to_page" c:identifier="webkit_web_view_send_message_to_page" version="2.28">
+      <method name="send_message_to_page" c:identifier="webkit_web_view_send_message_to_page" version="2.28" glib:finish-func="send_message_to_page_finish">
         <doc xml:space="preserve">Send @message to the #WebKitWebPage corresponding to @web_view.
 
 If @message is floating, it's consumed.
@@ -19244,9 +20099,16 @@ See webkit_web_view_get_favicon() for more details.</doc>
         <type name="gpointer" c:type="gpointer"/>
       </property>
       <property name="is-controlled-by-automation" version="2.18" writable="1" construct-only="1" transfer-ownership="none" default-value="FALSE">
-        <doc xml:space="preserve">Whether the #WebKitWebView is controlled by automation. This should only be used when
-creating a new #WebKitWebView as a response to #WebKitAutomationSession::create-web-view
-signal request.</doc>
+        <doc xml:space="preserve">Whether the #WebKitWebView is controlled by automation tools (e.g. WebDriver, Selenium). This is
+required for views returned as a response to #WebKitAutomationSession::create-web-view signal,
+alongside any view you want to control during an automation session.
+
+As a %G_PARAM_CONSTRUCT_ONLY, you need to set it during construction and it can't be modified.
+
+If #WebKitWebView:related-view is also passed during construction, #WebKitWebView:is-controlled-by-automation
+ignores its own parameter and inherits directly from the related view #WebKitWebView:is-controlled-by-automation
+property. This is the recommended way when creating new views as a response to the #WebKitWebView::create
+signal. For example, as response to JavaScript `window.open()` calls during an automation session.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="is-ephemeral" version="2.16" writable="1" construct-only="1" transfer-ownership="none" default-value="FALSE">
@@ -19262,6 +20124,11 @@ and set the new ones.
 Note that all #WebKitWebView&lt;!-- --&gt;s created with an ephemeral #WebKitWebContext
 will be ephemeral automatically.
 See also webkit_web_context_new_ephemeral().</doc>
+        <type name="gboolean" c:type="gboolean"/>
+      </property>
+      <property name="is-immersive-mode-enabled" version="2.52" transfer-ownership="none" getter="is_immersive_mode_enabled" default-value="FALSE">
+        <attribute name="org.gtk.Property.get" value="webkit_web_view_is_immersive_mode_enabled"/>
+        <doc xml:space="preserve">Whether the #WebKitWebView is in immersive mode.</doc>
         <type name="gboolean" c:type="gboolean"/>
       </property>
       <property name="is-loading" transfer-ownership="none" getter="is_loading" default-value="FALSE">
@@ -19316,6 +20183,10 @@ because the related web view is only valid during the object construction.</doc>
       <property name="settings" version="2.6" readable="0" writable="1" construct="1" transfer-ownership="none" setter="set_settings">
         <doc xml:space="preserve">The #WebKitSettings of the view.</doc>
         <type name="Settings"/>
+      </property>
+      <property name="theme-color" version="2.50" transfer-ownership="none" getter="get_theme_color">
+        <doc xml:space="preserve">The theme color of the WebView's current page.</doc>
+        <type name="Gdk.RGBA"/>
       </property>
       <property name="title" transfer-ownership="none" getter="get_title" default-value="NULL">
         <doc xml:space="preserve">The main frame document title of this #WebKitWebView. If
@@ -19471,7 +20342,10 @@ The new #WebKitWebView must be related to @web_view, see
 #WebKitWebView:related-view for more details.
 
 The new #WebKitWebView should not be displayed to the user
-until the #WebKitWebView::ready-to-show signal is emitted.</doc>
+until the #WebKitWebView::ready-to-show signal is emitted.
+
+For creating views as response to automation tools requests, see the
+#WebKitAutomationSession::create-web-view signal.</doc>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve">a newly allocated #WebKitWebView widget
    or %NULL to propagate the event further.</doc>
@@ -19557,15 +20431,10 @@ full screen window).</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
       </glib:signal>
-      <glib:signal name="insecure-content-detected" when="last">
-        <doc xml:space="preserve">This signal is emitted when insecure content has been detected
-in a page loaded through a secure connection. This typically
-means that a external resource from an unstrusted source has
-been run or displayed, resulting in a mix of HTTPS and
-non-HTTPS content.
-
-You can check the @event parameter to know exactly which kind
-of event has been detected (see #WebKitInsecureContentEvent).</doc>
+      <glib:signal name="insecure-content-detected" when="last" deprecated="1" deprecated-version="2.46">
+        <doc xml:space="preserve">Prior to 2.46, this signal was emitted when insecure content was
+loaded in a secure content. Since 2.46, this signal is generally
+no longer emitted.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -20862,7 +21731,7 @@ passing %NULL as the value of @settings.</doc>
           </parameter>
         </parameters>
       </function>
-      <method name="clear" c:identifier="webkit_website_data_manager_clear" version="2.16">
+      <method name="clear" c:identifier="webkit_website_data_manager_clear" version="2.16" glib:finish-func="clear_finish">
         <doc xml:space="preserve">Asynchronously clear the website data of the given @types modified in the past @timespan.
 
 If @timespan is 0, all website data will be removed.
@@ -20920,7 +21789,7 @@ future.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="fetch" c:identifier="webkit_website_data_manager_fetch" version="2.16">
+      <method name="fetch" c:identifier="webkit_website_data_manager_fetch" version="2.16" glib:finish-func="fetch_finish">
         <doc xml:space="preserve">Asynchronously get the list of #WebKitWebsiteData for the given @types.
 
 When the operation is finished, @callback will be called. You can then call
@@ -21095,7 +21964,7 @@ webkit_website_data_manager_fetch_finish() to get the result of the operation.</
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_itp_summary" c:identifier="webkit_website_data_manager_get_itp_summary" version="2.30">
+      <method name="get_itp_summary" c:identifier="webkit_website_data_manager_get_itp_summary" version="2.30" glib:finish-func="get_itp_summary_finish">
         <doc xml:space="preserve">Asynchronously get the list of #WebKitITPThirdParty seen for @manager.
 
 Every #WebKitITPThirdParty
@@ -21245,7 +22114,7 @@ See #WebKitWebsiteDataManager:is-ephemeral for more details.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="remove" c:identifier="webkit_website_data_manager_remove" version="2.16">
+      <method name="remove" c:identifier="webkit_website_data_manager_remove" version="2.16" glib:finish-func="remove_finish">
         <doc xml:space="preserve">Asynchronously removes the website data in the given @website_data list.
 
 Asynchronously removes the website data of the given @types for websites in the given @website_data list.
@@ -21437,10 +22306,24 @@ parameters to configure data directories will be ignored.</doc>
         <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-cache-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
       </property>
+      <property name="origin-storage-ratio" version="2.42" readable="0" writable="1" construct-only="1" transfer-ownership="none" default-value="-1.000000">
+        <doc xml:space="preserve">The percentage of volume space that can be used for data storage for every domain.
+If the maximum storage is reached the storage request will fail with a QuotaExceededError exception.
+A value of 0.0 means that data storage is not allowed. A value of -1.0, which is the default,
+means WebKit will use the default quota (1 GiB).</doc>
+        <type name="gdouble" c:type="gdouble"/>
+      </property>
       <property name="service-worker-registrations-directory" version="2.30" deprecated="1" deprecated-version="2.40." writable="1" construct-only="1" transfer-ownership="none" getter="get_service_worker_registrations_directory" default-value="NULL">
         <doc xml:space="preserve">The directory where service workers registrations will be stored.</doc>
         <doc-deprecated xml:space="preserve">Use WebKitWebsiteDataManager:base-data-directory instead.</doc-deprecated>
         <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="total-storage-ratio" version="2.42" readable="0" writable="1" construct-only="1" transfer-ownership="none" default-value="-1.000000">
+        <doc xml:space="preserve">The percentage of volume space that can be used for data storage for all domains.
+If the maximum storage is reached the eviction will happen.
+A value of 0.0 means that data storage is not allowed. A value of -1.0, which is the default,
+means there's no limit for the total storage.</doc>
+        <type name="gdouble" c:type="gdouble"/>
       </property>
       <property name="websql-directory" version="2.10" deprecated="1" deprecated-version="2.24." writable="1" construct-only="1" transfer-ownership="none" getter="get_websql_directory" default-value="NULL">
         <doc xml:space="preserve">The directory where WebSQL databases will be stored.</doc>
@@ -21878,6 +22761,218 @@ static void ready_to_show_cb (WebKitWebView *web_view, gpointer user_data)
       </field>
     </record>
     <record name="WindowPropertiesPrivate" c:type="WebKitWindowPropertiesPrivate" disguised="1" opaque="1"/>
+    <class name="XRPermissionRequest" c:symbol-prefix="xr_permission_request" c:type="WebKitXRPermissionRequest" version="2.52" parent="GObject.Object" glib:type-name="WebKitXRPermissionRequest" glib:get-type="webkit_xr_permission_request_get_type" glib:type-struct="XRPermissionRequestClass">
+      <doc xml:space="preserve">A permission request for accessing virtual reality (VR) and
+augmented reality (AR) devices, including sensors and head-mounted
+displays.
+
+WebKitXRPermissionRequest represents a request for permission to
+decide whether WebKit can initialize an XR session through the
+WebXR API.
+
+When a WebKitXRPermissionRequest is not handled by the user,
+it is denied by default.</doc>
+      <implements name="PermissionRequest"/>
+      <method name="get_consent_optional_features" c:identifier="webkit_xr_permission_request_get_consent_optional_features" version="2.52">
+        <doc xml:space="preserve">Gets the optional features that need user consent.
+
+These features can be granted by calling
+webkit_xr_permission_request_set_granted_optional_features()
+before allowing the request with webkit_permission_request_allow().</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #WebKitXRSessionFeatures flag combination</doc>
+          <type name="XRSessionFeatures" c:type="WebKitXRSessionFeatures"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_consent_required_features" c:identifier="webkit_xr_permission_request_get_consent_required_features" version="2.52">
+        <doc xml:space="preserve">Gets the required features that need user consent.
+
+These features are automatically granted if the request is allowed with
+webkit_permission_request_allow().</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #WebKitXRSessionFeatures flag combination</doc>
+          <type name="XRSessionFeatures" c:type="WebKitXRSessionFeatures"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_granted_features" c:identifier="webkit_xr_permission_request_get_granted_features" version="2.52">
+        <doc xml:space="preserve">Gets the features requested by the origin for the XR device, which
+are either granted by default or have been explicitly granted by
+the user.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #WebKitXRSessionFeatures flag combination</doc>
+          <type name="XRSessionFeatures" c:type="WebKitXRSessionFeatures"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_optional_features_requested" c:identifier="webkit_xr_permission_request_get_optional_features_requested" version="2.52">
+        <doc xml:space="preserve">Gets the full set of optional features requested by the web application.
+
+This includes both already granted features and those requiring consent.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #WebKitXRSessionFeatures flag combination</doc>
+          <type name="XRSessionFeatures" c:type="WebKitXRSessionFeatures"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_required_features_requested" c:identifier="webkit_xr_permission_request_get_required_features_requested" version="2.52">
+        <doc xml:space="preserve">Gets the full set of required features requested by the web application.
+
+This includes both already granted features and those requiring consent.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #WebKitXRSessionFeatures flag combination</doc>
+          <type name="XRSessionFeatures" c:type="WebKitXRSessionFeatures"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_security_origin" c:identifier="webkit_xr_permission_request_get_security_origin" version="2.52">
+        <doc xml:space="preserve">Gets the security origin that initiated the permission request.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">the #WebKitSecurityOrigin that initiated the request</doc>
+          <type name="SecurityOrigin" c:type="WebKitSecurityOrigin*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_session_mode" c:identifier="webkit_xr_permission_request_get_session_mode" version="2.52">
+        <doc xml:space="preserve">Gets the session mode for which permission is being requested.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a #WebKitXRSessionMode</doc>
+          <type name="XRSessionMode" c:type="WebKitXRSessionMode"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="set_granted_optional_features" c:identifier="webkit_xr_permission_request_set_granted_optional_features" version="2.52">
+        <doc xml:space="preserve">Sets which optional features should be granted if the permission request is allowed.
+
+This function should be called with a subset of the features from
+webkit_xr_permission_request_get_consent_optional_features() before calling
+webkit_permission_request_allow(). If the request is denied, no features are
+granted, regardless of what is set here.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="request" transfer-ownership="none">
+            <doc xml:space="preserve">a #WebKitXRPermissionRequest</doc>
+            <type name="XRPermissionRequest" c:type="WebKitXRPermissionRequest*"/>
+          </instance-parameter>
+          <parameter name="granted" transfer-ownership="none">
+            <doc xml:space="preserve">granted features</doc>
+            <type name="XRSessionFeatures" c:type="WebKitXRSessionFeatures"/>
+          </parameter>
+        </parameters>
+      </method>
+      <field name="parent">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+      <field name="priv">
+        <type name="XRPermissionRequestPrivate" c:type="WebKitXRPermissionRequestPrivate*"/>
+      </field>
+    </class>
+    <record name="XRPermissionRequestClass" c:type="WebKitXRPermissionRequestClass" glib:is-gtype-struct-for="XRPermissionRequest">
+      <field name="parent_class">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <record name="XRPermissionRequestPrivate" c:type="WebKitXRPermissionRequestPrivate" disguised="1" opaque="1"/>
+    <bitfield name="XRSessionFeatures" version="2.52" glib:type-name="WebKitXRSessionFeatures" glib:get-type="webkit_xr_session_features_get_type" c:type="WebKitXRSessionFeatures">
+      <doc xml:space="preserve">Enum values representing the XR session features.
+
+See &lt;https://immersive-web.github.io/webxr/#xrreferencespace-interface&gt;.
+And, see &lt;https://immersive-web.github.io/webxr-hand-input/&gt; for hand tracking.</doc>
+      <member name="viewer" value="1" c:identifier="WEBKIT_XR_SESSION_FEATURES_VIEWER" glib:nick="viewer" glib:name="WEBKIT_XR_SESSION_FEATURES_VIEWER">
+        <doc xml:space="preserve">viewer feature.</doc>
+      </member>
+      <member name="local" value="2" c:identifier="WEBKIT_XR_SESSION_FEATURES_LOCAL" glib:nick="local" glib:name="WEBKIT_XR_SESSION_FEATURES_LOCAL">
+        <doc xml:space="preserve">local feature.</doc>
+      </member>
+      <member name="local_floor" value="4" c:identifier="WEBKIT_XR_SESSION_FEATURES_LOCAL_FLOOR" glib:nick="local-floor" glib:name="WEBKIT_XR_SESSION_FEATURES_LOCAL_FLOOR">
+        <doc xml:space="preserve">local-floor feature.</doc>
+      </member>
+      <member name="bounded_floor" value="8" c:identifier="WEBKIT_XR_SESSION_FEATURES_BOUNDED_FLOOR" glib:nick="bounded-floor" glib:name="WEBKIT_XR_SESSION_FEATURES_BOUNDED_FLOOR">
+        <doc xml:space="preserve">bounded-floor feature.</doc>
+      </member>
+      <member name="unbounded" value="16" c:identifier="WEBKIT_XR_SESSION_FEATURES_UNBOUNDED" glib:nick="unbounded" glib:name="WEBKIT_XR_SESSION_FEATURES_UNBOUNDED">
+        <doc xml:space="preserve">unbounded feature.</doc>
+      </member>
+      <member name="hand_tracking" value="32" c:identifier="WEBKIT_XR_SESSION_FEATURES_HAND_TRACKING" glib:nick="hand-tracking" glib:name="WEBKIT_XR_SESSION_FEATURES_HAND_TRACKING">
+        <doc xml:space="preserve">hand tracking feature.</doc>
+      </member>
+      <member name="hit_test" value="64" c:identifier="WEBKIT_XR_SESSION_FEATURES_HIT_TEST" glib:nick="hit-test" glib:name="WEBKIT_XR_SESSION_FEATURES_HIT_TEST">
+        <doc xml:space="preserve">hit test feature.</doc>
+      </member>
+      <member name="layers" value="128" c:identifier="WEBKIT_XR_SESSION_FEATURES_LAYERS" glib:nick="layers" glib:name="WEBKIT_XR_SESSION_FEATURES_LAYERS">
+        <doc xml:space="preserve">WebXR Layers feature.</doc>
+      </member>
+    </bitfield>
+    <enumeration name="XRSessionMode" version="2.52" glib:type-name="WebKitXRSessionMode" glib:get-type="webkit_xr_session_mode_get_type" c:type="WebKitXRSessionMode">
+      <doc xml:space="preserve">Enum values representing the XR session mode.
+
+See &lt;https://immersive-web.github.io/webxr/#xrsessionmode-enum&gt;</doc>
+      <member name="inline" value="0" c:identifier="WEBKIT_XR_SESSION_MODE_INLINE" glib:nick="inline" glib:name="WEBKIT_XR_SESSION_MODE_INLINE">
+        <doc xml:space="preserve">inline session mode.</doc>
+      </member>
+      <member name="immersive_vr" value="1" c:identifier="WEBKIT_XR_SESSION_MODE_IMMERSIVE_VR" glib:nick="immersive-vr" glib:name="WEBKIT_XR_SESSION_MODE_IMMERSIVE_VR">
+        <doc xml:space="preserve">immersive-vr session mode.</doc>
+      </member>
+      <member name="immersive_ar" value="2" c:identifier="WEBKIT_XR_SESSION_MODE_IMMERSIVE_AR" glib:nick="immersive-ar" glib:name="WEBKIT_XR_SESSION_MODE_IMMERSIVE_AR">
+        <doc xml:space="preserve">immersive-ar session mode.</doc>
+      </member>
+    </enumeration>
+    <function-macro name="XR_PERMISSION_REQUEST" c:identifier="WEBKIT_XR_PERMISSION_REQUEST" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="XR_PERMISSION_REQUEST_CLASS" c:identifier="WEBKIT_XR_PERMISSION_REQUEST_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="klass">
+        </parameter>
+      </parameters>
+    </function-macro>
+    <function-macro name="XR_PERMISSION_REQUEST_GET_CLASS" c:identifier="WEBKIT_XR_PERMISSION_REQUEST_GET_CLASS" introspectable="0">
+      <parameters>
+        <parameter name="obj">
+        </parameter>
+      </parameters>
+    </function-macro>
     <function name="download_error_quark" c:identifier="webkit_download_error_quark" moved-to="DownloadError.quark">
       <doc xml:space="preserve">Gets the quark for the domain of download errors.</doc>
       <return-value transfer-ownership="none">
@@ -22059,6 +23154,13 @@ URI may be in Punycode if the safety check fails.</doc>
       <doc xml:space="preserve">Gets the quark for the domain of user message errors.</doc>
       <return-value transfer-ownership="none">
         <doc xml:space="preserve">user message error domain.</doc>
+        <type name="GLib.Quark" c:type="GQuark"/>
+      </return-value>
+    </function>
+    <function name="web_extension_match_pattern_error_quark" c:identifier="webkit_web_extension_match_pattern_error_quark" moved-to="WebExtensionMatchPatternError.quark" version="2.48">
+      <doc xml:space="preserve">Gets the quark for the domain of Web Extension Match Pattern errors.</doc>
+      <return-value transfer-ownership="none">
+        <doc xml:space="preserve">web extension match pattern error domain.</doc>
         <type name="GLib.Quark" c:type="GQuark"/>
       </return-value>
     </function>

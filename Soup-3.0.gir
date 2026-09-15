@@ -3063,6 +3063,7 @@ policies, see [class@HSTSEnforcerDB] for that.</doc>
         </return-value>
       </constructor>
       <virtual-method name="changed">
+        <doc xml:space="preserve">The class closure for the #SoupHSTSEnforcer::changed signal.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3266,6 +3267,8 @@ this signal.</doc>
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
       <field name="is_persistent">
+        <doc xml:space="preserve">The @is_persistent function advertises whether the enforcer is persistent or
+whether changes made to it will be lost when the underlying [class@Session] is finished.</doc>
         <callback name="is_persistent">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">%TRUE if @hsts_enforcer storage is persistent or %FALSE otherwise.</doc>
@@ -3280,6 +3283,11 @@ this signal.</doc>
         </callback>
       </field>
       <field name="has_valid_policy">
+        <doc xml:space="preserve">The @has_valid_policy function is called to check whether there is a valid
+policy for the given domain. This method should return %TRUE for #SoupHSTSEnforcer to
+change the scheme of the #GUri in the #SoupMessage to HTTPS. Implementations might want to
+chain up to the @has_valid_policy in the parent class to check, for instance, for runtime
+policies.</doc>
         <callback name="has_valid_policy">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">%TRUE if access to @domain should happen over HTTPS, false
@@ -3299,6 +3307,7 @@ this signal.</doc>
         </callback>
       </field>
       <field name="changed">
+        <doc xml:space="preserve">The class closure for the #SoupHSTSEnforcer::changed signal.</doc>
         <callback name="changed">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -3922,7 +3931,7 @@ compile time, rather than from the library linked against at application run
 time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="2" c:type="SOUP_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="4" c:type="SOUP_MICRO_VERSION">
       <doc xml:space="preserve">Like [func@get_micro_version], but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -6936,7 +6945,7 @@ will be returned.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="next_part" c:identifier="soup_multipart_input_stream_next_part" throws="1">
+      <method name="next_part" c:identifier="soup_multipart_input_stream_next_part" throws="1" glib:async-func="next_part_async">
         <doc xml:space="preserve">Obtains an input stream for the next part.
 
 When dealing with a multipart response the input stream needs to be wrapped
@@ -6964,7 +6973,7 @@ to obtain the next part.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="next_part_async" c:identifier="soup_multipart_input_stream_next_part_async">
+      <method name="next_part_async" c:identifier="soup_multipart_input_stream_next_part_async" glib:finish-func="next_part_finish" glib:sync-func="next_part">
         <doc xml:space="preserve">Obtains a [class@Gio.InputStream] for the next request.
 
 See [method@MultipartInputStream.next_part] for details on the workflow.</doc>
@@ -9153,7 +9162,7 @@ some class managed by another feature, such as [class@Auth]).</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="preconnect_async" c:identifier="soup_session_preconnect_async">
+      <method name="preconnect_async" c:identifier="soup_session_preconnect_async" glib:finish-func="preconnect_finish">
         <doc xml:space="preserve">Start a preconnection to @msg.
 
 Once the connection is done, it will remain in idle state so that it can be
@@ -9245,7 +9254,7 @@ The operation finishes when the connection is done or an error occurred.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send" c:identifier="soup_session_send" throws="1">
+      <method name="send" c:identifier="soup_session_send" throws="1" glib:async-func="send_async">
         <doc xml:space="preserve">Synchronously sends @msg and waits for the beginning of a response.
 
 On success, a [class@Gio.InputStream] will be returned which you can use to
@@ -9284,7 +9293,7 @@ received.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send_and_read" c:identifier="soup_session_send_and_read" throws="1">
+      <method name="send_and_read" c:identifier="soup_session_send_and_read" throws="1" glib:async-func="send_and_read_async">
         <doc xml:space="preserve">Synchronously sends @msg and reads the response body.
 
 On success, a [struct@GLib.Bytes] will be returned with the response body.
@@ -9311,7 +9320,7 @@ See [method@Session.send] for more details on the general semantics.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send_and_read_async" c:identifier="soup_session_send_and_read_async">
+      <method name="send_and_read_async" c:identifier="soup_session_send_and_read_async" glib:finish-func="send_and_read_finish" glib:sync-func="send_and_read">
         <doc xml:space="preserve">Asynchronously sends @msg and reads the response body.
 
 When @callback is called, then either @msg has been sent, and its response
@@ -9370,7 +9379,7 @@ If successful, returns a [struct@GLib.Bytes] with the response body.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send_and_splice" c:identifier="soup_session_send_and_splice" version="3.4" throws="1">
+      <method name="send_and_splice" c:identifier="soup_session_send_and_splice" version="3.4" throws="1" glib:async-func="send_and_splice_async">
         <doc xml:space="preserve">Synchronously sends @msg and splices the response body stream into @out_stream.
 
 See [method@Session.send] for more details on the general semantics.</doc>
@@ -9401,7 +9410,7 @@ See [method@Session.send] for more details on the general semantics.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send_and_splice_async" c:identifier="soup_session_send_and_splice_async" version="3.4">
+      <method name="send_and_splice_async" c:identifier="soup_session_send_and_splice_async" version="3.4" glib:finish-func="send_and_splice_finish" glib:sync-func="send_and_splice">
         <doc xml:space="preserve">Asynchronously sends @msg and splices the response body stream into @out_stream.
 When @callback is called, then either @msg has been sent and its response body
 spliced, or else an error has occurred.
@@ -9462,7 +9471,7 @@ See [method@Session.send] for more details on the general semantics.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="send_async" c:identifier="soup_session_send_async">
+      <method name="send_async" c:identifier="soup_session_send_async" glib:finish-func="send_finish" glib:sync-func="send">
         <doc xml:space="preserve">Asynchronously sends @msg and waits for the beginning of a response.
 
 When @callback is called, then either @msg has been sent, and its response
@@ -9689,7 +9698,7 @@ is %NULL then no "User-Agent" will be included in requests. See
           </parameter>
         </parameters>
       </method>
-      <method name="websocket_connect_async" c:identifier="soup_session_websocket_connect_async">
+      <method name="websocket_connect_async" c:identifier="soup_session_websocket_connect_async" glib:finish-func="websocket_connect_finish">
         <doc xml:space="preserve">Asynchronously creates a [class@WebsocketConnection] to communicate with a
 remote server.
 
@@ -11236,6 +11245,7 @@ Extensions using reserved bits of the header will change them in @header.</doc>
         <type name="utf8" c:type="const char*"/>
       </field>
       <field name="configure">
+        <doc xml:space="preserve">called to configure the extension with the given parameters</doc>
         <callback name="configure" throws="1">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">%TRUE if extension could be configured with the given parameters, or %FALSE otherwise</doc>
@@ -11261,6 +11271,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
         </callback>
       </field>
       <field name="get_request_params">
+        <doc xml:space="preserve">called by the client to build the request header.
+   It should include the parameters string starting with ';'</doc>
         <callback name="get_request_params">
           <return-value transfer-ownership="full" nullable="1">
             <doc xml:space="preserve">a new allocated string with the parameters</doc>
@@ -11275,6 +11287,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
         </callback>
       </field>
       <field name="get_response_params">
+        <doc xml:space="preserve">called by the server to build the response header.
+   It should include the parameters string starting with ';'</doc>
         <callback name="get_response_params">
           <return-value transfer-ownership="full" nullable="1">
             <doc xml:space="preserve">a new allocated string with the parameters</doc>
@@ -11289,6 +11303,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
         </callback>
       </field>
       <field name="process_outgoing_message">
+        <doc xml:space="preserve">called to process the payload data of a message
+   before it's sent. Reserved bits of the header should be changed.</doc>
         <callback name="process_outgoing_message" throws="1">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">the message payload data, or %NULL in case of error</doc>
@@ -11311,6 +11327,8 @@ Extensions using reserved bits of the header will change them in @header.</doc>
         </callback>
       </field>
       <field name="process_incoming_message">
+        <doc xml:space="preserve">called to process the payload data of a message
+   after it's received. Reserved bits of the header should be cleared.</doc>
         <callback name="process_incoming_message" throws="1">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">the message payload data, or %NULL in case of error</doc>

@@ -553,7 +553,7 @@ A string name/value pair representing a generic attribute.</doc>
         </parameters>
       </function>
     </record>
-    <constant name="BINARY_AGE" value="24813" c:type="ATK_BINARY_AGE" version="2.7.4">
+    <constant name="BINARY_AGE" value="25210" c:type="ATK_BINARY_AGE" version="2.7.4">
       <doc xml:space="preserve">Like atk_get_binary_age(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -1377,7 +1377,7 @@ or to the component's top level window</doc>
         </parameters>
       </method>
       <glib:signal name="bounds-changed" when="last">
-        <doc xml:space="preserve">The 'bounds-changed" signal is emitted when the bposition or
+        <doc xml:space="preserve">The 'bounds-changed" signal is emitted when the position or
 size of the component changes.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1399,6 +1399,9 @@ representation of an object.</doc>
         <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
       <field name="add_focus_handler" introspectable="0">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.9.4
+  and it should not be overriden. See atk_component_add_focus_handler()
+  for more information.</doc>
         <callback name="add_focus_handler" introspectable="0">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">a handler id which can be used in atk_component_remove_focus_handler()
@@ -1508,6 +1511,8 @@ or to the components top level window</doc>
         </callback>
       </field>
       <field name="get_position">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12 and
+  it should not be overriden. Use @AtkComponentIface.get_extents instead.</doc>
         <callback name="get_position">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -1534,6 +1539,8 @@ or to the components top level window</doc>
         </callback>
       </field>
       <field name="get_size">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12 and it
+  should not be overriden. Use @AtkComponentIface.get_extents instead.</doc>
         <callback name="get_size">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -1569,6 +1576,9 @@ or to the components top level window</doc>
         </callback>
       </field>
       <field name="remove_focus_handler">
+        <doc xml:space="preserve">This virtual function is deprecated since
+  2.9.4 and it should not be overriden. See atk_component_remove_focus_handler()
+  for more information.</doc>
         <callback name="remove_focus_handler">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -2081,6 +2091,22 @@ ask for the document type if it applies.</doc-deprecated>
           </instance-parameter>
         </parameters>
       </virtual-method>
+      <virtual-method name="get_text_selections" invoker="get_text_selections" version="2.52">
+        <doc xml:space="preserve">Returns an array of AtkTextSelections within this document.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">a GArray of
+AtkTextSelection structures representing the selection.</doc>
+          <array name="GLib.Array" c:type="GArray*">
+            <type name="TextSelection"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="document" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkDocument</doc>
+            <type name="Document" c:type="AtkDocument*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
       <virtual-method name="set_document_attribute" invoker="set_attribute_value" version="1.12">
         <doc xml:space="preserve">Sets the value for the given @attribute_name inside @document.</doc>
         <return-value transfer-ownership="none">
@@ -2102,6 +2128,30 @@ ask for the document type if it applies.</doc-deprecated>
           <parameter name="attribute_value" transfer-ownership="none">
             <doc xml:space="preserve">a string value to be associated with @attribute_name.</doc>
             <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="set_text_selections" invoker="set_text_selections" version="2.52">
+        <doc xml:space="preserve">Makes 1 or more selections within this document denoted by the given
+array of AtkTextSelections. Any existing physical selection (inside or
+outside this document) is replaced by the new selections. All objects within
+the given selection ranges must be descendants of this document. Otherwise
+FALSE will be returned.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">TRUE if the selection was made successfully; FALSE otherwise.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="document" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkDocument.</doc>
+            <type name="Document" c:type="AtkDocument*"/>
+          </instance-parameter>
+          <parameter name="selections" transfer-ownership="none">
+            <doc xml:space="preserve">a GArray of AtkTextSelections
+             to be selected.</doc>
+            <array name="GLib.Array" c:type="GArray*">
+              <type name="TextSelection"/>
+            </array>
           </parameter>
         </parameters>
       </virtual-method>
@@ -2222,6 +2272,22 @@ ask for the document type if it applies.</doc-deprecated>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_text_selections" c:identifier="atk_document_get_text_selections" version="2.52">
+        <doc xml:space="preserve">Returns an array of AtkTextSelections within this document.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">a GArray of
+AtkTextSelection structures representing the selection.</doc>
+          <array name="GLib.Array" c:type="GArray*">
+            <type name="TextSelection"/>
+          </array>
+        </return-value>
+        <parameters>
+          <instance-parameter name="document" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkDocument</doc>
+            <type name="Document" c:type="AtkDocument*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="set_attribute_value" c:identifier="atk_document_set_attribute_value" version="1.12">
         <doc xml:space="preserve">Sets the value for the given @attribute_name inside @document.</doc>
         <return-value transfer-ownership="none">
@@ -2246,6 +2312,49 @@ ask for the document type if it applies.</doc-deprecated>
           </parameter>
         </parameters>
       </method>
+      <method name="set_text_selections" c:identifier="atk_document_set_text_selections" version="2.52">
+        <doc xml:space="preserve">Makes 1 or more selections within this document denoted by the given
+array of AtkTextSelections. Any existing physical selection (inside or
+outside this document) is replaced by the new selections. All objects within
+the given selection ranges must be descendants of this document. Otherwise
+FALSE will be returned.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">TRUE if the selection was made successfully; FALSE otherwise.</doc>
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="document" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkDocument.</doc>
+            <type name="Document" c:type="AtkDocument*"/>
+          </instance-parameter>
+          <parameter name="selections" transfer-ownership="none">
+            <doc xml:space="preserve">a GArray of AtkTextSelections
+             to be selected.</doc>
+            <array name="GLib.Array" c:type="GArray*">
+              <type name="TextSelection"/>
+            </array>
+          </parameter>
+        </parameters>
+      </method>
+      <glib:signal name="document-attribute-changed" when="last" version="2.52">
+        <doc xml:space="preserve">The "document-attribute-changed" signal should be emitted when there is a
+change to one of the document attributes returned by
+atk_document_get_attributes.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <parameter name="arg1" transfer-ownership="none">
+            <doc xml:space="preserve">the name of the attribute being modified, or %NULL if not
+         available.</doc>
+            <type name="utf8" c:type="gchar*"/>
+          </parameter>
+          <parameter name="arg2" transfer-ownership="none">
+            <doc xml:space="preserve">the attribute's new value, or %null if not available.</doc>
+            <type name="utf8" c:type="gchar*"/>
+          </parameter>
+        </parameters>
+      </glib:signal>
       <glib:signal name="load-complete" when="last">
         <doc xml:space="preserve">The 'load-complete' signal is emitted when a pending load of
 a static document has completed.  This signal is to be
@@ -2302,6 +2411,9 @@ interrogating ATK for the latest document content.</doc>
         <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
       <field name="get_document_type">
+        <doc xml:space="preserve">gets a string indicating the document
+  type. This virtual function is deprecated since 2.12 and it
+  should not be overriden.</doc>
         <callback name="get_document_type">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">a string indicating the document type</doc>
@@ -2316,6 +2428,9 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="get_document">
+        <doc xml:space="preserve">a #GObject instance that implements
+  AtkDocumentIface. This virtual method is deprecated since 2.12
+  and it should not be overriden.</doc>
         <callback name="get_document">
           <return-value transfer-ownership="none" nullable="1">
             <doc xml:space="preserve">a %gpointer that points to an instance of the DOM.</doc>
@@ -2330,6 +2445,8 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="get_document_locale">
+        <doc xml:space="preserve">gets locale. This virtual function is
+  deprecated since 2.7.90 and it should not be overriden.</doc>
         <callback name="get_document_locale">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">a UTF-8 string indicating the POSIX-style LC_MESSAGES
@@ -2346,6 +2463,8 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="get_document_attributes">
+        <doc xml:space="preserve">gets an AtkAttributeSet which describes
+  document-wide attributes as name-value pairs.</doc>
         <callback name="get_document_attributes">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">An AtkAttributeSet containing the explicitly
@@ -2362,6 +2481,8 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="get_document_attribute_value">
+        <doc xml:space="preserve">returns a string value assocciated
+  with the named attribute for this document, or NULL</doc>
         <callback name="get_document_attribute_value">
           <return-value transfer-ownership="none" nullable="1">
             <doc xml:space="preserve">a string value associated with the named
@@ -2383,6 +2504,8 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="set_document_attribute">
+        <doc xml:space="preserve">sets the value of an attribute. Returns
+  TRUE on success, FALSE otherwise</doc>
         <callback name="set_document_attribute">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">%TRUE if @attribute_value is successfully associated
@@ -2408,6 +2531,7 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="get_current_page_number">
+        <doc xml:space="preserve">gets the current page number. Since 2.12</doc>
         <callback name="get_current_page_number">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">the current page number inside @document, or -1 if
@@ -2423,6 +2547,7 @@ interrogating ATK for the latest document content.</doc>
         </callback>
       </field>
       <field name="get_page_count">
+        <doc xml:space="preserve">gets the page count of the document. Since 2.12</doc>
         <callback name="get_page_count">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">total page count of @document, or -1 if not implemented,
@@ -2433,6 +2558,44 @@ interrogating ATK for the latest document content.</doc>
             <parameter name="document" transfer-ownership="none">
               <doc xml:space="preserve">the #AtkDocument</doc>
               <type name="Document" c:type="AtkDocument*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="get_text_selections">
+        <callback name="get_text_selections">
+          <return-value transfer-ownership="full">
+            <doc xml:space="preserve">a GArray of
+AtkTextSelection structures representing the selection.</doc>
+            <array name="GLib.Array" c:type="GArray*">
+              <type name="TextSelection"/>
+            </array>
+          </return-value>
+          <parameters>
+            <parameter name="document" transfer-ownership="none">
+              <doc xml:space="preserve">an #AtkDocument</doc>
+              <type name="Document" c:type="AtkDocument*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="set_text_selections">
+        <callback name="set_text_selections">
+          <return-value transfer-ownership="none">
+            <doc xml:space="preserve">TRUE if the selection was made successfully; FALSE otherwise.</doc>
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="document" transfer-ownership="none">
+              <doc xml:space="preserve">an #AtkDocument.</doc>
+              <type name="Document" c:type="AtkDocument*"/>
+            </parameter>
+            <parameter name="selections" transfer-ownership="none">
+              <doc xml:space="preserve">a GArray of AtkTextSelections
+             to be selected.</doc>
+              <array name="GLib.Array" c:type="GArray*">
+                <type name="TextSelection"/>
+              </array>
             </parameter>
           </parameters>
         </callback>
@@ -4537,19 +4700,34 @@ determinations of when components occlude one another.</doc>
         <doc xml:space="preserve">This layer is used for toplevel windows.</doc>
       </member>
     </enumeration>
+    <enumeration name="Live" version="2.50" glib:type-name="AtkLive" glib:get-type="atk_live_get_type" c:type="AtkLive">
+      <doc xml:space="preserve">Enumeration used to indicate a type of live region and how assertive it
+should be in terms of speaking notifications. Currently, this is only used
+for "notification" events, but it may be used for additional purposes
+in the future.</doc>
+      <member name="none" value="0" c:identifier="ATK_LIVE_NONE" glib:nick="none" glib:name="ATK_LIVE_NONE">
+        <doc xml:space="preserve">No live region.</doc>
+      </member>
+      <member name="polite" value="1" c:identifier="ATK_LIVE_POLITE" glib:nick="polite" glib:name="ATK_LIVE_POLITE">
+        <doc xml:space="preserve">This live region should be considered polite.</doc>
+      </member>
+      <member name="assertive" value="2" c:identifier="ATK_LIVE_ASSERTIVE" glib:nick="assertive" glib:name="ATK_LIVE_ASSERTIVE">
+        <doc xml:space="preserve">This live region should be considered assertive.</doc>
+      </member>
+    </enumeration>
     <constant name="MAJOR_VERSION" value="2" c:type="ATK_MAJOR_VERSION" version="2.7.4">
       <doc xml:space="preserve">Like atk_get_major_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="3" c:type="ATK_MICRO_VERSION" version="2.7.4">
+    <constant name="MICRO_VERSION" value="0" c:type="ATK_MICRO_VERSION" version="2.7.4">
       <doc xml:space="preserve">Like atk_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="48" c:type="ATK_MINOR_VERSION" version="2.7.4">
+    <constant name="MINOR_VERSION" value="52" c:type="ATK_MINOR_VERSION" version="2.7.4">
       <doc xml:space="preserve">Like atk_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -4670,6 +4848,8 @@ be bracketed by atk_misc_threads_leave/atk_misc_threads_enter calls.
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
       <field name="threads_enter">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12 and
+  it should not be overriden.</doc>
         <callback name="threads_enter">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -4683,6 +4863,8 @@ be bracketed by atk_misc_threads_leave/atk_misc_threads_enter calls.
         </callback>
       </field>
       <field name="threads_leave">
+        <doc xml:space="preserve">This virtual function is deprecated sice 2.12 and
+  it should not be overriden.</doc>
         <callback name="threads_leave">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -4911,6 +5093,10 @@ See [class@AtkObjectFactory], [class@AtkRegistry].  (GTK+ users see also
         </parameters>
       </virtual-method>
       <virtual-method name="focus_event">
+        <doc xml:space="preserve">The signal handler which is executed when there is a
+  focus event for an object. This virtual function is deprecated
+  since 2.9.4 and it should not be overriden. Use
+  the #AtkObject::state-change "focused" signal instead.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5302,7 +5488,7 @@ a empty value you can use "".</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="get_accessible_id" c:identifier="atk_object_get_accessible_id" version="2.34">
+      <method name="get_accessible_id" c:identifier="atk_object_get_accessible_id" glib:get-property="accessible-id" version="2.34">
         <doc xml:space="preserve">Gets the accessible id of the accessible.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">a character string representing the accessible id of the object, or
@@ -5341,6 +5527,20 @@ atk_attribute_set_free().</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve">a character string representing the accessible description
 of the accessible.</doc>
+          <type name="utf8" c:type="const gchar*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="accessible" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkObject</doc>
+            <type name="Object" c:type="AtkObject*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_help_text" c:identifier="atk_object_get_help_text" version="2.52">
+        <doc xml:space="preserve">Gets the help text associated with the accessible.</doc>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">a character string representing the help text or the object, or
+NULL if no such string was set.</doc>
           <type name="utf8" c:type="const gchar*"/>
         </return-value>
         <parameters>
@@ -5620,7 +5820,7 @@ set of the accessible</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_accessible_id" c:identifier="atk_object_set_accessible_id" version="2.34">
+      <method name="set_accessible_id" c:identifier="atk_object_set_accessible_id" glib:set-property="accessible-id" version="2.34">
         <doc xml:space="preserve">Sets the accessible ID of the accessible.  This is not meant to be presented
 to the user, but to be an ID which is stable over application development.
 Typically, this is the gtkbuilder ID. Such an ID will be available for
@@ -5634,7 +5834,7 @@ reading, or for automatic regression testing.</doc>
             <doc xml:space="preserve">an #AtkObject</doc>
             <type name="Object" c:type="AtkObject*"/>
           </instance-parameter>
-          <parameter name="name" transfer-ownership="none">
+          <parameter name="id" transfer-ownership="none">
             <doc xml:space="preserve">a character string to be set as the accessible id</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
@@ -5655,6 +5855,24 @@ the name to a empty value you can use "".</doc>
           </instance-parameter>
           <parameter name="description" transfer-ownership="none">
             <doc xml:space="preserve">a character string to be set as the accessible description</doc>
+            <type name="utf8" c:type="const gchar*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_help_text" c:identifier="atk_object_set_help_text" version="2.52">
+        <doc xml:space="preserve">Sets the help text associated with the accessible. This can be used to
+expose context-sensitive information to help a user understand how to
+interact with the object.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="accessible" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkObject</doc>
+            <type name="Object" c:type="AtkObject*"/>
+          </instance-parameter>
+          <parameter name="help_text" transfer-ownership="none">
+            <doc xml:space="preserve">a character string to be set as the accessible's help text</doc>
             <type name="utf8" c:type="const gchar*"/>
           </parameter>
         </parameters>
@@ -5719,8 +5937,14 @@ a empty value you can use "".</doc>
       <property name="accessible-description" writable="1" transfer-ownership="none" default-value="NULL">
         <type name="utf8" c:type="gchar*"/>
       </property>
+      <property name="accessible-help-text" writable="1" transfer-ownership="none" default-value="NULL">
+        <type name="utf8" c:type="gchar*"/>
+      </property>
       <property name="accessible-hypertext-nlinks" transfer-ownership="none" default-value="0">
         <type name="gint" c:type="gint"/>
+      </property>
+      <property name="accessible-id" writable="1" transfer-ownership="none" setter="set_accessible_id" getter="get_accessible_id" default-value="NULL">
+        <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="accessible-name" writable="1" transfer-ownership="none" default-value="NULL">
         <type name="utf8" c:type="gchar*"/>
@@ -5811,7 +6035,9 @@ signal when the cell in the table which has focus changes.</doc>
       </glib:signal>
       <glib:signal name="announcement" when="last" version="2.46">
         <doc xml:space="preserve">The "announcement" signal can be emitted to pass an announcement on to
-be read by a screen reader.</doc>
+be read by a screen reader.
+
+Depcrecated (2.50): Use AtkObject::notification instead.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -5822,9 +6048,27 @@ be read by a screen reader.</doc>
           </parameter>
         </parameters>
       </glib:signal>
+      <glib:signal name="attribute-changed" when="last" version="2.52">
+        <doc xml:space="preserve">The "attribute-changed" signal should be emitted when one of an object's
+attributes changes.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <parameter name="arg1" transfer-ownership="none">
+            <doc xml:space="preserve">the name of the attribute being modified, or %NULL if not
+         available.</doc>
+            <type name="utf8" c:type="gchar*"/>
+          </parameter>
+          <parameter name="arg2" transfer-ownership="none">
+            <doc xml:space="preserve">the attribute's new value, or %null if not available.</doc>
+            <type name="utf8" c:type="gchar*"/>
+          </parameter>
+        </parameters>
+      </glib:signal>
       <glib:signal name="children-changed" when="last" detailed="1">
         <doc xml:space="preserve">The signal "children-changed" is emitted when a child is added or
-removed form an object. It supports two details: "add" and
+removed from an object. It supports two details: "add" and
 "remove"</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -5857,6 +6101,24 @@ focus.</doc>
             <doc xml:space="preserve">a boolean value which indicates whether the object gained
 or lost focus.</doc>
             <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </glib:signal>
+      <glib:signal name="notification" when="last" version="2.50">
+        <doc xml:space="preserve">The "notification" signal can be emitted to pass an announcement on to
+be read by a screen reader.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <parameter name="arg1" transfer-ownership="none">
+            <doc xml:space="preserve">the text to be announced.</doc>
+            <type name="utf8" c:type="gchar*"/>
+          </parameter>
+          <parameter name="arg2" transfer-ownership="none">
+            <doc xml:space="preserve">an #AtkLive specifying the politeness of the notification.
+Should be either ATK_LIVE_POLITE or ATK_LIVE_ASSERTIVE.</doc>
+            <type name="gint" c:type="gint"/>
           </parameter>
         </parameters>
       </glib:signal>
@@ -6143,6 +6405,10 @@ set of the accessible</doc>
         </callback>
       </field>
       <field name="connect_property_change_handler" introspectable="0">
+        <doc xml:space="preserve">specifies a function to be called
+  when a property changes value. This virtual function is
+  deprecated since 2.12 and it should not be overriden. Connect
+  directly to property-change or notify signal instead.</doc>
         <callback name="connect_property_change_handler" introspectable="0">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">a #guint which is the handler id used in
@@ -6162,6 +6428,9 @@ set of the accessible</doc>
         </callback>
       </field>
       <field name="remove_property_change_handler">
+        <doc xml:space="preserve">removes a property changed handler
+  as returned by @connect_property_change_handler. This virtual
+  function is deprecated sice 2.12 and it should not be overriden.</doc>
         <callback name="remove_property_change_handler">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -6214,6 +6483,10 @@ set of the accessible</doc>
         </callback>
       </field>
       <field name="focus_event">
+        <doc xml:space="preserve">The signal handler which is executed when there is a
+  focus event for an object. This virtual function is deprecated
+  since 2.9.4 and it should not be overriden. Use
+  the #AtkObject::state-change "focused" signal instead.</doc>
         <callback name="focus_event">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -10788,6 +11061,8 @@ or 0 if the cell does not implement this method.</doc>
         <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
       <field name="get_column_span">
+        <doc xml:space="preserve">virtual function that returns the number of
+  columns occupied by this cell accessible</doc>
         <callback name="get_column_span">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">a gint representing the number of columns occupied by this cell,
@@ -10803,6 +11078,8 @@ or 0 if the cell does not implement this method.</doc>
         </callback>
       </field>
       <field name="get_column_header_cells">
+        <doc xml:space="preserve">virtual function that returns the column
+  headers as an array of cell accessibles</doc>
         <callback name="get_column_header_cells">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">a GPtrArray of AtkObjects
@@ -10820,6 +11097,8 @@ representing the column header cells.</doc>
         </callback>
       </field>
       <field name="get_position">
+        <doc xml:space="preserve">virtual function that retrieves the tabular position
+  of this cell</doc>
         <callback name="get_position">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">TRUE if successful; FALSE otherwise.</doc>
@@ -10842,6 +11121,8 @@ representing the column header cells.</doc>
         </callback>
       </field>
       <field name="get_row_span">
+        <doc xml:space="preserve">virtual function that returns the number of rows
+  occupied by this cell</doc>
         <callback name="get_row_span">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">a gint representing the number of rows occupied by this cell,
@@ -10857,6 +11138,8 @@ or 0 if the cell does not implement this method.</doc>
         </callback>
       </field>
       <field name="get_row_header_cells">
+        <doc xml:space="preserve">virtual function that returns the row
+  headers as an array of cell accessibles</doc>
         <callback name="get_row_header_cells">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">a GPtrArray of AtkObjects
@@ -10874,6 +11157,8 @@ representing the row header cells.</doc>
         </callback>
       </field>
       <field name="get_row_column_span">
+        <doc xml:space="preserve">virtual function that get the row an column
+  indexes and span of this cell</doc>
         <callback name="get_row_column_span">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">TRUE if successful; FALSE otherwise.</doc>
@@ -10904,6 +11189,8 @@ representing the row header cells.</doc>
         </callback>
       </field>
       <field name="get_table">
+        <doc xml:space="preserve">virtual function that returns a reference to the
+  accessible of the containing table</doc>
         <callback name="get_table">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">the atk object for the containing table.</doc>
@@ -12308,6 +12595,9 @@ the selection</doc>
         </parameters>
       </virtual-method>
       <virtual-method name="text_changed">
+        <doc xml:space="preserve">the signal handler which is executed when there is a
+  text change. This virtual function is deprecated sice 2.9.4 and
+  it should not be overriden.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -13338,6 +13628,8 @@ the following one, if present.</doc>
         </callback>
       </field>
       <field name="get_text_after_offset">
+        <doc xml:space="preserve">Gets specified text. This virtual function
+  is deprecated and it should not be overridden.</doc>
         <callback name="get_text_after_offset">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">a newly allocated string containing the text after @offset bounded
@@ -13371,6 +13663,8 @@ the following one, if present.</doc>
         </callback>
       </field>
       <field name="get_text_at_offset">
+        <doc xml:space="preserve">Gets specified text. This virtual function
+  is deprecated and it should not be overridden.</doc>
         <callback name="get_text_at_offset">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">a newly allocated string containing the text at @offset bounded
@@ -13422,6 +13716,8 @@ the following one, if present.</doc>
         </callback>
       </field>
       <field name="get_text_before_offset">
+        <doc xml:space="preserve">Gets specified text. This virtual function
+  is deprecated and it should not be overridden.</doc>
         <callback name="get_text_before_offset">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">a newly allocated string containing the text before @offset bounded
@@ -13734,6 +14030,9 @@ the selection</doc>
         </callback>
       </field>
       <field name="text_changed">
+        <doc xml:space="preserve">the signal handler which is executed when there is a
+  text change. This virtual function is deprecated sice 2.9.4 and
+  it should not be overriden.</doc>
         <callback name="text_changed">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -13855,6 +14154,10 @@ the selection</doc>
         </callback>
       </field>
       <field name="get_string_at_offset">
+        <doc xml:space="preserve">Gets a portion of the text exposed through
+  an AtkText according to a given offset and a specific
+  granularity, along with the start and end offsets defining the
+  boundaries of such a portion of text.</doc>
         <callback name="get_string_at_offset">
           <return-value transfer-ownership="full" nullable="1">
             <doc xml:space="preserve">a newly allocated string containing the text at
@@ -13989,6 +14292,49 @@ parent object.</doc>
         <type name="gint" c:type="gint"/>
       </field>
     </record>
+    <record name="TextSelection" c:type="AtkTextSelection" version="2.52">
+      <doc xml:space="preserve">This structure represents a single  text selection within a document. This
+selection is defined by two points in the content, where each one is defined
+by an AtkObject supporting the AtkText interface and a character offset
+relative to it.
+
+The end object must appear after the start object in the accessibility tree,
+i.e. the end object must be reachable from the start object by navigating
+forward (next, first child etc).
+
+This struct also contains a @start_is_active boolean, to communicate if the
+start of the selection is the active point or not.
+
+The active point corresponds to the user's focus or point of interest. The
+user moves the active point to expand or collapse the range. The anchor
+point is the other point of the range and typically remains constant. In
+most cases, anchor is the start of the range and active is the end. However,
+when selecting backwards (e.g. pressing shift+left arrow in a text field),
+the start of the range is the active point, as the user moves this to
+manipulate the selection.</doc>
+      <field name="start_object" writable="1">
+        <doc xml:space="preserve">the AtkText containing the start of the selection.</doc>
+        <type name="Object" c:type="AtkObject*"/>
+      </field>
+      <field name="start_offset" writable="1">
+        <doc xml:space="preserve">the text offset of the beginning of the selection within
+               @start_object.</doc>
+        <type name="gint" c:type="gint"/>
+      </field>
+      <field name="end_object" writable="1">
+        <doc xml:space="preserve">the AtkText containing the end of the selection.</doc>
+        <type name="Object" c:type="AtkObject*"/>
+      </field>
+      <field name="end_offset" writable="1">
+        <doc xml:space="preserve">the text offset of the end of the selection within @end_object.</doc>
+        <type name="gint" c:type="gint"/>
+      </field>
+      <field name="start_is_active" writable="1">
+        <doc xml:space="preserve">a gboolean indicating whether the start of the selection
+                 is the active point.</doc>
+        <type name="gboolean" c:type="gboolean"/>
+      </field>
+    </record>
     <function-macro name="UNAVAILABLE" c:identifier="ATK_UNAVAILABLE" introspectable="0">
       <parameters>
         <parameter name="maj">
@@ -14031,6 +14377,9 @@ and toolkit version.</doc>
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
       <field name="add_global_event_listener" introspectable="0">
+        <doc xml:space="preserve">adds the specified function to the list
+ of functions to be called when an ATK event occurs. ATK
+ implementors are discouraged from reimplementing this method.</doc>
         <callback name="add_global_event_listener" introspectable="0">
           <return-value transfer-ownership="none">
             <type name="guint" c:type="guint"/>
@@ -14046,6 +14395,9 @@ and toolkit version.</doc>
         </callback>
       </field>
       <field name="remove_global_event_listener">
+        <doc xml:space="preserve">removes the specified function to
+ the list of functions to be called when an ATK event occurs. ATK
+ implementors are discouraged from reimplementing this method.</doc>
         <callback name="remove_global_event_listener">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14058,6 +14410,8 @@ and toolkit version.</doc>
         </callback>
       </field>
       <field name="add_key_event_listener" introspectable="0">
+        <doc xml:space="preserve">adds the specified function to the list of
+ functions to be called when a key event occurs.</doc>
         <callback name="add_key_event_listener" introspectable="0">
           <return-value transfer-ownership="none">
             <type name="guint" c:type="guint"/>
@@ -14073,6 +14427,8 @@ and toolkit version.</doc>
         </callback>
       </field>
       <field name="remove_key_event_listener">
+        <doc xml:space="preserve">remove the specified function to the
+ list of functions to be called when a key event occurs.</doc>
         <callback name="remove_key_event_listener">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14085,6 +14441,8 @@ and toolkit version.</doc>
         </callback>
       </field>
       <field name="get_root" introspectable="0">
+        <doc xml:space="preserve">gets the root accessible container for the current
+ application.</doc>
         <callback name="get_root" introspectable="0">
           <return-value>
             <type name="Object" c:type="AtkObject*"/>
@@ -14092,6 +14450,8 @@ and toolkit version.</doc>
         </callback>
       </field>
       <field name="get_toolkit_name">
+        <doc xml:space="preserve">gets name string for the GUI toolkit
+ implementing ATK for this application.</doc>
         <callback name="get_toolkit_name">
           <return-value transfer-ownership="none">
             <type name="utf8" c:type="const gchar*"/>
@@ -14099,6 +14459,8 @@ and toolkit version.</doc>
         </callback>
       </field>
       <field name="get_toolkit_version">
+        <doc xml:space="preserve">gets version string for the GUI toolkit
+ implementing ATK for this application.</doc>
         <callback name="get_toolkit_version">
           <return-value transfer-ownership="none">
             <type name="utf8" c:type="const gchar*"/>
@@ -14692,6 +15054,8 @@ description) of this object. NULL if not available.</doc>
         <type name="GObject.TypeInterface" c:type="GTypeInterface"/>
       </field>
       <field name="get_current_value">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12
+ and it should not be overriden.</doc>
         <callback name="get_current_value">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14709,6 +15073,8 @@ description) of this object. NULL if not available.</doc>
         </callback>
       </field>
       <field name="get_maximum_value">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12
+ and it should not be overriden.</doc>
         <callback name="get_maximum_value">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14726,6 +15092,8 @@ description) of this object. NULL if not available.</doc>
         </callback>
       </field>
       <field name="get_minimum_value">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12
+ and it should not be overriden.</doc>
         <callback name="get_minimum_value">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14743,6 +15111,8 @@ description) of this object. NULL if not available.</doc>
         </callback>
       </field>
       <field name="set_current_value">
+        <doc xml:space="preserve">This virtual function is deprecated since 2.12
+ and it should not be overriden.</doc>
         <callback name="set_current_value">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">%TRUE if new value is successfully set, %FALSE otherwise.</doc>
@@ -14761,6 +15131,8 @@ description) of this object. NULL if not available.</doc>
         </callback>
       </field>
       <field name="get_minimum_increment">
+        <doc xml:space="preserve">This virtual function is deprecated since
+ 2.12 and it should not be overriden.</doc>
         <callback name="get_minimum_increment">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14778,6 +15150,8 @@ description) of this object. NULL if not available.</doc>
         </callback>
       </field>
       <field name="get_value_and_text">
+        <doc xml:space="preserve">gets the current value and the human readable
+text alternative (if available) of this object. Since 2.12.</doc>
         <callback name="get_value_and_text">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -14800,6 +15174,9 @@ readable text alternative for @value</doc>
         </callback>
       </field>
       <field name="get_range">
+        <doc xml:space="preserve">gets the range that defines the minimum and maximum
+ value of this object. Returns NULL if there is no range
+ defined. Since 2.12.</doc>
         <callback name="get_range">
           <return-value transfer-ownership="full" nullable="1">
             <doc xml:space="preserve">a newly allocated #AtkRange
@@ -14816,6 +15193,8 @@ of @obj. NULL if that range is not defined.</doc>
         </callback>
       </field>
       <field name="get_increment">
+        <doc xml:space="preserve">gets the minimum increment by which the value of
+ this object may be changed. If zero it is undefined. Since 2.12.</doc>
         <callback name="get_increment">
           <return-value transfer-ownership="none">
             <doc xml:space="preserve">the minimum increment by which the value of this
@@ -14831,6 +15210,9 @@ object may be changed. zero if undefined.</doc>
         </callback>
       </field>
       <field name="get_sub_ranges">
+        <doc xml:space="preserve">returns a list of different subranges, and their
+ description (if available) of this object. Returns NULL if there
+ is not subranges defined. Since 2.12.</doc>
         <callback name="get_sub_ranges">
           <return-value transfer-ownership="full">
             <doc xml:space="preserve">an #GSList of
@@ -14849,6 +15231,7 @@ the returns list with g_slist_free().</doc>
         </callback>
       </field>
       <field name="set_value">
+        <doc xml:space="preserve">sets the value of this object. Since 2.12.</doc>
         <callback name="set_value">
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
