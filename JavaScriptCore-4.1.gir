@@ -364,7 +364,7 @@ with jsc_value_new_object() that receives the copy as the instance parameter.</d
         </parameters>
       </method>
       <method name="add_property" c:identifier="jsc_class_add_property">
-        <doc xml:space="preserve">Add a property with @name to @jsc_class. When the property value needs to be getted, @getter is called
+        <doc xml:space="preserve">Add a property with @name to @jsc_class. When the property value is read, @getter is called
 receiving the the class instance as first parameter and @user_data as last parameter. When the property
 value needs to be set, @setter is called receiving the the class instance as first parameter, followed
 by the value to be set and then @user_data as the last parameter. When the property is cleared in the
@@ -908,7 +908,7 @@ If you don't want to catch the exception, but only get notified about it, call
 jsc_context_throw_exception() in @handler like the default one does.
 The last exception handler pushed is the only one used by the #JSCContext, use
 jsc_context_pop_exception_handler() to remove it and set the previous one. When @handler
-is removed from the context, @destroy_notify i called with @user_data as parameter.</doc>
+is removed from the context, @destroy_notify is called with @user_data as parameter.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1466,6 +1466,30 @@ source URI, line, column and backtrace, and formatted to be printed.</doc>
       </parameters>
     </callback>
     <record name="ExceptionPrivate" c:type="JSCExceptionPrivate" disguised="1" opaque="1"/>
+    <callback name="Executor" c:type="JSCExecutor" version="2.48">
+      <doc xml:space="preserve">A function passed to @jsc_value_new_promise called during initialization
+
+It is called like a JavaScript function, so exceptions raised will not be propagated
+to the context, but handled by the promise causing a rejection.
+@resolve and @reject can be reffed for later use to handle async task completion.</doc>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="resolve" transfer-ownership="none">
+          <doc xml:space="preserve">#JSCValue function to call to resolve the promise</doc>
+          <type name="Value" c:type="JSCValue*"/>
+        </parameter>
+        <parameter name="reject" transfer-ownership="none">
+          <doc xml:space="preserve">#JSCValue function to call to reject the promise</doc>
+          <type name="Value" c:type="JSCValue*"/>
+        </parameter>
+        <parameter name="user_data" transfer-ownership="none" nullable="1" allow-none="1" closure="2">
+          <doc xml:space="preserve">user data</doc>
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </callback>
     <function-macro name="IS_CLASS" c:identifier="JSC_IS_CLASS" introspectable="0">
       <parameters>
         <parameter name="obj">
@@ -1552,13 +1576,13 @@ application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MICRO_VERSION" value="2" c:type="JSC_MICRO_VERSION">
+    <constant name="MICRO_VERSION" value="3" c:type="JSC_MICRO_VERSION">
       <doc xml:space="preserve">Like jsc_get_micro_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
       <type name="gint" c:type="gint"/>
     </constant>
-    <constant name="MINOR_VERSION" value="40" c:type="JSC_MINOR_VERSION">
+    <constant name="MINOR_VERSION" value="52" c:type="JSC_MINOR_VERSION">
       <doc xml:space="preserve">Like jsc_get_minor_version(), but from the headers used at
 application compile time, rather than from the library linked
 against at application run time.</doc>
@@ -2060,6 +2084,31 @@ When @instance is provided, @jsc_class must be provided too. @jsc_class takes ow
           </parameter>
         </parameters>
       </constructor>
+      <constructor name="new_promise" c:identifier="jsc_value_new_promise" version="2.48">
+        <doc xml:space="preserve">Creates a new Promise. @executor will be invoked during promise initialization
+and it receives the @resolve and @reject objects than can be called to resolve
+or reject the promise. It is called like a JavaScript function, so exceptions raised
+during the executor invocation will not be propagated to the context, but
+handled by the promise causing a rejection.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve">a deferred promise object</doc>
+          <type name="Value" c:type="JSCValue*"/>
+        </return-value>
+        <parameters>
+          <parameter name="context" transfer-ownership="none">
+            <doc xml:space="preserve">a #JSCContext</doc>
+            <type name="Context" c:type="JSCContext*"/>
+          </parameter>
+          <parameter name="executor" transfer-ownership="none" scope="call" closure="2">
+            <doc xml:space="preserve">an initialization callback</doc>
+            <type name="Executor" c:type="JSCExecutor"/>
+          </parameter>
+          <parameter name="user_data" transfer-ownership="none" nullable="1" allow-none="1">
+            <doc xml:space="preserve">user data passed in @executor</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </constructor>
       <constructor name="new_string" c:identifier="jsc_value_new_string">
         <doc xml:space="preserve">Create a new #JSCValue from @string. If you need to create a #JSCValue from a
 string containing null characters, use jsc_value_new_string_from_bytes() instead.</doc>
@@ -2152,16 +2201,19 @@ code has a chance to run, for example due to main loop events that result
 in JSC being called, the contents of the memory region might be modified in
 the meantime. Consider taking a copy of the data and using the copy instead
 in asynchronous code.</doc>
-        <return-value transfer-ownership="none" nullable="1">
-          <doc xml:space="preserve">pointer to memory.</doc>
-          <type name="gpointer" c:type="gpointer"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve">
+  pointer to memory.</doc>
+          <array length="0" zero-terminated="0" c:type="gpointer">
+            <type name="guint8"/>
+          </array>
         </return-value>
         <parameters>
           <instance-parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve">A #JSCValue</doc>
             <type name="Value" c:type="JSCValue*"/>
           </instance-parameter>
-          <parameter name="size" transfer-ownership="none" nullable="1" allow-none="1">
+          <parameter name="size" direction="out" caller-allocates="0" transfer-ownership="full" optional="1" allow-none="1">
             <doc xml:space="preserve">location where to store the size of the memory region.</doc>
             <type name="gsize" c:type="gsize*"/>
           </parameter>
@@ -2477,7 +2529,7 @@ starting at the indicated offset.</doc>
       </method>
       <method name="object_define_property_accessor" c:identifier="jsc_value_object_define_property_accessor">
         <doc xml:space="preserve">Define or modify a property with @property_name in object referenced by @value. When the
-property value needs to be getted or set, @getter and @setter callbacks will be called.
+property value is read or set, @getter and @setter callbacks will be called.
 When the property is cleared in the #JSCClass context, @destroy_notify is called with
 @user_data as parameter. This is equivalent to JavaScript &lt;function&gt;Object.defineProperty()&lt;/function&gt;
 when used with an accessor descriptor.
